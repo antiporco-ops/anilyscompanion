@@ -31,7 +31,7 @@ android {
         versionCode = 3
         versionName = "1.0.3"
         // Match actual dependency versions from version catalog
-        buildConfigField("String", "WEAR_REMOTE_INTERACTIONS_VERSION", "\"1.1.0\"")
+        buildConfigField("String", "WEAR_REMOTE_INTERACTIONS_VERSION", "\"1.2.0-rc01\"")
         buildConfigField("String", "PLAY_SERVICES_WEARABLE_VERSION", "\"19.0.0\"")
     }
 
