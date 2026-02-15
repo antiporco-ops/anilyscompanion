@@ -30,7 +30,8 @@ android {
         targetSdk = 35
         versionCode = 3
         versionName = "1.0.3"
-        buildConfigField("String", "WEAR_REMOTE_INTERACTIONS_VERSION", "\"1.2.0-rc01\"")
+        // Match actual dependency versions from version catalog
+        buildConfigField("String", "WEAR_REMOTE_INTERACTIONS_VERSION", "\"1.1.0\"")
         buildConfigField("String", "PLAY_SERVICES_WEARABLE_VERSION", "\"19.0.0\"")
     }
 
@@ -87,10 +88,6 @@ dependencies {
     implementation(libs.wearable)
     implementation(libs.play.services.wearable)
     implementation(libs.swiperefreshlayout)
-
-    implementation("androidx.wear:wear-remote-interactions:1.2.0-rc01")
-    implementation("com.google.android.gms:play-services-wearable:19.0.0")
-    implementation("androidx.concurrent:concurrent-futures:1.3.0")
-    implementation("androidx.recyclerview:recyclerview:1.4.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
+    implementation(libs.concurrent.futures)
+    implementation(libs.recyclerview)
 }
