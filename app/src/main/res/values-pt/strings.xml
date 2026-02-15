@@ -1,0 +1,19 @@
+<resources>
+    <string name="cta_install_on_watch">Instalar no relógio</string>
+    <string name="status_placeholder">Verificando conexão do relógio…</string>
+    <string name="app_logo_cd">Logo do app</string>
+    <string name="selected_preview_cd">Prévia da watch face selecionada</string>
+    <string name="selected_default">Selecionada: Nenhuma</string>
+    <string name="footer_note">Abre a página no relógio. No celular pode aparecer &quot;não compatível&quot;.</string>
+
+    <string name="status_detected">Relógio detectado. Escolha uma watch face.</string>
+    <string name="status_not_connected">Nenhum relógio conectado. Ainda dá pra abrir no telefone.</string>
+    <string name="status_error">Falha ao verificar conexão do relógio.</string>
+    <string name="selected_none">Selecionada: —</string>
+    <string name="selected_format">Selecionada: %1$s</string>
+
+    <string name="toast_select_wf">Selecione uma watch face.</string>
+    <string name="toast_coming_soon">Essa watch face ainda está “Em breve”.</string>
+    <string name="toast_no_wearos">Sem Wear OS. Abrindo no telefone…</string>
+    <string name="toast_check_watch">Confira o relógio…</string>
+</resources>

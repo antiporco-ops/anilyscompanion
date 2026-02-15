@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="watchface_labels">
+        <item>MidNightArc</item>
+        <item>Daily Bible</item>
+        <item>Neon Pulse</item>
+        <item>Samba</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <!-- vazio = tile desabilitado -->
+    <string-array name="watchface_packages">
+        <item>com.anilyss.abelha</item>
+        <item>com.anilyss.bible</item>
+        <item>com.anilys.neonpulse</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <array name="watchface_tiles">
+        <item>@drawable/tile_abelha</item>
+        <item>@drawable/tile_bible</item>
+        <item>@drawable/tile_neon</item>
+        <item>@drawable/tile_samba</item>
+        <item>@drawable/tile_placeholder</item>
+        <item>@drawable/tile_placeholder</item>
+        <item>@drawable/tile_placeholder</item>
+        <item>@drawable/tile_placeholder</item>
+    </array>
+
+    <!-- agora este "preview" vai ser usado como ÍCONE pequeno no topo -->
+    <array name="watchface_previews">
+        <item>@drawable/icon_abelha</item>
+        <item>@drawable/icon_bible</item>
+        <item>@drawable/icon_neon</item>
+        <item>@drawable/icon_samba</item>
+        <item>@drawable/icon_placeholder</item>
+        <item>@drawable/icon_placeholder</item>
+        <item>@drawable/icon_placeholder</item>
+        <item>@drawable/icon_placeholder</item>
+    </array>
+
+</resources>
