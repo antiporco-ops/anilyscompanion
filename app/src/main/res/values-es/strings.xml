@@ -1,0 +1,19 @@
+<resources>
+    <string name="cta_install_on_watch">Instalar en el reloj</string>
+    <string name="status_placeholder">Comprobando conexión del reloj…</string>
+    <string name="app_logo_cd">Logo de la aplicación</string>
+    <string name="selected_preview_cd">Vista previa de la esfera seleccionada</string>
+    <string name="selected_default">Seleccionada: Ninguna</string>
+    <string name="footer_note">Abre la página en el reloj. En el teléfono puede aparecer &quot;no compatible&quot;.</string>
+
+    <string name="status_detected">Reloj detectado. Elige una esfera.</string>
+    <string name="status_not_connected">Ningún reloj conectado. Todavía puedes abrirlo en el teléfono.</string>
+    <string name="status_error">Error al comprobar la conexión del reloj.</string>
+    <string name="selected_none">Seleccionada: —</string>
+    <string name="selected_format">Seleccionada: %1$s</string>
+
+    <string name="toast_select_wf">Por favor, selecciona una esfera.</string>
+    <string name="toast_coming_soon">Esta esfera todavía está &quot;Próximamente&quot;.</string>
+    <string name="toast_no_wearos">Sin Wear OS. Abriendo en el teléfono…</string>
+    <string name="toast_check_watch">Consulta tu reloj…</string>
+</resources>

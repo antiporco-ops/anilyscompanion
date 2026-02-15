@@ -1,0 +1,23 @@
+<resources xmlns:tools="http://schemas.android.com/tools" tools:locale="en">
+
+    <string name="app_name" translatable="false">AniLyss WatchFaces</string>
+    <string name="status_placeholder">Checking wearable connection status…</string>
+    <string name="cta_install_on_watch">Install on watch</string>
+    <string name="app_logo_cd">App logo</string>
+    <string name="selected_preview_cd">Selected watch face preview</string>
+    <string name="selected_default">Selected: None</string>
+    <string name="footer_note">Opens the page on your watch. It might show &quot;not compatible&quot; on your phone.</string>
+
+    <!-- Status and Selection -->
+    <string name="status_detected">Watch detected. Choose a watch face.</string>
+    <string name="status_not_connected">No watch connected. You can still open it on your phone.</string>
+    <string name="status_error">Failed to check watch connection.</string>
+    <string name="selected_none">Selected: —</string>
+    <string name="selected_format">Selected: %1$s</string>
+
+    <!-- Toasts -->
+    <string name="toast_select_wf">Please select a watch face.</string>
+    <string name="toast_coming_soon">This watch face is &quot;Coming Soon&quot;.</string>
+    <string name="toast_no_wearos">No Wear OS device found. Opening on phone…</string>
+    <string name="toast_check_watch">Check your watch…</string>
+</resources>
