@@ -21,8 +21,6 @@ import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.Wearable;
 import com.google.android.material.button.MaterialButton;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -30,6 +28,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "WFCompanion";
+    private static final long REMOTE_ACTIVITY_TIMEOUT_MS = 12000L;
 
     private ExecutorService bg;
     private RemoteActivityHelper remote;
@@ -65,17 +64,12 @@ public class MainActivity extends AppCompatActivity {
         // RemoteActivityHelper (Wear Remote Interactions)
         bg = Executors.newSingleThreadExecutor();
         remote = new RemoteActivityHelper(this, bg);
-        logRemoteInteractionDiagnosticsVersions();
 
         // Arrays (grid)
         labels   = getResources().getStringArray(R.array.watchface_labels);
         packages = getResources().getStringArray(R.array.watchface_packages);
         tiles    = getResources().obtainTypedArray(R.array.watchface_tiles);
         previews = getResources().obtainTypedArray(R.array.watchface_previews);
-        Log.i(TAG, "onCreate arrays loaded: labels=" + labels.length
-                + ", packages=" + packages.length
-                + ", tiles=" + tiles.length()
-                + ", previews=" + previews.length());
 
         // Seleção padrão: primeira “válida” (package não vazio)
         selectedIndex = firstEnabledIndex();
@@ -92,14 +86,6 @@ public class MainActivity extends AppCompatActivity {
         rv.setLayoutManager(new GridLayoutManager(this, span));
 
         adapter = new WatchFaceTileAdapter(labels, packages, tiles, previews, selectedIndex, pos -> {
-            final String clickedPkg =
-                    (pos >= 0 && pos < packages.length && packages[pos] != null) ? packages[pos].trim() : "";
-            final String clickedLabel =
-                    (pos >= 0 && pos < labels.length && labels[pos] != null) ? labels[pos] : "";
-            Log.i(TAG, "tile clicked pos=" + pos
-                    + ", label=\"" + clickedLabel + "\""
-                    + ", pkg=\"" + clickedPkg + "\""
-                    + ", len=" + clickedPkg.length());
             selectedIndex = pos;
             if (adapter != null) adapter.setSelected(pos);
             applySelection(pos);
@@ -108,13 +94,7 @@ public class MainActivity extends AppCompatActivity {
         rv.setAdapter(adapter);
 
         // Clique do botão: abre a selecionada
-        btnInstall.setOnClickListener(v -> {
-            Log.i(TAG, "Install on watch click: selectedIndex=" + selectedIndex
-                    + ", watchPkg=\"" + (((selectedIndex >= 0 && selectedIndex < packages.length && packages[selectedIndex] != null) ? packages[selectedIndex].trim() : "")) + "\""
-                    + ", len=" + (((selectedIndex >= 0 && selectedIndex < packages.length && packages[selectedIndex] != null) ? packages[selectedIndex].trim() : "").length())
-                    + ", label=\"" + (((selectedIndex >= 0 && selectedIndex < labels.length && labels[selectedIndex] != null) ? labels[selectedIndex] : "")) + "\"");
-            openListingOnWatchForSelected();
-        });
+        btnInstall.setOnClickListener(v -> openListingOnWatchForSelected());
 
         // Status (não bloqueia UI)
         refreshWatchStatus();
@@ -191,6 +171,41 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Helper: safely get a package name at the given index.
+     */
+    private String safeGetPackage(int index) {
+        if (index >= 0 && index < packages.length && packages[index] != null) {
+            return packages[index].trim();
+        }
+        return "";
+    }
+
+    /**
+     * Helper: safely get a label string at the given index.
+     */
+    private String safeGetLabel(int index) {
+        if (index >= 0 && index < labels.length && labels[index] != null) {
+            return labels[index];
+        }
+        return "";
+    }
+
+    /**
+     * Helper: safely get the first nearby node, or the first node if none are nearby.
+     */
+    private Node safeSelectNode(java.util.List<Node> nodes) {
+        if (nodes == null || nodes.isEmpty()) {
+            return null;
+        }
+        for (Node n : nodes) {
+            if (n.isNearby()) {
+                return n;
+            }
+        }
+        return nodes.get(0);
+    }
+
     private void logRemoteInteractionDiagnosticsVersions() {
         Log.i(TAG, "Resolved deps: wear-remote-interactions="
                 + BuildConfig.WEAR_REMOTE_INTERACTIONS_VERSION
@@ -211,101 +226,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private Boolean queryRemoteActivityHelperAvailability(String nodeId) {
-        for (Method method : RemoteActivityHelper.class.getMethods()) {
-            if (!"isRemoteActivityHelperAvailable".equals(method.getName())) {
-                continue;
-            }
-
-            Object[] args = buildAvailabilityMethodArgs(method.getParameterTypes(), nodeId);
-            if (args == null) {
-                Log.i(TAG, "Skipping unsupported isRemoteActivityHelperAvailable signature: " + method);
-                continue;
-            }
-
-            try {
-                Object target = Modifier.isStatic(method.getModifiers()) ? null : remote;
-                Object rawResult = method.invoke(target, args);
-                Boolean parsedResult = parseAvailabilityResult(rawResult);
-                Log.i(TAG, "isRemoteActivityHelperAvailable invoked: signature=" + method
-                        + ", rawType=" + (rawResult == null ? "null" : rawResult.getClass().getName())
-                        + ", parsedAvailable=" + parsedResult);
-                return parsedResult;
-            } catch (Exception e) {
-                Log.e(TAG, "Failed invoking isRemoteActivityHelperAvailable using " + method, e);
-                return null;
-            }
-        }
-
-        Log.i(TAG, "RemoteActivityHelper availability API not present in this dependency version.");
-        return null;
-    }
-
-    private Object[] buildAvailabilityMethodArgs(Class<?>[] parameterTypes, String nodeId) {
-        if (parameterTypes.length == 0) {
-            return new Object[0];
-        }
-        if (parameterTypes.length == 1) {
-            if (String.class.equals(parameterTypes[0])) {
-                return new Object[] { nodeId };
-            }
-            if (Context.class.isAssignableFrom(parameterTypes[0])) {
-                return new Object[] { this };
-            }
-        }
-        if (parameterTypes.length == 2
-                && Context.class.isAssignableFrom(parameterTypes[0])
-                && String.class.equals(parameterTypes[1])) {
-            return new Object[] { this, nodeId };
-        }
-        return null;
-    }
-
-    private Boolean parseAvailabilityResult(Object rawResult) {
-        if (rawResult instanceof Boolean) {
-            return (Boolean) rawResult;
-        }
-        if (rawResult instanceof Integer) {
-            return ((Integer) rawResult) == RemoteActivityHelper.STATUS_AVAILABLE;
-        }
-        return null;
-    }
-
     private void openListingOnWatchForSelected() {
-        final String resolvedPkg =
-                (selectedIndex >= 0 && selectedIndex < packages.length && packages[selectedIndex] != null)
-                        ? packages[selectedIndex].trim() : "";
-        Log.i(TAG, "openListingOnWatchForSelected ENTER selectedIndex=" + selectedIndex
-                + ", resolvedPkg=\"" + resolvedPkg + "\""
-                + ", len=" + resolvedPkg.length());
-
-        if (selectedIndex < 0 || selectedIndex >= packages.length) {
-            Log.i(TAG, "openListingOnWatchForSelected early return: invalid selectedIndex=" + selectedIndex);
+        String pkg = safeGetPackage(selectedIndex);
+        if (pkg.isEmpty()) {
             Toast.makeText(this, getString(R.string.toast_select_wf), Toast.LENGTH_SHORT).show();
             return;
         }
-
-        String pkg = (packages[selectedIndex] == null) ? "" : packages[selectedIndex].trim();
-        if (pkg.isEmpty()) {
-            Log.i(TAG, "openListingOnWatchForSelected early return: empty watchPkg at selectedIndex=" + selectedIndex);
-            Toast.makeText(this, getString(R.string.toast_coming_soon), Toast.LENGTH_SHORT).show();
-            return;
-        }
-
         openOnWatch(pkg);
     }
 
     private void openOnWatch(String watchPkg) {
-        final String safeWatchPkg = (watchPkg == null) ? "" : watchPkg.trim();
-        Log.i(TAG, "openOnWatch ENTER watchPkg=\"" + safeWatchPkg + "\" len=" + safeWatchPkg.length());
-        if (safeWatchPkg.isEmpty()) {
-            Log.i(TAG, "openOnWatch ABORT empty watchPkg");
+        if (watchPkg == null || watchPkg.trim().isEmpty()) {
             Toast.makeText(this, "Select a valid watch face", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        final String safeWatchPkg = watchPkg.trim();
         final Uri marketUri = Uri.parse("market://details?id=" + safeWatchPkg);
-        final Uri webUri    = Uri.parse("https://play.google.com/store/apps/details?id=" + safeWatchPkg);
+        final Uri webUri = Uri.parse("https://play.google.com/store/apps/details?id=" + safeWatchPkg);
 
         final Intent marketIntent = new Intent(Intent.ACTION_VIEW)
                 .addCategory(Intent.CATEGORY_BROWSABLE)
@@ -313,74 +251,58 @@ public class MainActivity extends AppCompatActivity {
 
         Wearable.getNodeClient(this).getConnectedNodes()
                 .addOnSuccessListener(nodes -> {
-                    Log.i(TAG, "getConnectedNodes success: size=" + (nodes == null ? 0 : nodes.size()));
-                    if (nodes != null) {
-                        for (int i = 0; i < nodes.size(); i++) {
-                            Node n = nodes.get(i);
-                            Log.i(TAG, "node[" + i + "]: id=" + n.getId() + ", nearby=" + n.isNearby());
+                    Node target = safeSelectNode(nodes);
+                    if (target == null) {
+                        if (BuildConfig.DEBUG) {
+                            Log.d(TAG, "No connected nodes; opening on phone");
                         }
-                    }
-
-                    if (nodes == null || nodes.isEmpty()) {
-                        Log.i(TAG, "getConnectedNodes returned empty; watch is not connected/reachable now.");
                         Toast.makeText(this, getString(R.string.toast_no_wearos), Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(Intent.ACTION_VIEW, webUri));
                         return;
                     }
 
-                    Node target = null;
-                    for (Node n : nodes) {
-                        if (n.isNearby()) { target = n; break; }
-                    }
-                    if (target == null) target = nodes.get(0);
-
-                    String nodeId = target.getId();
-                    Boolean helperAvailable = queryRemoteActivityHelperAvailability(nodeId);
-                    Log.i(TAG, "RemoteActivityHelper availability check: nodeId=" + nodeId
-                            + ", watchPkg=" + safeWatchPkg
-                            + ", available=" + helperAvailable);
-                    if (Boolean.FALSE.equals(helperAvailable)) {
-                        Log.i(TAG, "RemoteActivityHelper unavailable; fallback to phone web listing.");
-                        startActivity(new Intent(Intent.ACTION_VIEW, webUri));
-                        return;
-                    }
-                    if (helperAvailable == null) {
-                        Log.i(TAG, "RemoteActivityHelper availability unknown; proceeding with startRemoteActivity.");
-                    }
-
                     Toast.makeText(this, getString(R.string.toast_check_watch), Toast.LENGTH_SHORT).show();
-                    Log.i(TAG, "Calling startRemoteActivity: nodeId=" + nodeId
-                            + ", wfPackage=" + safeWatchPkg
-                            + ", intent.data=" + marketIntent.getData());
+                    if (BuildConfig.DEBUG) {
+                        Log.d(TAG, "Opening on watch: pkg=" + safeWatchPkg + ", nodeId=" + target.getId());
+                    }
 
-                    // Só o market:// no relógio
                     final com.google.common.util.concurrent.ListenableFuture<Void> remoteOpenFuture =
-                            remote.startRemoteActivity(marketIntent, nodeId);
+                            remote.startRemoteActivity(marketIntent, target.getId());
                     final AtomicBoolean handled = new AtomicBoolean(false);
 
+                    // Timeout: if remote activity doesn't complete in time, fall back to phone
                     new Handler(Looper.getMainLooper()).postDelayed(() -> {
                         if (!remoteOpenFuture.isDone() && handled.compareAndSet(false, true)) {
-                            Log.e(TAG, "TIMEOUT opening listing on watch, fallback to phone.");
+                            if (BuildConfig.DEBUG) {
+                                Log.d(TAG, "Remote activity timeout; opening on phone");
+                            }
                             startActivity(new Intent(Intent.ACTION_VIEW, webUri));
                         }
-                    }, 5000);
+                    }, REMOTE_ACTIVITY_TIMEOUT_MS);
 
+                    // Listen for completion
                     remoteOpenFuture.addListener(() -> {
                         try {
                             remoteOpenFuture.get();
                             if (handled.compareAndSet(false, true)) {
-                                Log.i(TAG, "startRemoteActivity SUCCESS");
+                                if (BuildConfig.DEBUG) {
+                                    Log.d(TAG, "Remote activity succeeded");
+                                }
                             }
                         } catch (Exception e) {
                             if (handled.compareAndSet(false, true)) {
-                                Log.e(TAG, "startRemoteActivity FAILURE, fallback to phone.", e);
+                                if (BuildConfig.DEBUG) {
+                                    Log.d(TAG, "Remote activity failed; opening on phone", e);
+                                }
                                 runOnUiThread(() -> startActivity(new Intent(Intent.ACTION_VIEW, webUri)));
                             }
                         }
                     }, bg);
                 })
                 .addOnFailureListener(e -> {
-                    Log.e(TAG, "getConnectedNodes FAILURE, fallback to phone.", e);
+                    if (BuildConfig.DEBUG) {
+                        Log.d(TAG, "Failed to get connected nodes; opening on phone", e);
+                    }
                     startActivity(new Intent(Intent.ACTION_VIEW, webUri));
                 });
     }
