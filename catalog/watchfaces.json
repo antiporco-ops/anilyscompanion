@@ -61,7 +61,7 @@
 
   {
     "id": "neon",
-    "package": "com.anilyss.neon",
+    "package": "com.anilyss.neonpulse",
     "enabled": true,
     "sort": 30,
 
