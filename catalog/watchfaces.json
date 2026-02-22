@@ -1,0 +1,121 @@
+[
+  {
+    "id": "face1",
+    "package": "com.anilyss.PREENCHER_AQUI_1",
+    "enabled": true,
+    "sort": 10,
+
+    "title": {
+      "en": "Face 1 (EN)",
+      "pt": "Face 1 (PT)",
+      "es": "Face 1 (ES)"
+    },
+
+    "shortDescription": {
+      "en": "Short EN description for face 1.",
+      "pt": "Descrição curta em PT para a face 1.",
+      "es": "Descripción corta en ES para la face 1."
+    },
+
+    "images": {
+      "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_abelha.webp",
+      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_abelha.webp",
+      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_abelha.webp"
+    },
+
+    "flags": {
+      "comingSoon": false,
+      "hidden": false
+    }
+  },
+
+  {
+    "id": "face2",
+    "package": "com.anilyss.PREENCHER_AQUI_2",
+    "enabled": true,
+    "sort": 20,
+
+    "title": {
+      "en": "Face 2 (EN)",
+      "pt": "Face 2 (PT)",
+      "es": "Face 2 (ES)"
+    },
+
+    "shortDescription": {
+      "en": "Short EN description for face 2.",
+      "pt": "Descrição curta em PT para a face 2.",
+      "es": "Descripción corta en ES para la face 2."
+    },
+
+    "images": {
+      "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_bible.png",
+      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_bible.png",
+      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_bible.webp"
+    },
+
+    "flags": {
+      "comingSoon": false,
+      "hidden": false
+    }
+  },
+
+  {
+    "id": "face3",
+    "package": "com.anilyss.PREENCHER_AQUI_3",
+    "enabled": true,
+    "sort": 30,
+
+    "title": {
+      "en": "Face 3 (EN)",
+      "pt": "Face 3 (PT)",
+      "es": "Face 3 (ES)"
+    },
+
+    "shortDescription": {
+      "en": "Short EN description for face 3.",
+      "pt": "Descrição curta em PT para a face 3.",
+      "es": "Descripción corta en ES para la face 3."
+    },
+
+    "images": {
+      "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_neon.png",
+      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_neon.png",
+      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_neon.png"
+    },
+
+    "flags": {
+      "comingSoon": false,
+      "hidden": false
+    }
+  },
+
+  {
+    "id": "face4",
+    "package": "com.anilyss.PREENCHER_AQUI_4",
+    "enabled": true,
+    "sort": 40,
+
+    "title": {
+      "en": "Face 4 (EN)",
+      "pt": "Face 4 (PT)",
+      "es": "Face 4 (ES)"
+    },
+
+    "shortDescription": {
+      "en": "Short EN description for face 4.",
+      "pt": "Descrição curta em PT para a face 4.",
+      "es": "Descripción curta en ES para la face 4."
+    },
+
+    "images": {
+      "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_samba.webp",
+      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_samba.webp",
+      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_samba.webp"
+    },
+
+    "flags": {
+      "comingSoon": false,
+      "hidden": false
+    }
+  }
+]

@@ -1,0 +1,34 @@
+*.iml
+.gradle/
+**/build/
+
+# Local SDK config
+local.properties
+
+# Android Studio / IntelliJ (granular)
+.idea/caches/
+.idea/libraries/
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+.idea/compiler.xml
+.idea/deploymentTargetDropDown.xml
+.idea/gradle.xml
+.idea/migrations.xml
+.idea/misc.xml
+.idea/vcs.xml
+.idea/.gitignore
+
+# Android Studio captures / native builds
+captures/
+.externalNativeBuild/
+.cxx/
+
+# macOS
+.DS_Store
+
+# Signing secrets
+keystore.properties
+*.jks
+*.keystore
