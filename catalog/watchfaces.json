@@ -117,7 +117,7 @@
 
   {
     "id": "samba",
-    "package": "com.anilyss.simpleweekend",
+    "package": "com.anilys.simpleweekend",
     "enabled": true,
     "sort": 40,
 
