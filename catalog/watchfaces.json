@@ -43,7 +43,7 @@
 
     "shortDescription": {
       "en": "Big time, 3 editable complications and a daily Bible verse.",
-      "pt": "Hora grande, 3 complicações editáveis e versículo bíblico diário.Fé",
+      "pt": "Hora grande, 3 complicações editáveis e versículo bíblico diário.",
       "es": "Hora grande, 3 complicaciones editables y versículo bíblico diario."
     },
 
@@ -61,7 +61,7 @@
 
   {
     "id": "neon",
-    "package": "com.anilyss.neonpulse",
+    "package": "com.anilys.neonpulse",
     "enabled": true,
     "sort": 30,
 
