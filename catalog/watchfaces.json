@@ -1,14 +1,14 @@
 [
   {
     "id": "abelha",
-    "package": "com.anilyss.PREEBELHA",
+    "package": "com.anilyss.abelha",
     "enabled": true,
     "sort": 10,
 
     "title": {
-      "en": "Abelha WatchFace",
-      "pt": "Abelha WatchFace",
-      "es": "Abelha WatchFace"
+      "en": "MidNightArc",
+      "pt": "MidNightArc",
+      "es": "MidNightArc"
     },
 
     "shortDescription": {
@@ -61,7 +61,7 @@
 
   {
     "id": "neon",
-    "package": "com.anilyss.PREENCHER_NEON",
+    "package": "com.anilyss.neon",
     "enabled": true,
     "sort": 30,
 
@@ -117,7 +117,7 @@
 
   {
     "id": "samba",
-    "package": "com.anilyss.PREENCHER_SAMBA",
+    "package": "com.anilyss.simpleweekend",
     "enabled": true,
     "sort": 40,
 
