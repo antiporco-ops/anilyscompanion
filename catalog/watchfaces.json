@@ -90,6 +90,32 @@
   },
 
   {
+  "id": "simple_weekend",
+  "package": "com.anilys.simpleweekend",
+  "enabled": true,
+  "sort": 50,
+  "title": {
+    "en": "Simple Weekend",
+    "pt": "Simple Weekend",
+    "es": "Simple Weekend"
+  },
+  "shortDescription": {
+    "en": "Week-focused minimalist watch face.",
+    "pt": "Watch face minimalista focada em dias da semana.",
+    "es": "Watch face minimalista centrada en los días de la semana"
+  },
+  "images": {
+    "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_simpleweekend.webp",
+    "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_simpleweekend.webp",
+    "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_simpleweekend.webp"
+  },
+  "flags": {
+    "comingSoon": false,
+    "hidden": false
+  }
+}
+
+  {
     "id": "samba",
     "package": "com.anilyss.PREENCHER_SAMBA",
     "enabled": true,
