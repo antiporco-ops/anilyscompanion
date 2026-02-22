@@ -105,9 +105,9 @@
     "es": "Watch face minimalista centrada en los días de la semana"
   },
   "images": {
-    "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_simpleweekend.webp",
-    "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_simpleweekend.webp",
-    "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_simpleweekend.webp"
+    "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_simpleweekend.png",
+    "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_simpleweekend.png",
+    "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_simpleweekend.png"
   },
   "flags": {
     "comingSoon": false,
