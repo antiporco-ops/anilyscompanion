@@ -5,3 +5,12 @@
 **/build/
 /apks_universal
 /app-universal.apks
+/keystore.properties
+/upload_cert.pem
+/app
+/gradle
+/gradlew
+/gradlew.bat
+/settings.gradle.kts
+/build.gradle.kts
+/scripts
