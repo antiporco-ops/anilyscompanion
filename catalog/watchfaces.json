@@ -36,9 +36,9 @@
     "sort": 20,
 
     "title": {
-      "en": "DailyBible WatchFace",
-      "pt": "DailyBible WatchFace",
-      "es": "DailyBible WatchFace"
+      "en": "Daily Bible",
+      "pt": "Daily Bible",
+      "es": "Daily Bible"
     },
 
     "shortDescription": {
@@ -66,9 +66,9 @@
     "sort": 30,
 
     "title": {
-      "en": "Neon WatchFace",
-      "pt": "Neon WatchFace",
-      "es": "Neon WatchFace"
+      "en": "Neon Pulse",
+      "pt": "Neon Pulse",
+      "es": "Neon Pulse"
     },
 
     "shortDescription": {
@@ -117,7 +117,7 @@
 
   {
     "id": "samba",
-    "package": "com.anilys.simpleweekend",
+    "package": "com.anilyss.watchcompanion",
     "enabled": true,
     "sort": 40,
 
