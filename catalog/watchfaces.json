@@ -1,20 +1,20 @@
 [
   {
-    "id": "face1",
-    "package": "com.anilyss.PREENCHER_AQUI_1",
+    "id": "abelha",
+    "package": "com.anilyss.PREENCHER_ABELHA",
     "enabled": true,
     "sort": 10,
 
     "title": {
-      "en": "Face 1 (EN)",
-      "pt": "Face 1 (PT)",
-      "es": "Face 1 (ES)"
+      "en": "Abelha WatchFace",
+      "pt": "Abelha WatchFace",
+      "es": "Abelha WatchFace"
     },
 
     "shortDescription": {
-      "en": "Short EN description for face 1.",
-      "pt": "Descrição curta em PT para a face 1.",
-      "es": "Descripción corta en ES para la face 1."
+      "en": "Big time, hive-style design and editable complications.",
+      "pt": "Hora grande, visual colmeia e complicações editáveis.",
+      "es": "Hora grande, estilo colmena y complicaciones editables."
     },
 
     "images": {
@@ -30,21 +30,21 @@
   },
 
   {
-    "id": "face2",
-    "package": "com.anilyss.PREENCHER_AQUI_2",
+    "id": "daily_bible",
+    "package": "com.anilyss.bible",
     "enabled": true,
     "sort": 20,
 
     "title": {
-      "en": "Face 2 (EN)",
-      "pt": "Face 2 (PT)",
-      "es": "Face 2 (ES)"
+      "en": "DailyBible WatchFace",
+      "pt": "DailyBible WatchFace",
+      "es": "DailyBible WatchFace"
     },
 
     "shortDescription": {
-      "en": "Short EN description for face 2.",
-      "pt": "Descrição curta em PT para a face 2.",
-      "es": "Descripción corta en ES para la face 2."
+      "en": "Big time, 3 editable complications and a daily Bible verse.",
+      "pt": "Hora grande, 3 complicações editáveis e versículo bíblico diário.",
+      "es": "Hora grande, 3 complicaciones editables y versículo bíblico diario."
     },
 
     "images": {
@@ -60,21 +60,21 @@
   },
 
   {
-    "id": "face3",
-    "package": "com.anilyss.PREENCHER_AQUI_3",
+    "id": "neon",
+    "package": "com.anilyss.PREENCHER_NEON",
     "enabled": true,
     "sort": 30,
 
     "title": {
-      "en": "Face 3 (EN)",
-      "pt": "Face 3 (PT)",
-      "es": "Face 3 (ES)"
+      "en": "Neon WatchFace",
+      "pt": "Neon WatchFace",
+      "es": "Neon WatchFace"
     },
 
     "shortDescription": {
-      "en": "Short EN description for face 3.",
-      "pt": "Descrição curta em PT para a face 3.",
-      "es": "Descripción corta en ES para la face 3."
+      "en": "Neon digital face with bold colors and editable complications.",
+      "pt": "Watchface digital neon com cores intensas e complicações editáveis.",
+      "es": "Esfera digital neón con colores intensos y complicaciones editables."
     },
 
     "images": {
@@ -90,21 +90,21 @@
   },
 
   {
-    "id": "face4",
-    "package": "com.anilyss.PREENCHER_AQUI_4",
+    "id": "samba",
+    "package": "com.anilyss.PREENCHER_SAMBA",
     "enabled": true,
     "sort": 40,
 
     "title": {
-      "en": "Face 4 (EN)",
-      "pt": "Face 4 (PT)",
-      "es": "Face 4 (ES)"
+      "en": "Samba WatchFace",
+      "pt": "Samba WatchFace",
+      "es": "Samba WatchFace"
     },
 
     "shortDescription": {
-      "en": "Short EN description for face 4.",
-      "pt": "Descrição curta em PT para a face 4.",
-      "es": "Descripción curta en ES para la face 4."
+      "en": "Colorful Samba-style watchface with big time and complications.",
+      "pt": "Watchface no estilo Samba, com hora grande e complicações.",
+      "es": "Esfera estilo Samba, con hora grande y complicaciones."
     },
 
     "images": {
