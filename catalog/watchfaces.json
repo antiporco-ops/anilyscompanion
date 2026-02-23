@@ -48,8 +48,8 @@
     },
 
     "images": {
-      "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_bible.png",
-      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_bible.png",
+      "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_bible.webp",
+      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_bible.webp",
       "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_bible.webp"
     },
 
@@ -78,9 +78,9 @@
     },
 
     "images": {
-      "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_neon.png",
-      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_neon.png",
-      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_neon.png"
+      "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_neon.webp",
+      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_neon.webp",
+      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_neon.webp"
     },
 
     "flags": {
@@ -105,9 +105,9 @@
     "es": "Watch face minimalista centrada en los días de la semana"
   },
   "images": {
-    "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_simpleweekend.png",
-    "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_simpleweekend.png",
-    "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_simpleweekend.png"
+    "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_simpleweekend.webp",
+    "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_simpleweekend.webp",
+    "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_simpleweekend.webp"
   },
   "flags": {
     "comingSoon": false,
