@@ -1,0 +1,1154 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>AniLys WatchFaces</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <style>
+    :root{
+      --bg: #0f1419;
+      --topbar: #0c1115;
+      --surface: #151c22;
+      --surface2:#12181e;
+      --card: #141b21;
+      --outline:#2a333c;
+      --outline2:#394552;
+      --text:#e9eef5;
+      --muted:#b7c2cd;
+
+      --primaryContainer:#9acbff;
+      --onPrimaryContainer:#0b1b2a;
+
+      --radius-lg: 24px;
+      --shadow2: 0 16px 40px rgba(0,0,0,.45);
+
+      color-scheme: dark light;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    [data-theme="light"]{
+      --bg:#f6f7fb;
+      --topbar:#ffffff;
+      --surface:#ffffff;
+      --surface2:#f3f5f8;
+      --card:#ffffff;
+      --outline:#d7dde6;
+      --outline2:#c9d1dd;
+      --text:#111827;
+      --muted:#4b5563;
+      --shadow2: 0 16px 40px rgba(0,0,0,.14);
+    }
+
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      background: radial-gradient(1200px 420px at 50% -120px, rgba(154,203,255,.18), transparent 55%),
+                  linear-gradient(180deg, var(--bg), var(--bg));
+      color:var(--text);
+    }
+
+    .viewport{
+      max-width: 560px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: transparent;
+    }
+
+    /* TOP BAR */
+    .topbar{
+      position: sticky;
+      top:0;
+      z-index: 5;
+      min-height: 86px;
+      display:flex;
+      align-items:flex-start;
+      gap:14px;
+      padding: 18px 16px 10px;
+      background: linear-gradient(180deg, var(--topbar), rgba(0,0,0,0));
+      backdrop-filter: blur(10px);
+    }
+    .iconbtn{
+      width:44px; height:44px;
+      display:grid; place-items:center;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.06);
+      background: rgba(255,255,255,.02);
+      color: var(--text);
+      cursor:pointer;
+      margin-top: 2px;
+    }
+    [data-theme="light"] .iconbtn{
+      border-color: rgba(0,0,0,.08);
+      background: rgba(0,0,0,.02);
+    }
+    .titleWrap{
+      display:flex;
+      flex-direction:column;
+      gap: 6px;
+      min-width: 0;
+      padding-top: 2px;
+      flex: 1 1 auto;
+    }
+    .titleWrap h1{
+      margin:0;
+      font-size: 34px;
+      font-weight: 500;
+      letter-spacing: .2px;
+      line-height: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .pathBar{
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.15;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      cursor: pointer;
+      user-select: none;
+    }
+    .pathBar:active{ opacity:.85; }
+
+    /* DRAWER */
+    .overlay{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.55);
+      opacity:0; pointer-events:none;
+      transition: opacity .18s ease;
+      z-index: 20;
+    }
+    .drawer{
+      position:fixed;
+      top:0; left:0;
+      width: 320px;
+      height: 100vh;
+      background: var(--surface);
+      border-right: 1px solid var(--outline);
+      transform: translateX(-105%);
+      transition: transform .20s ease;
+      z-index: 21;
+      box-shadow: var(--shadow2);
+      padding: 16px;
+      box-sizing: border-box;
+    }
+    .drawer.open{ transform: translateX(0); }
+    .overlay.open{ opacity:1; pointer-events:auto; }
+
+    .drawerHeader{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 6px 2px 14px;
+    }
+    .drawerHeader .title{
+      font-size: 18px;
+      font-weight: 700;
+      opacity:.95;
+    }
+
+    .nav{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-top: 8px;
+    }
+    .nav button{
+      width:100%;
+      text-align:left;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text);
+      cursor:pointer;
+      font-size: 15px;
+    }
+    .nav button:hover{ background: rgba(255,255,255,.04); }
+    [data-theme="light"] .nav button:hover{ background: rgba(0,0,0,.04); }
+    .nav button.active{
+      border-color: rgba(154,203,255,.35);
+      background: rgba(154,203,255,.10);
+    }
+
+    .divider{
+      height:1px;
+      background: var(--outline);
+      margin: 14px 0;
+      opacity:.6;
+    }
+
+    .drawerSectionTitle{
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: .4px;
+      margin: 2px 2px 10px;
+      text-transform: uppercase;
+    }
+
+    /* Segmented Local/Online no drawer */
+    .sourceRow{
+      display:flex;
+      gap: 10px;
+      margin: 0 0 10px;
+    }
+    .chip{
+      flex: 1 1 0;
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid var(--outline2);
+      background: transparent;
+      color: var(--text);
+      font-weight: 750;
+      font-size: 16px;
+      cursor:pointer;
+    }
+    .chip.active{
+      border-color: rgba(154,203,255,.55);
+      background: rgba(154,203,255,.18);
+      box-shadow: 0 0 0 1px rgba(154,203,255,.15) inset;
+    }
+
+    .devpanel{
+      display:none;
+      border: 1px solid var(--outline);
+      border-radius: 18px;
+      padding: 12px;
+      background: rgba(255,255,255,.02);
+    }
+    [data-theme="light"] .devpanel{ background: rgba(0,0,0,.02); }
+    .devpanel.show{ display:block; }
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      margin-bottom: 10px;
+    }
+    .field label{
+      font-size: 12px;
+      color: var(--muted);
+    }
+    input[type="text"], select{
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid var(--outline2);
+      background: var(--surface2);
+      color: var(--text);
+      padding: 0 12px;
+      outline: none;
+    }
+
+    main{ padding: 0 16px 24px; }
+
+    /* HERO */
+    .heroRow{
+      display:flex;
+      align-items:center;
+      gap: 14px;
+      margin-top: 10px;
+    }
+    .selThumb{
+      width: 76px;
+      height: 76px;
+      border-radius: 18px;
+      border: 2px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      flex: 0 0 auto;
+    }
+    [data-theme="light"] .selThumb{
+      border-color: rgba(0,0,0,.10);
+      background: rgba(0,0,0,.02);
+    }
+    .selThumb img{
+      width: 86%;
+      height: 86%;
+      object-fit: cover;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+    }
+    [data-theme="light"] .selThumb img{ border-color: rgba(0,0,0,.12); }
+
+    .btnPrimary{
+      height: 56px;
+      border-radius: 999px;
+      border: none;
+      background: var(--primaryContainer);
+      color: var(--onPrimaryContainer);
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: .2px;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .btnPrimary:active{ transform: translateY(1px); }
+
+    .sectionTitle{
+      margin: 18px 0 6px;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+    .subtitle{
+      margin: 0 0 14px;
+      font-size: 20px;
+      color: var(--muted);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      padding-top: 6px;
+    }
+
+    .card{
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      padding: 12px 12px 14px;
+      border: 1px solid rgba(255,255,255,.06);
+      cursor:pointer;
+      user-select:none;
+      transition: transform .08s ease, border-color .12s ease, background .12s ease;
+    }
+    [data-theme="light"] .card{ border-color: rgba(0,0,0,.06); }
+    .card:active{ transform: scale(.99); }
+    .card.selected{
+      border-color: rgba(154,203,255,.55);
+      box-shadow: 0 0 0 1px rgba(154,203,255,.28) inset;
+      background: linear-gradient(180deg, rgba(154,203,255,.06), rgba(0,0,0,0));
+    }
+
+    .thumb{
+      width:100%;
+      aspect-ratio: 1 / 1;
+      border-radius: var(--radius-lg);
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      background: rgba(255,255,255,.02);
+      border: 2px solid rgba(255,255,255,.08);
+    }
+    [data-theme="light"] .thumb{
+      background: rgba(0,0,0,.02);
+      border-color: rgba(0,0,0,.08);
+    }
+    .thumb img{
+      width: 92%;
+      height: 92%;
+      object-fit: cover;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+    }
+    [data-theme="light"] .thumb img{ border-color: rgba(0,0,0,.10); }
+
+    .name{
+      margin-top: 10px;
+      text-align:center;
+      font-size: 18px;
+      font-weight: 650;
+      letter-spacing: .2px;
+    }
+
+    .footnote{
+      margin-top: 14px;
+      font-size: 18px;
+      color: var(--muted);
+    }
+
+    .toast{
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 18px;
+      background: rgba(20,27,33,.92);
+      border: 1px solid rgba(255,255,255,.10);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease;
+      z-index: 40;
+      backdrop-filter: blur(10px);
+    }
+    [data-theme="light"] .toast{
+      background: rgba(255,255,255,.92);
+      border-color: rgba(0,0,0,.10);
+    }
+    .toast.show{ opacity: 1; }
+
+    dialog{
+      border: none;
+      padding: 0;
+      border-radius: 28px;
+      width: min(520px, calc(100% - 36px));
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: var(--shadow2);
+    }
+    dialog::backdrop{ background: rgba(0,0,0,.55); }
+    .dlg{ padding: 18px 18px 16px; }
+    .dlg h2{
+      margin: 4px 0 12px;
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+    .dlg h3{
+      margin: 12px 0 10px;
+      font-size: 22px;
+      font-weight: 700;
+      opacity:.95;
+    }
+    .radioList{
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+      padding: 4px 0 10px;
+    }
+    .radioRow{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      font-size: 22px;
+      color: var(--text);
+    }
+    .radioRow input{
+      width: 22px;
+      height: 22px;
+      accent-color: #79b7ff;
+    }
+    .dlgActions{
+      display:flex;
+      justify-content:flex-end;
+      gap: 12px;
+      margin-top: 14px;
+      padding-top: 10px;
+    }
+    .btnTonal{
+      height: 54px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: none;
+      background: var(--primaryContainer);
+      color: var(--onPrimaryContainer);
+      font-weight: 800;
+      font-size: 20px;
+      cursor:pointer;
+      min-width: 140px;
+    }
+
+    .view{ display:none; }
+    .view.show{ display:block; }
+
+    .batteryTitle{
+      margin: 10px 0 12px;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: .2px;
+    }
+    .batteryText{
+      font-size: 22px;
+      line-height: 1.28;
+      color: var(--muted);
+      margin: 0 0 18px;
+    }
+    .rowToggle{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 14px;
+      margin: 10px 0 18px;
+    }
+    .switch{
+      width: 58px;
+      height: 34px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.14);
+      position: relative;
+      cursor:pointer;
+    }
+    [data-theme="light"] .switch{
+      background: rgba(0,0,0,.08);
+      border-color: rgba(0,0,0,.12);
+    }
+    .switchKnob{
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: #cfd8e3;
+      position:absolute;
+      top: 50%;
+      left: 3px;
+      transform: translateY(-50%);
+      transition: left .15s ease, background .15s ease;
+    }
+    .switch.on{
+      background: rgba(121,183,255,.35);
+      border-color: rgba(121,183,255,.35);
+    }
+    .switch.on .switchKnob{
+      left: 27px;
+      background: #9acbff;
+    }
+
+    .stackBtns{
+      display:flex;
+      flex-direction:column;
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .btnWidePrimary{
+      height: 62px;
+      border-radius: 999px;
+      border: none;
+      background: var(--primaryContainer);
+      color: var(--onPrimaryContainer);
+      font-weight: 900;
+      font-size: 22px;
+      cursor:pointer;
+    }
+    .btnWideOutline{
+      height: 62px;
+      border-radius: 999px;
+      border: 2px solid var(--outline2);
+      background: transparent;
+      color: var(--text);
+      font-weight: 800;
+      font-size: 22px;
+      cursor:pointer;
+    }
+  </style>
+</head>
+
+<body data-theme="system">
+  <div class="overlay" id="overlay"></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <div class="drawerHeader">
+      <div class="title">AniLys</div>
+      <button class="iconbtn" id="closeDrawerBtn" aria-label="Fechar menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="nav">
+      <button id="navCatalog" class="active">Catálogo</button>
+      <button id="navBattery">Bateria do telefone no relógio</button>
+      <button id="navSettings">Configurações</button>
+      <button id="navDev">Dev (URLs)</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="drawerSectionTitle">Fonte do catálogo</div>
+    <div class="sourceRow" aria-label="Fonte do catálogo">
+      <button class="chip" id="btnLocal" type="button">Local</button>
+      <button class="chip" id="btnOnline" type="button">Online</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="devpanel" id="devpanel">
+      <div class="field">
+        <label for="localPathDisplay">Local (apenas p/ mostrar no título)</label>
+        <input id="localPathDisplay" type="text" value="D:\Android\companion\wcomp\catalog\watchfaces.json">
+      </div>
+
+      <div class="field">
+        <label for="localUrl">Local URL (raiz do http.server)</label>
+        <input id="localUrl" type="text" value="/catalog/watchfaces.json">
+      </div>
+
+      <div class="field">
+        <label for="onlineUrl">Online URL</label>
+        <input id="onlineUrl" type="text" value="https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/catalog/watchfaces.json">
+      </div>
+
+      <div class="field">
+        <label for="language">Idioma</label>
+        <select id="language">
+          <option value="auto">Sistema (auto)</option>
+          <option value="en">EN</option>
+          <option value="pt">PT</option>
+          <option value="es">ES</option>
+        </select>
+      </div>
+
+      <button class="btnWideOutline" id="reloadBtn" style="height:48px; font-size:16px;">Recarregar</button>
+
+      <div style="margin-top:10px; font-size:12px; color:var(--muted); line-height:1.2;">
+        Local: rode <b>python -m http.server 8000</b> em <b>D:\Android\companion\wcomp</b> e abra <b>http://127.0.0.1:8000/index.html</b>.
+      </div>
+    </div>
+  </aside>
+
+  <div class="viewport">
+    <header class="topbar">
+      <button class="iconbtn" id="menuBtn" aria-label="Abrir menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <div class="titleWrap">
+        <h1 id="appTitle">AniLys WatchFaces</h1>
+        <div class="pathBar" id="pathBar" title="Clique para copiar">—</div>
+      </div>
+    </header>
+
+    <main>
+      <section class="view show" id="viewHome">
+        <div class="heroRow">
+          <div class="selThumb" id="selThumb">
+            <span style="opacity:.55; font-size:12px;">sem</span>
+          </div>
+
+          <button class="btnPrimary" id="installBtn" type="button" disabled title="Selecione uma watch face">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M9 4h6M9 20h6" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/>
+              <path d="M9 6h6a4 4 0 0 1 4 4v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4v-4a4 4 0 0 1 4-4Z"
+                    stroke="currentColor" stroke-width="2.3" />
+              <path d="M12 10v3l2 1" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Instalar no relógio
+          </button>
+        </div>
+
+        <div class="sectionTitle" id="selectedLabel">Selecionada: —</div>
+        <div class="subtitle">Relógio detectado. Escolha uma watch face.</div>
+
+        <div class="grid" id="grid"></div>
+
+        <div class="footnote">
+          Abre a página no relógio. No celular pode aparecer não compatível.
+        </div>
+      </section>
+
+      <section class="view" id="viewBattery">
+        <div class="batteryTitle">Bateria do telefone no relógio</div>
+        <p class="batteryText">
+          Mostre a bateria do seu telefone diretamente no relógio usando a complication AniLys Battery.
+          Você pode ativar ou desativar esse recurso quando quiser.
+          <br><br>
+          Sincronizar bateria com o relógio. Requisito técnico: esta função habilita o envio de dados
+          para o Wear OS via Bluetooth. Para visualizar as informações, é necessário ter o app AniLys
+          instalado e ativo em um relógio compatível.
+        </p>
+
+        <div class="rowToggle">
+          <div style="font-size:22px; color:var(--text); opacity:.92;">&nbsp;</div>
+          <div class="switch" id="batterySwitch" role="switch" aria-checked="false" tabindex="0" aria-label="Sincronizar bateria">
+            <div class="switchKnob"></div>
+          </div>
+        </div>
+
+        <p class="batteryText" style="margin-top:0;">
+          Quando ativado, o telefone envia periodicamente o nível de bateria para o relógio através do app AniLys Watch.
+        </p>
+
+        <div class="stackBtns">
+          <button class="btnWidePrimary" id="openBatteryOnWatchBtn">Abrir AniLys Battery no relógio</button>
+          <button class="btnWideOutline" id="backToCatalogBtn">Voltar</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="settingsDialog" aria-label="Configurações">
+    <form method="dialog" class="dlg" id="settingsForm">
+      <h2>Configurações</h2>
+
+      <h3>Tema</h3>
+      <div class="radioList">
+        <label class="radioRow"><input type="radio" name="theme" value="system">Sistema</label>
+        <label class="radioRow"><input type="radio" name="theme" value="light">Claro</label>
+        <label class="radioRow"><input type="radio" name="theme" value="dark">Escuro</label>
+      </div>
+
+      <h3>Idioma</h3>
+      <div class="radioList">
+        <label class="radioRow"><input type="radio" name="lang" value="auto">Idioma Padrão</label>
+        <label class="radioRow"><input type="radio" name="lang" value="en">English</label>
+        <label class="radioRow"><input type="radio" name="lang" value="pt">Português</label>
+        <label class="radioRow"><input type="radio" name="lang" value="es">Español</label>
+      </div>
+
+      <div class="dlgActions">
+        <button class="btnTonal" value="cancel" id="cancelSettingsBtn">Cancelar</button>
+        <button class="btnTonal" value="default" id="saveSettingsBtn">Salvar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast">Pronto.</div>
+
+  <script>
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('overlay');
+    const menuBtn = document.getElementById('menuBtn');
+    const closeDrawerBtn = document.getElementById('closeDrawerBtn');
+
+    const navCatalog = document.getElementById('navCatalog');
+    const navBattery = document.getElementById('navBattery');
+    const navSettings = document.getElementById('navSettings');
+    const navDev = document.getElementById('navDev');
+    const devpanel = document.getElementById('devpanel');
+
+    const viewHome = document.getElementById('viewHome');
+    const viewBattery = document.getElementById('viewBattery');
+
+    const gridEl = document.getElementById('grid');
+    const selectedLabel = document.getElementById('selectedLabel');
+    const selThumb = document.getElementById('selThumb');
+    const installBtn = document.getElementById('installBtn');
+
+    const localPathDisplay = document.getElementById('localPathDisplay');
+    const localUrl = document.getElementById('localUrl');
+    const onlineUrl = document.getElementById('onlineUrl');
+    const languageSelect = document.getElementById('language');
+    const reloadBtn = document.getElementById('reloadBtn');
+
+    const settingsDialog = document.getElementById('settingsDialog');
+    const settingsForm = document.getElementById('settingsForm');
+
+    const toastEl = document.getElementById('toast');
+
+    const batterySwitch = document.getElementById('batterySwitch');
+    const openBatteryOnWatchBtn = document.getElementById('openBatteryOnWatchBtn');
+    const backToCatalogBtn = document.getElementById('backToCatalogBtn');
+
+    const btnLocal = document.getElementById('btnLocal');
+    const btnOnline = document.getElementById('btnOnline');
+
+    const pathBar = document.getElementById('pathBar');
+
+    let catalogItems = [];
+    let selectedId = null;
+
+    // source: 'local' | 'online'
+    let sourceMode = localStorage.getItem('anilys_source') || 'local';
+
+    // cache-bust de imagens: muda a cada loadCatalog()
+    let IMG_BUST = Date.now();
+
+    function showToast(msg){
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(()=>toastEl.classList.remove('show'), 1600);
+    }
+
+    function openDrawer(){
+      drawer.classList.add('open');
+      overlay.classList.add('open');
+    }
+    function closeDrawer(){
+      drawer.classList.remove('open');
+      overlay.classList.remove('open');
+    }
+
+    function setActiveNav(btn){
+      [navCatalog, navBattery, navSettings, navDev].forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function showView(which){
+      viewHome.classList.remove('show');
+      viewBattery.classList.remove('show');
+      if(which === 'battery') viewBattery.classList.add('show');
+      else viewHome.classList.add('show');
+    }
+
+    function getBrowserLang(){
+      const nav = navigator.language || (navigator.languages && navigator.languages[0]) || 'en';
+      const code = nav.toLowerCase().slice(0,2);
+      return (code === 'pt' || code === 'es' || code === 'en') ? code : 'en';
+    }
+    function resolveLang(){
+      const sel = languageSelect.value;
+      return sel === 'auto' ? getBrowserLang() : sel;
+    }
+    function pickLocalizedText(obj, lang, fallback){
+      if(!obj || typeof obj !== 'object') return fallback || '';
+      const vLang = obj[lang];
+      if(typeof vLang === 'string' && vLang.trim()) return vLang.trim();
+      const vEn = obj['en'];
+      if(typeof vEn === 'string' && vEn.trim()) return vEn.trim();
+      return fallback || '';
+    }
+
+    function playStoreUrl(pkg){
+      if(!pkg) return null;
+      return 'https://play.google.com/store/apps/details?id=' + encodeURIComponent(pkg);
+    }
+
+    function applyTheme(theme){
+      document.body.setAttribute('data-theme', theme);
+      localStorage.setItem('anilys_theme', theme);
+    }
+    function applyLang(lang){
+      languageSelect.value = lang;
+      localStorage.setItem('anilys_lang', lang);
+    }
+
+    function updateTitlePathBar(){
+      const modeLabel = (sourceMode === 'local') ? 'LOCAL' : 'ONLINE';
+      const shownPath = (sourceMode === 'local')
+        ? (localPathDisplay.value || 'D:\\Android\\companion\\wcomp\\catalog\\watchfaces.json')
+        : (onlineUrl.value || '');
+
+      const full = `${modeLabel}: ${shownPath}`;
+      pathBar.textContent = full;
+      pathBar.dataset.full = full;
+      pathBar.title = 'Clique para copiar:\n' + full;
+
+      document.title = `AniLys WatchFaces — ${full}`;
+    }
+
+    function setSourceMode(mode){
+      sourceMode = mode;
+      localStorage.setItem('anilys_source', mode);
+
+      btnLocal.classList.toggle('active', mode === 'local');
+      btnOnline.classList.toggle('active', mode === 'online');
+
+      updateTitlePathBar();
+      loadCatalog();
+    }
+
+    function getActiveCatalogUrl(){
+      let u = (sourceMode === 'local' ? localUrl.value : onlineUrl.value);
+      u = (u || '').trim();
+
+      // fallback seguro pra Local
+      if(sourceMode === 'local' && !u) u = '/catalog/watchfaces.json';
+
+      // se o cara botar "catalog/..." sem barra, força root
+      if(sourceMode === 'local' && u && !u.startsWith('/') && !/^[a-z]+:\/\//i.test(u)){
+        u = '/' + u;
+      }
+      return u;
+    }
+
+    // -------- IMAGENS: normalização + map local + cache-bust --------
+    function normalizeSlashes(s){
+      return String(s || '').replaceAll('\\','/').trim();
+    }
+
+    function addCacheBust(url){
+      if(!url) return url;
+      if(url.startsWith('data:') || url.startsWith('blob:')) return url;
+      const sep = url.includes('?') ? '&' : '?';
+      return `${url}${sep}v=${IMG_BUST}`;
+    }
+
+    function mapImageUrl(raw){
+      let s = normalizeSlashes(raw);
+      if(!s) return s;
+
+      // modo LOCAL: se vier URL absoluta apontando pra /images/, troca pra "/images/..."
+      if(sourceMode === 'local'){
+        try{
+          const u = new URL(s);
+          const idx = u.pathname.toLowerCase().indexOf('/images/');
+          if(idx >= 0){
+            s = u.pathname.slice(idx); // "/images/arquivo.png"
+          }
+        }catch{
+          // não era URL absoluta, segue
+        }
+
+        // tira "./"
+        if(s.startsWith('./')) s = s.slice(2);
+
+        // "images/xxx.png" => "/images/xxx.png"
+        if(s.startsWith('images/')) s = '/' + s;
+
+        // "xxx.png" (basename) => "/images/xxx.png"
+        const looksAbsolute = /^[a-z]+:\/\//i.test(s);
+        if(!looksAbsolute && !s.includes('/')){
+          s = '/images/' + s;
+        }
+      }
+
+      return addCacheBust(s);
+    }
+
+    function renderCatalog(){
+      const lang = resolveLang();
+
+      const visible = catalogItems.filter(item=>{
+        const enabled = item.enabled !== false;
+        const hidden = item.flags && item.flags.hidden === true;
+        return enabled && !hidden;
+      });
+
+      visible.sort((a,b)=>{
+        const sa = typeof a.sort === 'number' ? a.sort : 9999;
+        const sb = typeof b.sort === 'number' ? b.sort : 9999;
+        return sa - sb;
+      });
+
+      gridEl.innerHTML = '';
+      if(!visible.length){
+        selectedLabel.textContent = 'Selecionada: —';
+        selThumb.innerHTML = '<span style="opacity:.55; font-size:12px;">sem</span>';
+        installBtn.disabled = true;
+        showToast('0 itens visíveis no JSON');
+        return;
+      }
+
+      if(!selectedId || !visible.some(v=>v.id === selectedId)){
+        selectedId = visible[0].id || null;
+      }
+
+      for(const item of visible){
+        const id = item.id || '';
+        const images = item.images || {};
+        const title = pickLocalizedText(item.title, lang, id);
+        const icon = images.tile || images.preview || images.icon || '';
+
+        const card = document.createElement('div');
+        card.className = 'card' + (id === selectedId ? ' selected' : '');
+        card.tabIndex = 0;
+        card.setAttribute('role','button');
+
+        const thumb = document.createElement('div');
+        thumb.className = 'thumb';
+
+        if(icon){
+          const img = document.createElement('img');
+          img.src = mapImageUrl(icon);
+          img.alt = title || id;
+          img.onerror = () => {
+            img.style.display = 'none';
+            thumb.innerHTML = '<span style="opacity:.55; font-size:12px;">img erro</span>';
+            console.warn('IMG erro:', icon, '=>', img.src);
+          };
+          thumb.appendChild(img);
+        }else{
+          thumb.innerHTML = '<span style="opacity:.55; font-size:12px;">sem imagem</span>';
+        }
+
+        const name = document.createElement('div');
+        name.className = 'name';
+        name.textContent = title || '(sem título)';
+
+        card.appendChild(thumb);
+        card.appendChild(name);
+
+        card.addEventListener('click', ()=>{
+          selectedId = id;
+          updateSelectedFromCatalog(lang);
+          renderCatalog();
+        });
+        card.addEventListener('keydown', (e)=>{
+          if(e.key === 'Enter' || e.key === ' '){
+            e.preventDefault();
+            card.click();
+          }
+        });
+
+        gridEl.appendChild(card);
+      }
+
+      updateSelectedFromCatalog(lang);
+    }
+
+    function updateSelectedFromCatalog(lang){
+      const item = catalogItems.find(x=>x.id === selectedId) || null;
+      if(!item){
+        selectedLabel.textContent = 'Selecionada: —';
+        selThumb.innerHTML = '<span style="opacity:.55; font-size:12px;">sem</span>';
+        installBtn.disabled = true;
+        return;
+      }
+
+      const id = item.id || '';
+      const pkg = item.package || '';
+      const images = item.images || {};
+      const title = pickLocalizedText(item.title, lang, id);
+      const icon = images.tile || images.preview || images.icon || '';
+
+      selectedLabel.textContent = 'Selecionada: ' + (title || id);
+
+      selThumb.innerHTML = '';
+      if(icon){
+        const img = document.createElement('img');
+        img.src = mapImageUrl(icon);
+        img.alt = title || id;
+        img.onerror = () => {
+          selThumb.innerHTML = '<span style="opacity:.55; font-size:12px;">img erro</span>';
+          console.warn('SEL IMG erro:', icon, '=>', img.src);
+        };
+        selThumb.appendChild(img);
+      }else{
+        selThumb.innerHTML = '<span style="opacity:.55; font-size:12px;">sem</span>';
+      }
+
+      const url = playStoreUrl(pkg);
+      installBtn.disabled = !url;
+      installBtn.onclick = ()=>{
+        if(!url) return;
+        window.open(url, '_blank', 'noopener,noreferrer');
+      };
+    }
+
+    async function loadCatalog(){
+      const url = getActiveCatalogUrl();
+      if(!url){
+        showToast('URL vazia');
+        return;
+      }
+
+      updateTitlePathBar();
+
+      // muda o bust a cada reload (força imagens novas)
+      IMG_BUST = Date.now();
+
+      showToast('Carregando JSON…');
+
+      try{
+        const res = await fetch(url, { cache: 'no-store' });
+        if(!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        if(!Array.isArray(data)) throw new Error('JSON não é uma lista');
+
+        catalogItems = data;
+        renderCatalog();
+        showToast('Carregado: ' + data.length + ' itens');
+      }catch(e){
+        console.error(e);
+        showToast('Erro: ' + e.message);
+        if(sourceMode === 'local' && location.protocol === 'file:'){
+          showToast('Abra via http://127.0.0.1:8000 (python http.server)');
+        }
+      }
+    }
+
+    function openSettings(){
+      const theme = localStorage.getItem('anilys_theme') || 'system';
+      const lang = localStorage.getItem('anilys_lang') || 'auto';
+
+      settingsForm.querySelectorAll('input[name="theme"]').forEach(r=> r.checked = (r.value === theme));
+      settingsForm.querySelectorAll('input[name="lang"]').forEach(r=> r.checked = (r.value === lang));
+
+      settingsDialog.showModal();
+    }
+
+    settingsForm.addEventListener('submit', ()=>{
+      const active = document.activeElement;
+      const isSave = active && active.id === 'saveSettingsBtn';
+
+      if(isSave){
+        const theme = settingsForm.querySelector('input[name="theme"]:checked')?.value || 'system';
+        const lang = settingsForm.querySelector('input[name="lang"]:checked')?.value || 'auto';
+        applyTheme(theme);
+        applyLang(lang);
+        loadCatalog();
+        showToast('Configurações salvas');
+      }else{
+        showToast('Cancelado');
+      }
+    });
+
+    function setBatteryEnabled(on){
+      batterySwitch.classList.toggle('on', !!on);
+      batterySwitch.setAttribute('aria-checked', on ? 'true' : 'false');
+      localStorage.setItem('anilys_battery_enabled', on ? '1' : '0');
+    }
+    function toggleBattery(){
+      const on = localStorage.getItem('anilys_battery_enabled') === '1';
+      setBatteryEnabled(!on);
+    }
+
+    // -------- events
+    menuBtn.addEventListener('click', openDrawer);
+    closeDrawerBtn.addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+
+    navCatalog.addEventListener('click', ()=>{
+      setActiveNav(navCatalog);
+      showView('home');
+      closeDrawer();
+    });
+
+    navBattery.addEventListener('click', ()=>{
+      setActiveNav(navBattery);
+      showView('battery');
+      closeDrawer();
+    });
+
+    navSettings.addEventListener('click', ()=>{
+      closeDrawer();
+      openSettings();
+    });
+
+    navDev.addEventListener('click', ()=>{
+      devpanel.classList.toggle('show');
+      showToast(devpanel.classList.contains('show') ? 'Dev aberto' : 'Dev fechado');
+    });
+
+    reloadBtn.addEventListener('click', loadCatalog);
+    languageSelect.addEventListener('change', loadCatalog);
+
+    batterySwitch.addEventListener('click', toggleBattery);
+    batterySwitch.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        toggleBattery();
+      }
+    });
+
+    openBatteryOnWatchBtn.addEventListener('click', ()=>{
+      showToast('Aqui entra o deep link do Wear OS quando tiver.');
+    });
+
+    backToCatalogBtn.addEventListener('click', ()=>{
+      setActiveNav(navCatalog);
+      showView('home');
+    });
+
+    btnLocal.addEventListener('click', ()=>{ setSourceMode('local'); closeDrawer(); });
+    btnOnline.addEventListener('click', ()=>{ setSourceMode('online'); closeDrawer(); });
+
+    pathBar.addEventListener('click', async ()=>{
+      const full = pathBar.dataset.full || pathBar.textContent || '';
+      try{
+        await navigator.clipboard.writeText(full);
+        showToast('Copiado');
+      }catch{
+        prompt('Copie:', full);
+      }
+    });
+
+    (function boot(){
+      const theme = localStorage.getItem('anilys_theme') || 'system';
+      const lang = localStorage.getItem('anilys_lang') || 'auto';
+      applyTheme(theme);
+      applyLang(lang);
+
+      const bat = localStorage.getItem('anilys_battery_enabled') === '1';
+      setBatteryEnabled(bat);
+
+      setSourceMode(sourceMode);
+    })();
+  </script>
+</body>
+</html>

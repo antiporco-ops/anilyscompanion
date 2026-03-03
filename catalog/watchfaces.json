@@ -93,7 +93,7 @@
   "id": "simple_weekend",
   "package": "com.anilys.simpleweekend",
   "enabled": true,
-  "sort": 50,
+  "sort": 40,
   "title": {
     "en": "Simple Weekend",
     "pt": "Simple Weekend",
@@ -119,12 +119,12 @@
     "id": "samba",
     "package": "com.anilyss.watchcompanion",
     "enabled": true,
-    "sort": 40,
+    "sort": 50,
 
     "title": {
-      "en": "Samba WatchFace",
-      "pt": "Samba WatchFace",
-      "es": "Samba WatchFace"
+      "en": "Mobile Battery",
+      "pt": "Bateria do Celular",
+      "es": "Batería del Móvil"
     },
 
     "shortDescription": {
@@ -137,6 +137,35 @@
       "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_samba.webp",
       "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_samba.webp",
       "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_samba.webp"
+    },
+
+    "flags": {
+      "comingSoon": false,
+      "hidden": false
+    }
+  },
+   {
+    "id": "biblia",
+    "package": "com.anilyss.biblia",
+    "enabled": true,
+    "sort": 60,
+
+    "title": {
+      "en": "Bible WatchFace",
+      "pt": "Biblia Diária WatchFace",
+      "es": "Biblia Diaria WatchFace"
+    },
+
+    "shortDescription": {
+      "en": "Colorful Samba-style watchface with big time and complications.",
+      "pt": "Watchface no estilo Samba, com hora grande e complicações.",
+      "es": "Esfera estilo Samba, con hora grande y complicaciones."
+    },
+
+    "images": {
+      "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_biblia.webp",
+      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_biblia.webp",
+      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_biblia.webp"
     },
 
     "flags": {
