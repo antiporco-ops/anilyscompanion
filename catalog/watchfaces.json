@@ -146,7 +146,7 @@
   },
    {
     "id": "biblia",
-    "package": "com.anilyss.biblia",
+    "package": "com.anilys.biblia",
     "enabled": true,
     "sort": 60,
 
