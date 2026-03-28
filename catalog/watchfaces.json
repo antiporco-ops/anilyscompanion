@@ -4,173 +4,194 @@
     "package": "com.anilyss.abelha",
     "enabled": true,
     "sort": 10,
-
     "title": {
       "en": "MidNightArc",
       "pt": "MidNightArc",
       "es": "MidNightArc"
     },
-
     "shortDescription": {
       "en": "Big time, hive-style design and editable complications.",
       "pt": "Hora grande, visual colmeia e complicações editáveis.",
       "es": "Hora grande, estilo colmena y complicaciones editables."
     },
-
     "images": {
       "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_abelha.webp",
       "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_abelha.webp",
       "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_abelha.webp"
     },
-
     "flags": {
       "comingSoon": false,
       "hidden": false
     }
   },
-
   {
     "id": "daily_bible",
     "package": "com.anilyss.bible",
     "enabled": true,
     "sort": 20,
-
     "title": {
       "en": "Daily Bible",
       "pt": "Daily Bible",
       "es": "Daily Bible"
     },
-
     "shortDescription": {
       "en": "Big time, 3 editable complications and a daily Bible verse.",
       "pt": "Hora grande, 3 complicações editáveis e versículo bíblico diário.",
       "es": "Hora grande, 3 complicaciones editables y versículo bíblico diario."
     },
-
     "images": {
       "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_bible.webp",
       "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_bible.webp",
       "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_bible.webp"
     },
-
     "flags": {
       "comingSoon": false,
       "hidden": false
+    },
+    "status": "closed_testing",
+    "testing": {
+      "intro": {
+        "en": "Join the tester group first, then opt in, then install.",
+        "pt": "Entre primeiro no grupo de testers, depois faça o opt-in e então instale.",
+        "es": "Primero entra en el grupo de testers, luego haz el opt-in y después instala."
+      },
+      "joinGroupUrl": "https://groups.google.com/g/anilyss-testers",
+      "optInUrl": "https://play.google.com/apps/testing/com.anilyss.bible",
+      "installUrl": "https://play.google.com/store/apps/details?id=com.anilyss.bible"
     }
   },
-
   {
     "id": "neon",
     "package": "com.anilys.neonpulse",
     "enabled": true,
     "sort": 30,
-
     "title": {
       "en": "Neon Pulse",
       "pt": "Neon Pulse",
       "es": "Neon Pulse"
     },
-
     "shortDescription": {
       "en": "Neon digital face with bold colors and editable complications.",
       "pt": "Watchface digital neon com cores intensas e complicações editáveis.",
       "es": "Esfera digital neón con colores intensos y complicaciones editables."
     },
-
     "images": {
       "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_neon.webp",
       "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_neon.webp",
       "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_neon.webp"
     },
-
+    "flags": {
+      "comingSoon": false,
+      "hidden": false
+    },
+    "status": "closed_testing",
+    "testing": {
+      "intro": {
+        "en": "Join the tester group first, then opt in, then install.",
+        "pt": "Entre primeiro no grupo de testers, depois faça o opt-in e então instale.",
+        "es": "Primero entra en el grupo de testers, luego haz el opt-in y después instala."
+      },
+      "joinGroupUrl": "LINK",
+      "optInUrl": "LINK",
+      "installUrl": "LINK"
+    }
+  },
+  {
+    "id": "simple_weekend",
+    "package": "com.anilys.simpleweekend",
+    "enabled": true,
+    "sort": 40,
+    "status": "closed_testing",
+    "title": {
+      "en": "Simple Weekend",
+      "pt": "Simple Weekend",
+      "es": "Simple Weekend"
+    },
+    "shortDescription": {
+      "en": "Week-focused minimalist watch face.",
+      "pt": "Watch face minimalista focada em dias da semana.",
+      "es": "Watch face minimalista centrada en los días de la semana"
+    },
+    "images": {
+      "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_simpleweekend.webp",
+      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_simpleweekend.webp",
+      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_simpleweekend.webp"
+    },
+    "testing": {
+      "intro": {
+        "en": "Join the tester group first, then opt in, then install.",
+        "pt": "Entre primeiro no grupo de testers, depois faça o opt-in e então instale.",
+        "es": "Primero entra en el grupo de testers, luego haz el opt-in y después instala."
+      },
+      "joinGroupUrl": "https://groups.google.com/g/anilyss-testers",
+      "optInUrl": "https://play.google.com/apps/testing/com.anilys.simpleweekend",
+      "installUrl": "https://play.google.com/store/apps/details?id=com.anilys.simpleweekend"
+    },
     "flags": {
       "comingSoon": false,
       "hidden": false
     }
   },
-
-  {
-  "id": "simple_weekend",
-  "package": "com.anilys.simpleweekend",
-  "enabled": true,
-  "sort": 40,
-  "title": {
-    "en": "Simple Weekend",
-    "pt": "Simple Weekend",
-    "es": "Simple Weekend"
-  },
-  "shortDescription": {
-    "en": "Week-focused minimalist watch face.",
-    "pt": "Watch face minimalista focada em dias da semana.",
-    "es": "Watch face minimalista centrada en los días de la semana"
-  },
-  "images": {
-    "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_simpleweekend.webp",
-    "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_simpleweekend.webp",
-    "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_simpleweekend.webp"
-  },
-  "flags": {
-    "comingSoon": false,
-    "hidden": false
-  }
-},
-
   {
     "id": "samba",
     "package": "com.anilyss.watchcompanion",
     "enabled": true,
     "sort": 50,
-
     "title": {
       "en": "Mobile Battery",
       "pt": "Bateria do Celular",
       "es": "Batería del Móvil"
     },
-
     "shortDescription": {
       "en": "Colorful Samba-style watchface with big time and complications.",
       "pt": "Watchface no estilo Samba, com hora grande e complicações.",
       "es": "Esfera estilo Samba, con hora grande y complicaciones."
     },
-
     "images": {
       "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_samba.webp",
       "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_samba.webp",
       "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_samba.webp"
     },
-
     "flags": {
-      "comingSoon": false,
+      "comingSoon": true,
       "hidden": false
-    }
+    },
+    "status": "coming_soon"
   },
-   {
+  {
     "id": "biblia",
     "package": "com.anilys.biblia",
     "enabled": true,
     "sort": 60,
-
     "title": {
       "en": "Bible WatchFace",
-      "pt": "Biblia Diária WatchFace",
-      "es": "Biblia Diaria WatchFace"
+      "pt": "Biblia Diária",
+      "es": "Biblia Diaria"
     },
-
     "shortDescription": {
       "en": "Colorful Samba-style watchface with big time and complications.",
       "pt": "Watchface no estilo Samba, com hora grande e complicações.",
       "es": "Esfera estilo Samba, con hora grande y complicaciones."
     },
-
     "images": {
       "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_biblia.webp",
       "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_biblia.webp",
       "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_biblia.webp"
     },
-
     "flags": {
       "comingSoon": false,
       "hidden": false
+    },
+    "status": "closed_testing",
+    "testing": {
+      "intro": {
+        "en": "Join the tester group first, then opt in, then install.",
+        "pt": "Entre primeiro no grupo de testers, depois faça o opt-in e então instale.",
+        "es": "Primero entra en el grupo de testers, luego haz el opt-in y después instala."
+      },
+      "joinGroupUrl": "LINK",
+      "optInUrl": "LINK",
+      "installUrl": "LINK"
     }
   }
 ]
