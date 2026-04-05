@@ -91,9 +91,9 @@
         "pt": "Entre primeiro no grupo de testers, depois faça o opt-in e então instale.",
         "es": "Primero entra en el grupo de testers, luego haz el opt-in y después instala."
       },
-      "joinGroupUrl": "LINK",
-      "optInUrl": "LINK",
-      "installUrl": "LINK"
+      "joinGroupUrl": "https://groups.google.com/g/anilyss-testers",
+      "optInUrl": "https://play.google.com/apps/testing/com.anilys.neonpulse",
+      "installUrl": "https://play.google.com/store/apps/details?id=com.anilys.neonpulse"
     }
   },
   {
@@ -153,10 +153,13 @@
       "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_samba.webp"
     },
     "flags": {
-      "comingSoon": true,
+      "comingSoon": false,
       "hidden": false
     },
-    "status": "coming_soon"
+    "status": "production",
+    "production": {
+      "installUrl": "https://play.google.com/store/apps/details?id=com.anilyss.watchcompanion"
+    }
   },
   {
     "id": "biblia",
@@ -189,9 +192,67 @@
         "pt": "Entre primeiro no grupo de testers, depois faça o opt-in e então instale.",
         "es": "Primero entra en el grupo de testers, luego haz el opt-in y después instala."
       },
-      "joinGroupUrl": "LINK",
-      "optInUrl": "LINK",
-      "installUrl": "LINK"
+      "joinGroupUrl": "https://groups.google.com/g/anilyss-testers",
+      "optInUrl": "https://play.google.com/apps/testing/com.anilys.biblia",
+      "installUrl": "https://play.google.com/store/apps/details?id=com.anilys.biblia"
+    }
+  },
+  {
+    "id": "praia",
+    "package": "com.anilys.praia",
+    "enabled": true,
+    "sort": 70,
+    "title": {
+      "en": "Beach",
+      "pt": "Beach",
+      "es": "Beach"
+    },
+    "shortDescription": {
+      "en": "Beach-inspired watch face with calm colors and editable complications.",
+      "pt": "Watchface inspirada na praia, com cores calmas e complicações editáveis.",
+      "es": "Esfera inspirada en la playa, con colores suaves y complicaciones editables."
+    },
+    "images": {
+      "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_praia.webp",
+      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_praia.webp",
+      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_praia.webp"
+    },
+    "flags": {
+      "comingSoon": true,
+      "hidden": false
+    },
+    "status": "coming_soon",
+    "comingSoon": {
+      "groupUrl": "https://groups.google.com/g/anilyss-testers"
+    }
+  },
+  {
+    "id": "happy",
+    "package": "com.anilys.happy",
+    "enabled": true,
+    "sort": 80,
+    "title": {
+      "en": "Happy",
+      "pt": "Happy",
+      "es": "Happy"
+    },
+    "shortDescription": {
+      "en": "Playful colorful watch face with a cheerful look and editable complications.",
+      "pt": "Watchface colorida e divertida, com visual alegre e complicações editáveis.",
+      "es": "Esfera colorida y divertida, con estilo alegre y complicaciones editables."
+    },
+    "images": {
+      "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_happy.webp",
+      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_happy.webp",
+      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_happy.webp"
+    },
+    "flags": {
+      "comingSoon": true,
+      "hidden": false
+    },
+    "status": "coming_soon",
+    "comingSoon": {
+      "groupUrl": "https://groups.google.com/g/anilyss-testers"
     }
   }
 ]
