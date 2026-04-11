@@ -184,11 +184,11 @@
     },
     "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simpleweekend/simple_weekend/hero.png",
     "detailImages": [
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simpleweekend/simple_weekend/1.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simpleweekend/simple_weekend/2.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simpleweekend/simple_weekend/3.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simpleweekend/simple_weekend/4.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simpleweekend/simple_weekend/5.png"
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simpleweekend/1.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simpleweekend/2.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simpleweekend/3.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simpleweekend/4.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simpleweekend/5.png"
     ],
     "images": {
       "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simpleweekend/tile_simpleweekend.webp",
