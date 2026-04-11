@@ -26,13 +26,13 @@
       "pt": "MidNightArc combina uma leitura de hora grande com um visual inspirado em colmeia para consulta rápida no relógio. É ideal para quem quer presença visual, contraste em fundo escuro e complicações editáveis em uma composição limpa.",
       "es": "MidNightArc combina una lectura de hora grande con un estilo inspirado en colmena para consulta rápida en el reloj. Es ideal para quien busca presencia visual, contraste sobre fondo oscuro y complicaciones editables en una composición limpia."
     },
-    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/logo.png",
+    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/abelha/hero.png",
     "detailImages": [
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/abelha_detail_1.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/abelha_detail_2.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/abelha_detail_3.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/abelha_detail_4.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/abelha_detail_5.png"
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/abelha/1.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/abelha/2.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/abelha/3.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/abelha/4.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/abelha/5.png"
     ],
     "images": {
       "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_abelha.webp",
@@ -74,13 +74,13 @@
       "pt": "Daily Bible foi pensada para quem quer uma watchface clara e com foco espiritual ao longo do dia. Ela combina hora grande, complicações editáveis e um versículo bíblico diário em uma composição prática e legível.",
       "es": "Daily Bible fue diseñada para quien quiere una esfera clara y con enfoque espiritual a lo largo del día. Combina hora grande, complicaciones editables y un versículo bíblico diario en una composición práctica y legible."
     },
-    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/logo.png",
+    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/daily_bible/hero.png",
     "detailImages": [
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/daily_bible_detail_1.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/daily_bible_detail_2.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/daily_bible_detail_3.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/daily_bible_detail_4.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/daily_bible_detail_5.png"
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/daily_bible/1.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/daily_bible/2.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/daily_bible/3.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/daily_bible/4.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/daily_bible/5.png"
     ],
     "images": {
       "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_bible.webp",
@@ -129,13 +129,13 @@
       "pt": "Neon Pulse aposta em cor forte, energia digital e leitura rápida no pulso. É uma boa opção para quem gosta de um visual vibrante, com complicações editáveis e uma pegada mais moderna e eletrônica.",
       "es": "Neon Pulse apuesta por color fuerte, energía digital y lectura rápida en la muñeca. Es una buena opción para quien busca una apariencia vibrante, con complicaciones editables y un estilo más moderno y electrónico."
     },
-    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/logo.png",
+    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/neon/hero.png",
     "detailImages": [
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/neon_detail_1.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/neon_detail_2.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/neon_detail_3.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/neon_detail_4.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/neon_detail_5.png"
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/neon/1.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/neon/2.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/neon/3.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/neon/4.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/neon/5.png"
     ],
     "images": {
       "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_neon.webp",
@@ -184,13 +184,13 @@
       "pt": "Simple Weekend foi criada para quem prefere uma watchface mais leve e minimalista, com foco na organização da semana e na leitura rápida. Ela mantém a composição limpa sem abrir mão de complicações editáveis.",
       "es": "Simple Weekend fue creada para quien prefiere una esfera más ligera y minimalista, centrada en la organización de la semana y la lectura rápida. Mantiene la composición limpia sin renunciar a complicaciones editables."
     },
-    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/logo.png",
+    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simple_weekend/hero.png",
     "detailImages": [
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simple_weekend_detail_1.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simple_weekend_detail_2.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simple_weekend_detail_3.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simple_weekend_detail_4.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simple_weekend_detail_5.png"
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simple_weekend/1.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simple_weekend/2.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simple_weekend/3.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simple_weekend/4.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simple_weekend/5.png"
     ],
     "images": {
       "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_simpleweekend.webp",
@@ -239,13 +239,13 @@
       "pt": "Bateria do Celular combina os recursos do AniLys Battery com uma identidade visual forte e colorida no Wear OS. Ela foi pensada para quem quer hora grande, complicações úteis e leitura rápida da bateria do telefone direto no relógio.",
       "es": "Batería del Móvil combina los recursos de AniLys Battery con una identidad visual fuerte y colorida en Wear OS. Fue pensada para quien quiere hora grande, complicaciones útiles y lectura rápida de la batería del teléfono directamente en el reloj."
     },
-    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/logo.png",
+    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/samba/hero.png",
     "detailImages": [
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/samba_detail_1.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/samba_detail_2.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/samba_detail_3.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/samba_detail_4.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/samba_detail_5.png"
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/samba/1.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/samba/2.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/samba/3.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/samba/4.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/samba/5.png"
     ],
     "images": {
       "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_samba.webp",
@@ -287,13 +287,13 @@
       "pt": "Biblia Diária leva a mesma proposta espiritual de uso diário para uma experiência localizada em português. Ela combina hora grande, complicações editáveis e um versículo bíblico diário em um design prático e legível.",
       "es": "Biblia Diaria lleva la misma propuesta espiritual de uso diario a una experiencia localizada en portugués. Combina hora grande, complicaciones editables y un versículo bíblico diario en un diseño práctico y legible."
     },
-    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/logo.png",
+    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/hero.png",
     "detailImages": [
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia_detail_1.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia_detail_2.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia_detail_3.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia_detail_4.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia_detail_5.png"
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/1.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/2.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/3.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/4.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/5.png"
     ],
     "images": {
       "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_biblia.webp",
@@ -342,13 +342,13 @@
       "pt": "Beach foi criada para levar ao pulso um estilo mais suave e relaxado, com complicações editáveis e uma atmosfera visual tranquila. Ela está em preparação no momento e ficará disponível assim que as etapas de teste e lançamento forem concluídas.",
       "es": "Beach fue creada para llevar a la muñeca un estilo más suave y relajado, con complicaciones editables y una atmósfera visual tranquila. Está en preparación en este momento y estará disponible cuando se completen las etapas de prueba y lanzamiento."
     },
-    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/logo.png",
+    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/praia/hero.png",
     "detailImages": [
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/praia_detail_1.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/praia_detail_2.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/praia_detail_3.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/praia_detail_4.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/praia_detail_5.png"
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/praia/1.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/praia/2.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/praia/3.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/praia/4.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/praia/5.png"
     ],
     "images": {
       "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_praia.webp",
@@ -390,13 +390,13 @@
       "pt": "Happy foi criada para quem quer um visual mais alegre e divertido no pulso, sem perder complicações úteis e leitura fácil. Ela está em preparação no momento e ficará disponível quando as próximas etapas de teste e lançamento forem concluídas.",
       "es": "Happy fue creada para quien quiere una apariencia más alegre y divertida en la muñeca, sin perder complicaciones útiles y lectura fácil. Está en preparación en este momento y estará disponible cuando se completen las próximas etapas de prueba y lanzamiento."
     },
-    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/logo.png",
+    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/happy/hero.png",
     "detailImages": [
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/happy_detail_1.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/happy_detail_2.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/happy_detail_3.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/happy_detail_4.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/happy_detail_5.png"
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/happy/1.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/happy/2.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/happy/3.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/happy/4.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/happy/5.png"
     ],
     "images": {
       "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_happy.webp",
