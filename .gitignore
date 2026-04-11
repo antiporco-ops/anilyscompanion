@@ -19,6 +19,7 @@
 /.tools
 /.android-user
 /.gradle-ro
+
 # temporários locais
 /_input_assets
 *.old
@@ -26,5 +27,5 @@ tmp_*.png
 tmp_*.xml
 tmp_*.json
 
-# docs locais opcionais
+# opcional: ignore se for só anotação local
 CHANGELOG.md
