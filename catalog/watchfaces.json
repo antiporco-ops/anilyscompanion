@@ -35,9 +35,8 @@
       "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/abelha/5.png"
     ],
     "images": {
-      "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_abelha.webp",
-      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_abelha.webp",
-      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_abelha.webp"
+      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/abelha/tile_abelha.webp",
+      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/abelha/preview_abelha.webp"
     },
     "flags": {
       "comingSoon": false,
@@ -74,18 +73,17 @@
       "pt": "Daily Bible foi pensada para quem quer uma watchface clara e com foco espiritual ao longo do dia. Ela combina hora grande, complicações editáveis e um versículo bíblico diário em uma composição prática e legível.",
       "es": "Daily Bible fue diseñada para quien quiere una esfera clara y con enfoque espiritual a lo largo del día. Combina hora grande, complicaciones editables y un versículo bíblico diario en una composición práctica y legible."
     },
-    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/daily_bible/hero.png",
+    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/daily_bible/hero.png",
     "detailImages": [
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/daily_bible/1.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/daily_bible/2.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/daily_bible/3.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/daily_bible/4.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/daily_bible/5.png"
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/daily_bible/1.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/daily_bible/2.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/daily_bible/3.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/daily_bible/4.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/daily_bible/5.png"
     ],
     "images": {
-      "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_bible.webp",
-      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_bible.webp",
-      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_bible.webp"
+      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/tile_bible.webp",
+      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/preview_bible.webp"
     },
     "flags": {
       "comingSoon": false,
@@ -138,9 +136,8 @@
       "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/neon/5.png"
     ],
     "images": {
-      "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_neon.webp",
-      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_neon.webp",
-      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_neon.webp"
+      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/neon/tile_neon.webp",
+      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/neon/preview_neon.webp"
     },
     "flags": {
       "comingSoon": false,
@@ -184,18 +181,17 @@
       "pt": "Simple Weekend foi criada para quem prefere uma watchface mais leve e minimalista, com foco na organização da semana e na leitura rápida. Ela mantém a composição limpa sem abrir mão de complicações editáveis.",
       "es": "Simple Weekend fue creada para quien prefiere una esfera más ligera y minimalista, centrada en la organización de la semana y la lectura rápida. Mantiene la composición limpia sin renunciar a complicaciones editables."
     },
-    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simple_weekend/hero.png",
+    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simpleweekend/simple_weekend/hero.png",
     "detailImages": [
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simple_weekend/1.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simple_weekend/2.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simple_weekend/3.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simple_weekend/4.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simple_weekend/5.png"
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simpleweekend/simple_weekend/1.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simpleweekend/simple_weekend/2.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simpleweekend/simple_weekend/3.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simpleweekend/simple_weekend/4.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simpleweekend/simple_weekend/5.png"
     ],
     "images": {
-      "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_simpleweekend.webp",
-      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_simpleweekend.webp",
-      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_simpleweekend.webp"
+      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simpleweekend/tile_simpleweekend.webp",
+      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/simpleweekend/preview_simpleweekend.webp"
     },
     "testing": {
       "intro": {
@@ -248,9 +244,8 @@
       "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/samba/5.png"
     ],
     "images": {
-      "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_samba.webp",
-      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_samba.webp",
-      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_samba.webp"
+      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/samba/tile_samba.webp",
+      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/samba/preview_samba.webp"
     },
     "flags": {
       "comingSoon": false,
@@ -296,9 +291,8 @@
       "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/5.png"
     ],
     "images": {
-      "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_biblia.webp",
-      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_biblia.webp",
-      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_biblia.webp"
+      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/tile_biblia.webp",
+      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/preview_biblia.webp"
     },
     "flags": {
       "comingSoon": false,
@@ -351,9 +345,8 @@
       "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/praia/5.png"
     ],
     "images": {
-      "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_praia.webp",
-      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_praia.webp",
-      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_praia.webp"
+      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/praia/tile_praia.webp",
+      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/praia/preview_praia.webp"
     },
     "flags": {
       "comingSoon": true,
@@ -399,9 +392,8 @@
       "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/happy/5.png"
     ],
     "images": {
-      "icon": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/icon_happy.webp",
-      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/tile_happy.webp",
-      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/preview_happy.webp"
+      "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/happy/tile_happy.webp",
+      "preview": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/happy/preview_happy.webp"
     },
     "flags": {
       "comingSoon": true,
