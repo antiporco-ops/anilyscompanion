@@ -282,13 +282,14 @@
       "pt": "Biblia Diária leva a mesma proposta espiritual de uso diário para uma experiência localizada em português. Ela combina hora grande, complicações editáveis e um versículo bíblico diário em um design prático e legível.",
       "es": "Biblia Diaria lleva la misma propuesta espiritual de uso diario a una experiencia localizada en portugués. Combina hora grande, complicaciones editables y un versículo bíblico diario en un diseño práctico y legible."
     },
-    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/hero.png",
+    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/hero.webp",
     "detailImages": [
       "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/1.png",
       "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/2.png",
       "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/3.png",
       "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/4.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/5.png"
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/5.png",
+	  "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/6.png"
     ],
     "images": {
       "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/tile_biblia.webp",
