@@ -74,14 +74,14 @@
       "pt": "Daily Bible foi pensada para quem quer uma watchface clara e com foco espiritual ao longo do dia. Ela combina hora grande, complicações editáveis e um versículo bíblico diário em uma composição prática e legível.",
       "es": "Daily Bible fue diseñada para quien quiere una esfera clara y con enfoque espiritual a lo largo del día. Combina hora grande, complicaciones editables y un versículo bíblico diario en una composición práctica y legible."
     },
-    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/daily_bible/hero.png",
+    "heroImage": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/hero.png",
     "detailImages": [
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/daily_bible/1.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/daily_bible/2.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/daily_bible/3.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/daily_bible/4.png",
-      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/daily_bible/5.png",
-	  "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/daily_bible/6.png"
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/1.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/2.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/3.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/4.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/5.png",
+	  "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/6.png"
     ],
     "images": {
       "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/tile_bible.webp",
