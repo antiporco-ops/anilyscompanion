@@ -32,7 +32,7 @@
       "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/abelha/2.png",
       "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/abelha/3.png",
       "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/abelha/4.png",
-	  "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/abelha/5.png",
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/abelha/5.png",
       "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/abelha/6.png"
     ],
     "images": {
@@ -81,7 +81,7 @@
       "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/3.png",
       "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/4.png",
       "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/5.png",
-	  "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/6.png"
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/6.png"
     ],
     "images": {
       "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/dailybible/tile_bible.webp",
@@ -144,6 +144,11 @@
     "flags": {
       "comingSoon": false,
       "hidden": false
+    },
+    "promotion": {
+      "enabled": true,
+      "code": "TEST-CODE-123",
+      "redeemUrl": "https://play.google.com/redeem?code=TEST-CODE-123"
     },
     "testing": {
       "intro": {
@@ -208,6 +213,11 @@
     "flags": {
       "comingSoon": false,
       "hidden": false
+    },
+    "promotion": {
+      "enabled": true,
+      "code": "TEST-CODE-123",
+      "redeemUrl": "https://play.google.com/redeem?code=TEST-CODE-123"
     }
   },
   {
@@ -290,7 +300,7 @@
       "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/3.png",
       "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/4.png",
       "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/5.png",
-	  "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/6.png"
+      "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/6.png"
     ],
     "images": {
       "tile": "https://raw.githubusercontent.com/antiporco-ops/anilyscompanion/main/images/biblia/tile_biblia.webp",
@@ -354,6 +364,11 @@
       "comingSoon": true,
       "hidden": false
     },
+    "promotion": {
+      "enabled": true,
+      "code": "TEST-CODE-123",
+      "redeemUrl": "https://play.google.com/redeem?code=TEST-CODE-123"
+    },
     "comingSoon": {
       "groupUrl": "https://groups.google.com/g/anilyss-testers"
     }
@@ -400,6 +415,11 @@
     "flags": {
       "comingSoon": true,
       "hidden": false
+    },
+    "promotion": {
+      "enabled": true,
+      "code": "TEST-CODE-123",
+      "redeemUrl": "https://play.google.com/redeem?code=TEST-CODE-123"
     },
     "comingSoon": {
       "groupUrl": "https://groups.google.com/g/anilyss-testers"
