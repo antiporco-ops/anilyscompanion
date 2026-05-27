@@ -1,4 +1,5 @@
 /.gradle
+/.gradle-local
 /.gradle-sandbox
 /local.properties
 /.idea
@@ -8,24 +9,24 @@
 /app-universal.apks
 /keystore.properties
 /upload_cert.pem
-/app
-/gradle
-/gradlew
-/gradlew.bat
-/settings.gradle.kts
-/build.gradle.kts
 /scripts
 /.gradle-user
 /.tools
+/.android-home
 /.android-user
 /.gradle-ro
+/.tmp
+*.jks
+*.keystore
+*.apk
+*.aab
+*.apks
+*.idsig
 
 # temporários locais
 /_input_assets
 *.old
+*.backup-*.json
 tmp_*.png
 tmp_*.xml
 tmp_*.json
-
-# opcional: ignore se for só anotação local
-CHANGELOG.md

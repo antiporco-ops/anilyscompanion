@@ -1,0 +1,10 @@
+/.gradle
+/local.properties
+/.idea
+/build
+**/build/
+/apks_universal
+/app-universal.apks
+/keystore.properties
+/upload_cert.pem
+/scripts

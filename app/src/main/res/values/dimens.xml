@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="a11y_min_touch_target">48dp</dimen>
+    <dimen name="top_brand_header_min_height">40dp</dimen>
+    <dimen name="faces_catalog_top_gap">1dp</dimen>
+    <dimen name="faces_grid_min_tile_width">148dp</dimen>
+    <dimen name="faces_grid_tile_visual_gutter">8dp</dimen>
+    <dimen name="faces_hero_image_min_width">136dp</dimen>
+    <dimen name="faces_hero_image_max_width">236dp</dimen>
+    <dimen name="faces_hero_card_bottom_padding">10dp</dimen>
+    <dimen name="faces_tile_label_min_height">28dp</dimen>
+    <dimen name="bottom_sheet_content_max_width">520dp</dimen>
+    <dimen name="bottom_sheet_behavior_max_width">560dp</dimen>
+    <dimen name="bottom_sheet_preview_size">96dp</dimen>
+    <dimen name="bottom_sheet_details_preview_min_height">156dp</dimen>
+    <dimen name="bottom_sheet_details_preview_max_height">248dp</dimen>
+    <dimen name="bottom_sheet_gallery_item_min_size">72dp</dimen>
+    <dimen name="bottom_sheet_gallery_item_max_size">104dp</dimen>
+    <dimen name="bottom_sheet_gallery_item_spacing">8dp</dimen>
+</resources>
