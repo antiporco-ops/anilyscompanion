@@ -147,8 +147,28 @@
     },
     "promotion": {
       "enabled": true,
+      "title": {
+        "en": "AniLys promo code",
+        "pt": "Código promocional AniLys",
+        "es": "Código promocional AniLys"
+      },
+      "message": {
+        "en": "Free code available for a limited time.",
+        "pt": "Código gratuito disponível por tempo limitado.",
+        "es": "Código gratuito disponible por tiempo limitado."
+      },
       "code": "TEST-CODE-123",
-      "redeemUrl": "https://play.google.com/redeem?code=TEST-CODE-123"
+      "redeemUrl": "https://play.google.com/redeem?code=TEST-CODE-123",
+      "expiresText": {
+        "en": "Limited codes. They may expire or already be used.",
+        "pt": "Códigos limitados. Podem expirar ou já ter sido usados.",
+        "es": "Códigos limitados. Pueden caducar o ya haber sido usados."
+      },
+      "disclaimer": {
+        "en": "No rating or review is required.",
+        "pt": "Nenhuma avaliação ou review é necessária.",
+        "es": "No se requiere valoración ni reseña."
+      }
     },
     "testing": {
       "intro": {
@@ -216,8 +236,28 @@
     },
     "promotion": {
       "enabled": true,
+      "title": {
+        "en": "AniLys promo code",
+        "pt": "Código promocional AniLys",
+        "es": "Código promocional AniLys"
+      },
+      "message": {
+        "en": "Free code available for a limited time.",
+        "pt": "Código gratuito disponível por tempo limitado.",
+        "es": "Código gratuito disponible por tiempo limitado."
+      },
       "code": "TEST-CODE-123",
-      "redeemUrl": "https://play.google.com/redeem?code=TEST-CODE-123"
+      "redeemUrl": "https://play.google.com/redeem?code=TEST-CODE-123",
+      "expiresText": {
+        "en": "Limited codes. They may expire or already be used.",
+        "pt": "Códigos limitados. Podem expirar ou já ter sido usados.",
+        "es": "Códigos limitados. Pueden caducar o ya haber sido usados."
+      },
+      "disclaimer": {
+        "en": "No rating or review is required.",
+        "pt": "Nenhuma avaliação ou review é necessária.",
+        "es": "No se requiere valoración ni reseña."
+      }
     }
   },
   {
@@ -366,8 +406,28 @@
     },
     "promotion": {
       "enabled": true,
+      "title": {
+        "en": "AniLys promo code",
+        "pt": "Código promocional AniLys",
+        "es": "Código promocional AniLys"
+      },
+      "message": {
+        "en": "Free code available for a limited time.",
+        "pt": "Código gratuito disponível por tempo limitado.",
+        "es": "Código gratuito disponible por tiempo limitado."
+      },
       "code": "TEST-CODE-123",
-      "redeemUrl": "https://play.google.com/redeem?code=TEST-CODE-123"
+      "redeemUrl": "https://play.google.com/redeem?code=TEST-CODE-123",
+      "expiresText": {
+        "en": "Limited codes. They may expire or already be used.",
+        "pt": "Códigos limitados. Podem expirar ou já ter sido usados.",
+        "es": "Códigos limitados. Pueden caducar o ya haber sido usados."
+      },
+      "disclaimer": {
+        "en": "No rating or review is required.",
+        "pt": "Nenhuma avaliação ou review é necessária.",
+        "es": "No se requiere valoración ni reseña."
+      }
     },
     "comingSoon": {
       "groupUrl": "https://groups.google.com/g/anilyss-testers"
@@ -418,8 +478,28 @@
     },
     "promotion": {
       "enabled": true,
+      "title": {
+        "en": "AniLys promo code",
+        "pt": "Código promocional AniLys",
+        "es": "Código promocional AniLys"
+      },
+      "message": {
+        "en": "Free code available for a limited time.",
+        "pt": "Código gratuito disponível por tempo limitado.",
+        "es": "Código gratuito disponible por tiempo limitado."
+      },
       "code": "TEST-CODE-123",
-      "redeemUrl": "https://play.google.com/redeem?code=TEST-CODE-123"
+      "redeemUrl": "https://play.google.com/redeem?code=TEST-CODE-123",
+      "expiresText": {
+        "en": "Limited codes. They may expire or already be used.",
+        "pt": "Códigos limitados. Podem expirar ou já ter sido usados.",
+        "es": "Códigos limitados. Pueden caducar o ya haber sido usados."
+      },
+      "disclaimer": {
+        "en": "No rating or review is required.",
+        "pt": "Nenhuma avaliação ou review é necessária.",
+        "es": "No se requiere valoración ni reseña."
+      }
     },
     "comingSoon": {
       "groupUrl": "https://groups.google.com/g/anilyss-testers"
