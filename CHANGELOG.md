@@ -1,6 +1,8 @@
 # Changelog
 
 ## 2026-05-26
+- Refined Battery tab wording and protection-limit semantics so the columns map to protection level, regular use, and battery life.
+- Reorganized the Battery tab into "Battery on watch" and "Protect battery", with fixed care limit choices and more compact notice controls.
 - Added configurable phone battery alerts with high/low limits, notification permission handling, sound/vibration options, test alert, and anti-spam state.
 - Applied status-bar WindowInsets to the Faces header only when it overlaps the system bar, preserving the existing layout on devices already inset by the decor.
 - Finalized the promotion coupon hierarchy with a stronger primary redeem action, compact secondary copy action, and localized default promo-code titles.
