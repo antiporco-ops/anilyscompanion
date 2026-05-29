@@ -30,6 +30,7 @@ public class PhoneBatteryRequestListenerService extends WearableListenerService 
     public void onCreate() {
         super.onCreate();
         PhoneBatteryAutoRefreshSync.publishCurrent(getApplicationContext());
+        PhoneBatteryProtectionSync.publishCurrent(getApplicationContext());
         AppLanguageSync.publishCurrent(getApplicationContext());
     }
 

@@ -32,6 +32,7 @@ import com.anilyss.watchcompanion.battery.PhoneBatteryAutoRefreshSync;
 import com.anilyss.watchcompanion.battery.PhoneBatteryCompanionDiagnostics;
 import com.anilyss.watchcompanion.battery.PhoneBatteryCompanionStore;
 import com.anilyss.watchcompanion.battery.PhoneBatteryFullAlert;
+import com.anilyss.watchcompanion.battery.PhoneBatteryProtectionSync;
 import com.anilyss.watchcompanion.battery.PhoneBatterySender;
 import com.anilyss.watchcompanion.battery.WatchBatterySnapshot;
 import com.anilyss.watchcompanion.battery.WatchBatteryStore;
@@ -219,6 +220,7 @@ public class BatteryFragment extends Fragment {
                         PhoneBatteryFullAlert.evaluateCurrentState(appContext, "toggle_enabled");
                     }
                 }
+                PhoneBatteryProtectionSync.setLocalAndSync(appContext);
                 refreshFullAlertUi();
             });
         }
@@ -242,6 +244,7 @@ public class BatteryFragment extends Fragment {
                     return;
                 }
                 PhoneBatteryFullAlert.setHighLimitPercent(appContext, highLimitForCheckedId(checkedId));
+                PhoneBatteryProtectionSync.setLocalAndSync(appContext);
                 refreshFullAlertUi();
             });
         }
@@ -251,12 +254,14 @@ public class BatteryFragment extends Fragment {
                     return;
                 }
                 PhoneBatteryFullAlert.setLowLimitPercent(appContext, lowLimitForCheckedId(checkedId));
+                PhoneBatteryProtectionSync.setLocalAndSync(appContext);
                 refreshFullAlertUi();
             });
         }
         bindAutoRefreshOption(autoRefresh5Button, 5);
         bindAutoRefreshOption(autoRefresh10Button, 10);
         bindAutoRefreshOption(autoRefresh15Button, 15);
+        PhoneBatteryProtectionSync.publishCurrent(appContext);
         refreshSelectionFromStore();
         refreshDiagnostics();
         refreshFullAlertUi();
