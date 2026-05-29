@@ -1,9 +1,0 @@
-/.gradle
-/local.properties
-/.idea
-/build
-**/build/
-*.apk
-*.aab
-*.apks
-*.idsig

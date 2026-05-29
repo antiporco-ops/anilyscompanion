@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="wear_background">#050507</color>
-    <color name="wear_text_primary">#F7F7F2</color>
-    <color name="wear_text_secondary">#B9B9B0</color>
-    <color name="wear_button_background">#E0F45C</color>
-    <color name="wear_button_text">#101107</color>
-</resources>

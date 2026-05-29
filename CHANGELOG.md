@@ -2,6 +2,8 @@
 
 ## 2026-05-29
 - Added a minimal Wear OS module for AniLys Battery that shows the latest phone battery snapshot from the Wear Data Layer and can request a refresh from the phone.
+- Switched mobile `Open on watch` to use the official AniLys Wear deep link (`anilys://watchcompanion/battery`) with Play Store fallback kept.
+- Removed the temporary `wcomp/wear` module to avoid accidental installs; official Wear app source is `D:\Android\companion\anilys-wear`.
 
 ## 2026-05-26
 - Refined Battery tab wording and protection-limit semantics so the columns map to protection level, regular use, and battery life.

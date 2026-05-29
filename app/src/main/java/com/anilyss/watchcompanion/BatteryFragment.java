@@ -59,6 +59,7 @@ public class BatteryFragment extends Fragment {
     private static final int OPEN_ON_PHONE_REASON_NO_WATCH = 1;
     private static final int OPEN_ON_PHONE_REASON_ERROR = 2;
     private static final String WEAR_APP_PACKAGE = "com.anilyss.watchcompanion";
+    private static final Uri WEAR_APP_DEEP_LINK_URI = Uri.parse("anilys://watchcompanion/battery");
     private static final int[] HIGH_LIMIT_OPTIONS = {80, 85, 90};
     private static final int[] LOW_LIMIT_OPTIONS = {15, 20, 25};
 
@@ -427,8 +428,9 @@ public class BatteryFragment extends Fragment {
 
     private void openAniLysWearListingOnWatch() {
         if (!isAdded()) return;
-        final Intent appIntent = new Intent(Intent.ACTION_MAIN)
-                .addCategory(Intent.CATEGORY_LAUNCHER)
+        final Intent appDeepLinkIntent = new Intent(Intent.ACTION_VIEW)
+                .addCategory(Intent.CATEGORY_BROWSABLE)
+                .setData(WEAR_APP_DEEP_LINK_URI)
                 .setPackage(WEAR_APP_PACKAGE);
         final Uri marketUri = Uri.parse("market://details?id=" + WEAR_APP_PACKAGE);
         final Uri webUri = Uri.parse("https://play.google.com/store/apps/details?id=" + WEAR_APP_PACKAGE);
@@ -441,7 +443,7 @@ public class BatteryFragment extends Fragment {
                 .setData(webUri);
 
         Wearable.getNodeClient(requireContext()).getConnectedNodes()
-                .addOnSuccessListener(nodes -> handleConnectedNodes(nodes, appIntent, marketIntent, webIntent, webUri))
+                .addOnSuccessListener(nodes -> handleConnectedNodes(nodes, appDeepLinkIntent, marketIntent, webIntent, webUri))
                 .addOnFailureListener(e -> {
                     Log.e(TAG, "getConnectedNodes FAILURE, fallback to phone.", e);
                     showOpenOnPhoneDialog(webUri, OPEN_ON_PHONE_REASON_ERROR);
@@ -479,8 +481,8 @@ public class BatteryFragment extends Fragment {
         tryStartRemoteActivityWithTimeout(
                 appIntent,
                 nodeId,
-                "startRemoteActivity(app) nodeId=" + nodeId,
-                () -> Log.i(TAG, "AniLys Wear app opened on watch."),
+                "startRemoteActivity(deepLinkApp) nodeId=" + nodeId,
+                () -> Log.i(TAG, "AniLys Wear deep link opened on watch."),
                 () -> tryStartRemoteActivityWithTimeout(
                         marketIntent,
                         nodeId,
