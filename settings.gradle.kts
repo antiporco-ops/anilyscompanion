@@ -28,4 +28,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "wf_companion_app"
 include(":app")
+include(":wear")
  

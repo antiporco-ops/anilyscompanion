@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-05-29
+- Added a minimal Wear OS module for AniLys Battery that shows the latest phone battery snapshot from the Wear Data Layer and can request a refresh from the phone.
+
 ## 2026-05-26
 - Refined Battery tab wording and protection-limit semantics so the columns map to protection level, regular use, and battery life.
 - Reorganized the Battery tab into "Battery on watch" and "Protect battery", with fixed care limit choices and more compact notice controls.

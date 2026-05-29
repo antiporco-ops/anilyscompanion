@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AniLys Battery</string>
+    <string name="phone_battery_label">Teléfono</string>
+    <string name="phone_battery_value_format">%1$d%%</string>
+    <string name="phone_battery_unknown_value">--%</string>
+    <string name="phone_battery_charging">Cargando</string>
+    <string name="phone_battery_on_battery">Con batería</string>
+    <string name="phone_battery_no_data">Sin datos del teléfono</string>
+    <string name="phone_battery_updated_format">Actualizado %1$s</string>
+    <string name="phone_battery_refresh">Actualizar</string>
+</resources>
