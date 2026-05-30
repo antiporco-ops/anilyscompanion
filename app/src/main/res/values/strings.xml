@@ -180,6 +180,8 @@
     <string name="phone_full_alert_notification_title">Phone battery full</string>
     <string name="phone_full_alert_notification_text">Your phone reached 100%.</string>
     <string name="battery_alerts_title">Protect battery</string>
+    <string name="battery_alert_protect_phone">Phone</string>
+    <string name="battery_alert_protect_watch">Watch</string>
     <string name="battery_alerts_enable_label">Enable notices</string>
     <string name="battery_alert_monitor_phone_label">Monitor phone battery</string>
     <string name="battery_alert_high_limit_label">Maximum charge</string>

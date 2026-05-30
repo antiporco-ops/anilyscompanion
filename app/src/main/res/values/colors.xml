@@ -1,4 +1,6 @@
 <resources>
+    <color name="watch_mock_face_background">#FFBFC5CC</color>
+    <color name="watch_mock_charging_indicator">#FF000000</color>
     <color name="md_theme_primary">#28638A</color>
     <color name="md_theme_onPrimary">#FFFFFF</color>
     <color name="md_theme_primaryContainer">#CAE6FF</color>

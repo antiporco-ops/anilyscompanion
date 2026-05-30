@@ -29,6 +29,8 @@ public final class PhoneBatteryFullAlert {
     public static final String KEY_MONITOR_PHONE_BATTERY = "monitorPhoneBattery";
     public static final String KEY_HIGH_LIMIT_PERCENT = "highBatteryLimitPercent";
     public static final String KEY_LOW_LIMIT_PERCENT = "lowBatteryLimitPercent";
+    public static final String KEY_PHONE_ENABLED = "batteryProtectionPhoneEnabled";
+    public static final String KEY_WATCH_ENABLED = "batteryProtectionWatchEnabled";
     public static final String KEY_SOUND_ENABLED = "alertSoundEnabled";
     public static final String KEY_VIBRATION_ENABLED = "alertVibrationEnabled";
     public static final String KEY_LAST_HIGH_ALERT_AT = "lastHighAlertAt";
@@ -150,6 +152,44 @@ public final class PhoneBatteryFullAlert {
 
     public static boolean isSoundEnabled(Context context) {
         return context == null || prefs(appContext(context)).getBoolean(KEY_SOUND_ENABLED, true);
+    }
+
+    public static boolean isPhoneProtectionEnabled(Context context) {
+        if (context == null) {
+            return false;
+        }
+        Context appContext = appContext(context);
+        SharedPreferences prefs = prefs(appContext);
+        if (prefs.contains(KEY_PHONE_ENABLED)) {
+            return prefs.getBoolean(KEY_PHONE_ENABLED, true);
+        }
+        return isEnabled(appContext);
+    }
+
+    public static void setPhoneProtectionEnabled(Context context, boolean enabled) {
+        if (context == null) {
+            return;
+        }
+        prefs(appContext(context)).edit().putBoolean(KEY_PHONE_ENABLED, enabled).apply();
+    }
+
+    public static boolean isWatchProtectionEnabled(Context context) {
+        if (context == null) {
+            return false;
+        }
+        Context appContext = appContext(context);
+        SharedPreferences prefs = prefs(appContext);
+        if (prefs.contains(KEY_WATCH_ENABLED)) {
+            return prefs.getBoolean(KEY_WATCH_ENABLED, true);
+        }
+        return isEnabled(appContext);
+    }
+
+    public static void setWatchProtectionEnabled(Context context, boolean enabled) {
+        if (context == null) {
+            return;
+        }
+        prefs(appContext(context)).edit().putBoolean(KEY_WATCH_ENABLED, enabled).apply();
     }
 
     public static void setSoundEnabled(Context context, boolean enabled) {

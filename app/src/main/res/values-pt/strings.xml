@@ -171,6 +171,8 @@
     <string name="phone_full_alert_notification_title">Telefone carregado</string>
     <string name="phone_full_alert_notification_text">Seu telefone atingiu 100%.</string>
     <string name="battery_alerts_title">Proteger bateria</string>
+    <string name="battery_alert_protect_phone">Celular</string>
+    <string name="battery_alert_protect_watch">Relógio</string>
     <string name="battery_alerts_enable_label">Ativar avisos</string>
     <string name="battery_alert_monitor_phone_label">Monitorar bateria do celular</string>
     <string name="battery_alert_high_limit_label">Carga máxima</string>

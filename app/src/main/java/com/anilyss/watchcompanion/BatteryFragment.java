@@ -1,11 +1,9 @@
 package com.anilyss.watchcompanion;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -19,11 +17,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.wear.remote.interactions.RemoteActivityHelper;
 
@@ -87,13 +84,13 @@ public class BatteryFragment extends Fragment {
     @Nullable
     private TextView watchBatteryDetailText;
     @Nullable
-    private SwitchCompat fullAlertSwitch;
+    private SwitchCompat phoneProtectionSwitch;
+    @Nullable
+    private SwitchCompat watchProtectionSwitch;
     @Nullable
     private SwitchCompat alertSoundSwitch;
     @Nullable
     private SwitchCompat alertVibrationSwitch;
-    @Nullable
-    private TextView fullAlertStatusText;
     @Nullable
     private TextView whyProtectBatteryTitleText;
     @Nullable
@@ -102,20 +99,6 @@ public class BatteryFragment extends Fragment {
     private boolean suppressLimitSelection;
     private int previewMinutes = 10;
     private long previewUpdatedAt = 0L;
-    private final ActivityResultLauncher<String> notificationPermissionLauncher =
-            registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
-                if (!isAdded()) {
-                    return;
-                }
-                if (granted) {
-                    PhoneBatteryFullAlert.evaluateCurrentState(
-                            requireContext().getApplicationContext(),
-                            "permission_granted"
-                    );
-                }
-                refreshFullAlertUi();
-            });
-
     private final DataClient.OnDataChangedListener settingsDataChangedListener = dataEvents -> {
         boolean shouldRefresh = false;
         try {
@@ -180,10 +163,10 @@ public class BatteryFragment extends Fragment {
         connectionStatusText = view.findViewById(R.id.phone_battery_connection_status);
         watchBatteryValueText = view.findViewById(R.id.watch_battery_value);
         watchBatteryDetailText = view.findViewById(R.id.watch_battery_detail);
-        fullAlertSwitch = view.findViewById(R.id.switch_phone_full_alert_enabled);
+        phoneProtectionSwitch = view.findViewById(R.id.switch_battery_protect_phone);
+        watchProtectionSwitch = view.findViewById(R.id.switch_battery_protect_watch);
         alertSoundSwitch = view.findViewById(R.id.switch_battery_alert_sound);
         alertVibrationSwitch = view.findViewById(R.id.switch_battery_alert_vibration);
-        fullAlertStatusText = view.findViewById(R.id.phone_full_alert_status);
         whyProtectBatteryTitleText = view.findViewById(R.id.battery_alert_why_title);
         whyProtectBatteryBodyText = view.findViewById(R.id.battery_alert_why_body);
         MaterialButton syncNowButton = view.findViewById(R.id.btn_phone_battery_sync_now);
@@ -206,20 +189,18 @@ public class BatteryFragment extends Fragment {
             refreshDiagnostics();
         });
 
-        if (fullAlertSwitch != null) {
-            fullAlertSwitch.setChecked(PhoneBatteryFullAlert.isEnabled(appContext));
-            fullAlertSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (isChecked) {
-                    PhoneBatteryFullAlert.setPhoneMonitorEnabled(appContext, true);
-                }
-                PhoneBatteryFullAlert.setEnabled(appContext, isChecked);
-                if (isChecked) {
-                    if (shouldRequestNotificationPermission(appContext)) {
-                        notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
-                    } else {
-                        PhoneBatteryFullAlert.evaluateCurrentState(appContext, "toggle_enabled");
-                    }
-                }
+        if (phoneProtectionSwitch != null) {
+            phoneProtectionSwitch.setChecked(PhoneBatteryFullAlert.isPhoneProtectionEnabled(appContext));
+            phoneProtectionSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                PhoneBatteryFullAlert.setPhoneProtectionEnabled(appContext, isChecked);
+                PhoneBatteryProtectionSync.setLocalAndSync(appContext);
+                refreshFullAlertUi();
+            });
+        }
+        if (watchProtectionSwitch != null) {
+            watchProtectionSwitch.setChecked(PhoneBatteryFullAlert.isWatchProtectionEnabled(appContext));
+            watchProtectionSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                PhoneBatteryFullAlert.setWatchProtectionEnabled(appContext, isChecked);
                 PhoneBatteryProtectionSync.setLocalAndSync(appContext);
                 refreshFullAlertUi();
             });
@@ -302,10 +283,10 @@ public class BatteryFragment extends Fragment {
         connectionStatusText = null;
         watchBatteryValueText = null;
         watchBatteryDetailText = null;
-        fullAlertSwitch = null;
         alertSoundSwitch = null;
         alertVibrationSwitch = null;
-        fullAlertStatusText = null;
+        phoneProtectionSwitch = null;
+        watchProtectionSwitch = null;
         whyProtectBatteryTitleText = null;
         whyProtectBatteryBodyText = null;
         autoRefresh5Button = null;
@@ -646,32 +627,37 @@ public class BatteryFragment extends Fragment {
         if (!isAdded()) {
             return;
         }
-        SwitchCompat fullAlertToggle = fullAlertSwitch;
+        SwitchCompat phoneProtectionToggle = phoneProtectionSwitch;
+        SwitchCompat watchProtectionToggle = watchProtectionSwitch;
         SwitchCompat soundToggle = alertSoundSwitch;
         SwitchCompat vibrationToggle = alertVibrationSwitch;
-        TextView fullAlertStatusView = fullAlertStatusText;
         RadioGroup highGroup = highLimitGroup;
         RadioGroup lowGroup = lowLimitGroup;
-        if (fullAlertToggle == null || fullAlertStatusView == null) {
-            return;
-        }
+        if (highGroup == null || lowGroup == null) return;
         Context appContext = requireContext().getApplicationContext();
-        boolean enabled = PhoneBatteryFullAlert.isEnabled(appContext);
+        boolean enabled = PhoneBatteryFullAlert.isPhoneProtectionEnabled(appContext)
+                || PhoneBatteryFullAlert.isWatchProtectionEnabled(appContext);
         boolean monitorEnabled = PhoneBatteryFullAlert.isPhoneMonitorEnabled(appContext);
-        boolean permissionGranted = PhoneBatteryFullAlert.isNotificationPermissionGranted(appContext);
         if (enabled && !monitorEnabled) {
             PhoneBatteryFullAlert.setPhoneMonitorEnabled(appContext, true);
-            monitorEnabled = true;
-        }
-
-        if (fullAlertToggle.isChecked() != enabled) {
-            fullAlertToggle.setChecked(enabled);
         }
         if (soundToggle != null && soundToggle.isChecked() != PhoneBatteryFullAlert.isSoundEnabled(appContext)) {
             soundToggle.setChecked(PhoneBatteryFullAlert.isSoundEnabled(appContext));
         }
         if (vibrationToggle != null && vibrationToggle.isChecked() != PhoneBatteryFullAlert.isVibrationEnabled(appContext)) {
             vibrationToggle.setChecked(PhoneBatteryFullAlert.isVibrationEnabled(appContext));
+        }
+        if (phoneProtectionToggle != null) {
+            boolean phoneEnabled = PhoneBatteryFullAlert.isPhoneProtectionEnabled(appContext);
+            if (phoneProtectionToggle.isChecked() != phoneEnabled) {
+                phoneProtectionToggle.setChecked(phoneEnabled);
+            }
+        }
+        if (watchProtectionToggle != null) {
+            boolean watchEnabled = PhoneBatteryFullAlert.isWatchProtectionEnabled(appContext);
+            if (watchProtectionToggle.isChecked() != watchEnabled) {
+                watchProtectionToggle.setChecked(watchEnabled);
+            }
         }
         suppressLimitSelection = true;
         if (highGroup != null) {
@@ -681,15 +667,6 @@ public class BatteryFragment extends Fragment {
             lowGroup.check(checkedIdForLowLimit(PhoneBatteryFullAlert.readLowLimitPercent(appContext)));
         }
         suppressLimitSelection = false;
-        if (enabled && !permissionGranted) {
-            fullAlertStatusView.setText(R.string.phone_full_alert_status_permission_needed);
-            fullAlertStatusView.setVisibility(View.VISIBLE);
-        } else if (enabled && !monitorEnabled) {
-            fullAlertStatusView.setText(R.string.battery_alert_status_monitor_off);
-            fullAlertStatusView.setVisibility(View.VISIBLE);
-        } else {
-            fullAlertStatusView.setVisibility(View.GONE);
-        }
     }
 
     private void normalizeLimitPreferences(Context appContext) {
@@ -765,11 +742,6 @@ public class BatteryFragment extends Fragment {
         return 20;
     }
 
-    private boolean shouldRequestNotificationPermission(Context context) {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
-                && !PhoneBatteryFullAlert.isNotificationPermissionGranted(context);
-    }
-
     private void applyDiagnosticsUi(
             boolean enabled,
             boolean connected,
@@ -823,7 +795,17 @@ public class BatteryFragment extends Fragment {
                     : getString(R.string.watch_battery_value_unknown));
         }
         if (watchBatteryDetailText != null) {
-            watchBatteryDetailText.setVisibility(View.GONE);
+            watchBatteryDetailText.setTextColor(
+                    ContextCompat.getColor(requireContext(), R.color.watch_mock_charging_indicator)
+            );
+            String detail = resolveWatchBatteryDetail(snapshot);
+            if (detail.isEmpty()) {
+                watchBatteryDetailText.setText("");
+                watchBatteryDetailText.setVisibility(View.GONE);
+            } else {
+                watchBatteryDetailText.setText(detail);
+                watchBatteryDetailText.setVisibility(View.VISIBLE);
+            }
         }
     }
 
