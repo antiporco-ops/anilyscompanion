@@ -115,7 +115,7 @@ android {
         applicationId = "com.anilyss.watchcompanion"
         minSdk = 27
         targetSdk = 35
-        versionCode = 22
+        versionCode = 24
         versionName = "1.2.2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "WEAR_REMOTE_INTERACTIONS_VERSION", "\"1.2.0\"")
