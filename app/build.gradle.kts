@@ -9,9 +9,14 @@ plugins {
 
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("keystore.properties")
+val sharedDebugSigningProperties = Properties()
+val sharedDebugSigningPropertiesFile = File("D:\\Android\\companion\\debug-shared\\anilys-debug-signing.properties")
 
 if (keystorePropertiesFile.exists()) {
     FileInputStream(keystorePropertiesFile).use(keystoreProperties::load)
+}
+if (sharedDebugSigningPropertiesFile.exists()) {
+    FileInputStream(sharedDebugSigningPropertiesFile).use(sharedDebugSigningProperties::load)
 }
 
 fun firstNonBlank(vararg values: String?): String? =
@@ -40,6 +45,10 @@ val releaseStoreFilePath = signingValue("storeFile", "KEYSTORE_FILE", "ANDROID_K
 val releaseStorePassword = signingValue("storePassword", "KEYSTORE_PASSWORD", "ANDROID_KEYSTORE_PASSWORD")
 val releaseKeyAlias = signingValue("keyAlias", "KEY_ALIAS", "ANDROID_KEY_ALIAS")
 val releaseKeyPassword = signingValue("keyPassword", "KEY_PASSWORD", "ANDROID_KEY_PASSWORD")
+val sharedDebugStoreFilePath = firstNonBlank(sharedDebugSigningProperties.getProperty("storeFile"))
+val sharedDebugStorePassword = firstNonBlank(sharedDebugSigningProperties.getProperty("storePassword"))
+val sharedDebugKeyAlias = firstNonBlank(sharedDebugSigningProperties.getProperty("keyAlias"))
+val sharedDebugKeyPassword = firstNonBlank(sharedDebugSigningProperties.getProperty("keyPassword"))
 val maintenancePinSha256 =
     firstNonBlank(
         (findProperty("ANILYS_MAINTENANCE_PIN_SHA256") as String?),
@@ -48,6 +57,14 @@ val maintenancePinSha256 =
     ) ?: "e25f201f9014599e00073db598a2603a9c05766965336d9b9c68c3d4081ee9a3"
 val resolvedReleaseStoreFilePath = releaseStoreFilePath?.let(::normalizeStoreFilePath)
 val resolvedReleaseStoreFile = resolvedReleaseStoreFilePath?.let(::file)
+val resolvedSharedDebugStoreFilePath = sharedDebugStoreFilePath?.let(::normalizeStoreFilePath)
+val resolvedSharedDebugStoreFile = resolvedSharedDebugStoreFilePath?.let(::file)
+val hasSharedDebugSigning =
+    !sharedDebugStorePassword.isNullOrBlank() &&
+        !sharedDebugKeyAlias.isNullOrBlank() &&
+        !sharedDebugKeyPassword.isNullOrBlank() &&
+        resolvedSharedDebugStoreFile != null &&
+        resolvedSharedDebugStoreFile.exists()
 
 val missingReleaseSigningFields =
     buildList {
@@ -107,6 +124,14 @@ android {
     }
 
     signingConfigs {
+        getByName("debug") {
+            if (hasSharedDebugSigning) {
+                storeFile = resolvedSharedDebugStoreFile
+                storePassword = sharedDebugStorePassword
+                keyAlias = sharedDebugKeyAlias
+                keyPassword = sharedDebugKeyPassword
+            }
+        }
         create("release") {
             if (hasReleaseSigning) {
                 storeFile = resolvedReleaseStoreFile
