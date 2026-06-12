@@ -52,7 +52,7 @@
     "package": "com.anilyss.bible",
     "enabled": true,
     "sort": 20,
-    "status": "closed_testing",
+    "status": "production",
     "learnMoreEnabled": true,
     "title": {
       "en": "Daily Bible",
@@ -91,14 +91,7 @@
       "comingSoon": false,
       "hidden": false
     },
-    "testing": {
-      "intro": {
-        "en": "Join the tester group first, then opt in, then install.",
-        "pt": "Entre primeiro no grupo de testers, depois faça o opt-in e então instale.",
-        "es": "Primero entra en el grupo de testers, luego haz el opt-in y después instala."
-      },
-      "joinGroupUrl": "https://groups.google.com/g/anilyss-testers",
-      "optInUrl": "https://play.google.com/apps/testing/com.anilyss.bible",
+    "production": {
       "installUrl": "https://play.google.com/store/apps/details?id=com.anilyss.bible"
     }
   },
