@@ -13,9 +13,8 @@ public class AniLysApp extends Application {
         super.onCreate();
         AppLanguageSync.applyStoredLanguage(this);
         PhoneBatterySender.syncPeriodicRefresh(this);
-        if (PhoneBatteryFullAlert.isEnabled(this)) {
-            PhoneBatteryFullAlert.requestImmediateCheck(this, "app_start");
-        }
+        PhoneBatteryFullAlert.ensureNotificationChannels(this);
+        PhoneBatteryFullAlert.ensureMonitoring(this, "app_start");
     }
 
 }

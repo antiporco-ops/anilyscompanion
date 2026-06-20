@@ -1,22 +1,29 @@
 package com.anilyss.watchcompanion;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Settings;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
@@ -60,6 +67,8 @@ public class BatteryFragment extends Fragment {
     private static final Uri WEAR_APP_DEEP_LINK_URI = Uri.parse("anilys://watchcompanion/battery");
     private static final int[] HIGH_LIMIT_OPTIONS = {80, 85, 90};
     private static final int[] LOW_LIMIT_OPTIONS = {15, 20, 25};
+    private static final String KEY_NOTIFICATION_PERMISSION_PROMPTED =
+            "batteryProtectionNotificationPermissionPromptedV2";
 
     private ExecutorService bg;
     private RemoteActivityHelper remote;
@@ -73,6 +82,20 @@ public class BatteryFragment extends Fragment {
     private RadioGroup highLimitGroup;
     @Nullable
     private RadioGroup lowLimitGroup;
+    @Nullable
+    private RadioGroup limitModeGroup;
+    @Nullable
+    private LinearLayout presetLimitContainer;
+    @Nullable
+    private LinearLayout customLimitContainer;
+    @Nullable
+    private SeekBar customHighSeek;
+    @Nullable
+    private SeekBar customLowSeek;
+    @Nullable
+    private TextView customHighValueText;
+    @Nullable
+    private TextView customLowValueText;
     @Nullable
     private TextView lastSyncText;
     @Nullable
@@ -88,9 +111,17 @@ public class BatteryFragment extends Fragment {
     @Nullable
     private SwitchCompat watchProtectionSwitch;
     @Nullable
-    private SwitchCompat alertSoundSwitch;
+    private SwitchCompat phoneAlertSoundSwitch;
     @Nullable
-    private SwitchCompat alertVibrationSwitch;
+    private SwitchCompat phoneAlertVibrationSwitch;
+    @Nullable
+    private SwitchCompat watchAlertSoundSwitch;
+    @Nullable
+    private SwitchCompat watchAlertVibrationSwitch;
+    @Nullable
+    private MaterialButton notificationPermissionButton;
+    @Nullable
+    private TextView notificationPermissionStatusText;
     @Nullable
     private TextView whyProtectBatteryTitleText;
     @Nullable
@@ -99,13 +130,26 @@ public class BatteryFragment extends Fragment {
     private boolean suppressLimitSelection;
     private int previewMinutes = 10;
     private long previewUpdatedAt = 0L;
+    private final ActivityResultLauncher<String> notificationPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
+                if (!isAdded()) return;
+                Log.i(TAG, "notification_permission_result granted=" + granted);
+                refreshFullAlertUi();
+                if (granted) {
+                    PhoneBatteryFullAlert.ensureMonitoring(
+                            requireContext().getApplicationContext(),
+                            "permission_granted"
+                    );
+                }
+            });
     private final DataClient.OnDataChangedListener settingsDataChangedListener = dataEvents -> {
         boolean shouldRefresh = false;
         try {
             for (DataEvent event : dataEvents) {
                 if (event.getType() == DataEvent.TYPE_CHANGED
                         && (PhoneBatteryAutoRefreshSync.SETTINGS_PATH.equals(event.getDataItem().getUri().getPath())
-                        || WatchBatteryStore.DATA_PATH.equals(event.getDataItem().getUri().getPath()))) {
+                        || WatchBatteryStore.DATA_PATH.equals(event.getDataItem().getUri().getPath())
+                        || PhoneBatteryProtectionSync.SETTINGS_PATH.equals(event.getDataItem().getUri().getPath()))) {
                     shouldRefresh = true;
                     break;
                 }
@@ -117,6 +161,7 @@ public class BatteryFragment extends Fragment {
             runOnMainThread(() -> {
                 refreshSelectionFromStore();
                 refreshDiagnostics();
+                refreshFullAlertUi();
             });
         }
     };
@@ -158,6 +203,13 @@ public class BatteryFragment extends Fragment {
         autoRefresh15Button = view.findViewById(R.id.radio_phone_battery_auto_refresh_15);
         highLimitGroup = view.findViewById(R.id.radio_group_battery_alert_high_limit);
         lowLimitGroup = view.findViewById(R.id.radio_group_battery_alert_low_limit);
+        limitModeGroup = view.findViewById(R.id.radio_group_battery_alert_limit_mode);
+        presetLimitContainer = view.findViewById(R.id.battery_alert_preset_container);
+        customLimitContainer = view.findViewById(R.id.battery_alert_custom_container);
+        customHighSeek = view.findViewById(R.id.seek_battery_alert_custom_high);
+        customLowSeek = view.findViewById(R.id.seek_battery_alert_custom_low);
+        customHighValueText = view.findViewById(R.id.battery_alert_custom_high_value);
+        customLowValueText = view.findViewById(R.id.battery_alert_custom_low_value);
         lastSyncText = view.findViewById(R.id.phone_battery_last_sync);
         companionStatusText = view.findViewById(R.id.phone_battery_companion_status);
         connectionStatusText = view.findViewById(R.id.phone_battery_connection_status);
@@ -165,15 +217,23 @@ public class BatteryFragment extends Fragment {
         watchBatteryDetailText = view.findViewById(R.id.watch_battery_detail);
         phoneProtectionSwitch = view.findViewById(R.id.switch_battery_protect_phone);
         watchProtectionSwitch = view.findViewById(R.id.switch_battery_protect_watch);
-        alertSoundSwitch = view.findViewById(R.id.switch_battery_alert_sound);
-        alertVibrationSwitch = view.findViewById(R.id.switch_battery_alert_vibration);
+        phoneAlertSoundSwitch = view.findViewById(R.id.switch_battery_phone_alert_sound);
+        phoneAlertVibrationSwitch = view.findViewById(R.id.switch_battery_phone_alert_vibration);
+        watchAlertSoundSwitch = view.findViewById(R.id.switch_battery_watch_alert_sound);
+        watchAlertVibrationSwitch = view.findViewById(R.id.switch_battery_watch_alert_vibration);
+        notificationPermissionButton = view.findViewById(R.id.btn_battery_notification_permission);
+        notificationPermissionStatusText =
+                view.findViewById(R.id.battery_alert_notification_permission_status);
         whyProtectBatteryTitleText = view.findViewById(R.id.battery_alert_why_title);
         whyProtectBatteryBodyText = view.findViewById(R.id.battery_alert_why_body);
+        View phoneSoundRow = view.findViewById(R.id.row_battery_phone_alert_sound);
+        View phoneVibrationRow = view.findViewById(R.id.row_battery_phone_alert_vibration);
+        View watchSoundRow = view.findViewById(R.id.row_battery_watch_alert_sound);
+        View watchVibrationRow = view.findViewById(R.id.row_battery_watch_alert_vibration);
         MaterialButton syncNowButton = view.findViewById(R.id.btn_phone_battery_sync_now);
         MaterialButton openWearButton = view.findViewById(R.id.btn_open_anilys_wear_on_watch);
 
         Context appContext = requireContext().getApplicationContext();
-        normalizeLimitPreferences(appContext);
         boolean enabled = PhoneBatterySender.isFeatureEnabled(appContext);
         featureSwitch.setChecked(enabled);
         syncNowButton.setEnabled(enabled);
@@ -193,6 +253,9 @@ public class BatteryFragment extends Fragment {
             phoneProtectionSwitch.setChecked(PhoneBatteryFullAlert.isPhoneProtectionEnabled(appContext));
             phoneProtectionSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 PhoneBatteryFullAlert.setPhoneProtectionEnabled(appContext, isChecked);
+                if (isChecked) {
+                    requestNotificationPermission(false);
+                }
                 PhoneBatteryProtectionSync.setLocalAndSync(appContext);
                 refreshFullAlertUi();
             });
@@ -205,15 +268,44 @@ public class BatteryFragment extends Fragment {
                 refreshFullAlertUi();
             });
         }
-        if (alertSoundSwitch != null) {
-            alertSoundSwitch.setChecked(PhoneBatteryFullAlert.isSoundEnabled(appContext));
-            alertSoundSwitch.setOnCheckedChangeListener((buttonView, isChecked) ->
-                    PhoneBatteryFullAlert.setSoundEnabled(appContext, isChecked));
+        if (phoneAlertSoundSwitch != null) {
+            phoneAlertSoundSwitch.setChecked(PhoneBatteryFullAlert.isPhoneSoundEnabled(appContext));
+            phoneAlertSoundSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                PhoneBatteryFullAlert.setPhoneSoundEnabled(appContext, isChecked);
+                PhoneBatteryProtectionSync.setLocalAndSync(appContext);
+                refreshFullAlertUi();
+            });
         }
-        if (alertVibrationSwitch != null) {
-            alertVibrationSwitch.setChecked(PhoneBatteryFullAlert.isVibrationEnabled(appContext));
-            alertVibrationSwitch.setOnCheckedChangeListener((buttonView, isChecked) ->
-                    PhoneBatteryFullAlert.setVibrationEnabled(appContext, isChecked));
+        if (phoneAlertVibrationSwitch != null) {
+            phoneAlertVibrationSwitch.setChecked(PhoneBatteryFullAlert.isPhoneVibrationEnabled(appContext));
+            phoneAlertVibrationSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                PhoneBatteryFullAlert.setPhoneVibrationEnabled(appContext, isChecked);
+                PhoneBatteryProtectionSync.setLocalAndSync(appContext);
+                refreshFullAlertUi();
+            });
+        }
+        if (watchAlertSoundSwitch != null) {
+            watchAlertSoundSwitch.setChecked(PhoneBatteryFullAlert.isWatchSoundEnabled(appContext));
+            watchAlertSoundSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                PhoneBatteryFullAlert.setWatchSoundEnabled(appContext, isChecked);
+                PhoneBatteryProtectionSync.setLocalAndSync(appContext);
+                refreshFullAlertUi();
+            });
+        }
+        if (watchAlertVibrationSwitch != null) {
+            watchAlertVibrationSwitch.setChecked(PhoneBatteryFullAlert.isWatchVibrationEnabled(appContext));
+            watchAlertVibrationSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                PhoneBatteryFullAlert.setWatchVibrationEnabled(appContext, isChecked);
+                PhoneBatteryProtectionSync.setLocalAndSync(appContext);
+                refreshFullAlertUi();
+            });
+        }
+        phoneSoundRow.setOnClickListener(v -> toggleSwitch(phoneAlertSoundSwitch));
+        phoneVibrationRow.setOnClickListener(v -> toggleSwitch(phoneAlertVibrationSwitch));
+        watchSoundRow.setOnClickListener(v -> toggleSwitch(watchAlertSoundSwitch));
+        watchVibrationRow.setOnClickListener(v -> toggleSwitch(watchAlertVibrationSwitch));
+        if (notificationPermissionButton != null) {
+            notificationPermissionButton.setOnClickListener(v -> openNotificationSettings());
         }
         if (whyProtectBatteryTitleText != null && whyProtectBatteryBodyText != null) {
             whyProtectBatteryBodyText.setVisibility(View.GONE);
@@ -225,6 +317,7 @@ public class BatteryFragment extends Fragment {
                     return;
                 }
                 PhoneBatteryFullAlert.setHighLimitPercent(appContext, highLimitForCheckedId(checkedId));
+                PhoneBatteryFullAlert.setLimitMode(appContext, PhoneBatteryFullAlert.LIMIT_MODE_PRESET);
                 PhoneBatteryProtectionSync.setLocalAndSync(appContext);
                 refreshFullAlertUi();
             });
@@ -235,10 +328,13 @@ public class BatteryFragment extends Fragment {
                     return;
                 }
                 PhoneBatteryFullAlert.setLowLimitPercent(appContext, lowLimitForCheckedId(checkedId));
+                PhoneBatteryFullAlert.setLimitMode(appContext, PhoneBatteryFullAlert.LIMIT_MODE_PRESET);
                 PhoneBatteryProtectionSync.setLocalAndSync(appContext);
                 refreshFullAlertUi();
             });
         }
+        bindLimitMode(appContext);
+        bindCustomLimitSeekBars(appContext);
         bindAutoRefreshOption(autoRefresh5Button, 5);
         bindAutoRefreshOption(autoRefresh10Button, 10);
         bindAutoRefreshOption(autoRefresh15Button, 15);
@@ -246,6 +342,7 @@ public class BatteryFragment extends Fragment {
         refreshSelectionFromStore();
         refreshDiagnostics();
         refreshFullAlertUi();
+        requestNotificationPermission(false);
 
         openWearButton.setOnClickListener(v -> openAniLysWearListingOnWatch());
         syncNowButton.setOnClickListener(v -> {
@@ -283,8 +380,12 @@ public class BatteryFragment extends Fragment {
         connectionStatusText = null;
         watchBatteryValueText = null;
         watchBatteryDetailText = null;
-        alertSoundSwitch = null;
-        alertVibrationSwitch = null;
+        phoneAlertSoundSwitch = null;
+        phoneAlertVibrationSwitch = null;
+        watchAlertSoundSwitch = null;
+        watchAlertVibrationSwitch = null;
+        notificationPermissionButton = null;
+        notificationPermissionStatusText = null;
         phoneProtectionSwitch = null;
         watchProtectionSwitch = null;
         whyProtectBatteryTitleText = null;
@@ -294,6 +395,13 @@ public class BatteryFragment extends Fragment {
         autoRefresh15Button = null;
         highLimitGroup = null;
         lowLimitGroup = null;
+        limitModeGroup = null;
+        presetLimitContainer = null;
+        customLimitContainer = null;
+        customHighSeek = null;
+        customLowSeek = null;
+        customHighValueText = null;
+        customLowValueText = null;
     }
 
     private void refreshSelectionFromStore() {
@@ -629,23 +737,30 @@ public class BatteryFragment extends Fragment {
         }
         SwitchCompat phoneProtectionToggle = phoneProtectionSwitch;
         SwitchCompat watchProtectionToggle = watchProtectionSwitch;
-        SwitchCompat soundToggle = alertSoundSwitch;
-        SwitchCompat vibrationToggle = alertVibrationSwitch;
+        SwitchCompat phoneSoundToggle = phoneAlertSoundSwitch;
+        SwitchCompat phoneVibrationToggle = phoneAlertVibrationSwitch;
+        SwitchCompat watchSoundToggle = watchAlertSoundSwitch;
+        SwitchCompat watchVibrationToggle = watchAlertVibrationSwitch;
         RadioGroup highGroup = highLimitGroup;
         RadioGroup lowGroup = lowLimitGroup;
         if (highGroup == null || lowGroup == null) return;
         Context appContext = requireContext().getApplicationContext();
-        boolean enabled = PhoneBatteryFullAlert.isPhoneProtectionEnabled(appContext)
-                || PhoneBatteryFullAlert.isWatchProtectionEnabled(appContext);
+        boolean enabled = PhoneBatteryFullAlert.isPhoneProtectionEnabled(appContext);
         boolean monitorEnabled = PhoneBatteryFullAlert.isPhoneMonitorEnabled(appContext);
         if (enabled && !monitorEnabled) {
             PhoneBatteryFullAlert.setPhoneMonitorEnabled(appContext, true);
         }
-        if (soundToggle != null && soundToggle.isChecked() != PhoneBatteryFullAlert.isSoundEnabled(appContext)) {
-            soundToggle.setChecked(PhoneBatteryFullAlert.isSoundEnabled(appContext));
+        if (phoneSoundToggle != null && phoneSoundToggle.isChecked() != PhoneBatteryFullAlert.isPhoneSoundEnabled(appContext)) {
+            phoneSoundToggle.setChecked(PhoneBatteryFullAlert.isPhoneSoundEnabled(appContext));
         }
-        if (vibrationToggle != null && vibrationToggle.isChecked() != PhoneBatteryFullAlert.isVibrationEnabled(appContext)) {
-            vibrationToggle.setChecked(PhoneBatteryFullAlert.isVibrationEnabled(appContext));
+        if (phoneVibrationToggle != null && phoneVibrationToggle.isChecked() != PhoneBatteryFullAlert.isPhoneVibrationEnabled(appContext)) {
+            phoneVibrationToggle.setChecked(PhoneBatteryFullAlert.isPhoneVibrationEnabled(appContext));
+        }
+        if (watchSoundToggle != null && watchSoundToggle.isChecked() != PhoneBatteryFullAlert.isWatchSoundEnabled(appContext)) {
+            watchSoundToggle.setChecked(PhoneBatteryFullAlert.isWatchSoundEnabled(appContext));
+        }
+        if (watchVibrationToggle != null && watchVibrationToggle.isChecked() != PhoneBatteryFullAlert.isWatchVibrationEnabled(appContext)) {
+            watchVibrationToggle.setChecked(PhoneBatteryFullAlert.isWatchVibrationEnabled(appContext));
         }
         if (phoneProtectionToggle != null) {
             boolean phoneEnabled = PhoneBatteryFullAlert.isPhoneProtectionEnabled(appContext);
@@ -667,22 +782,209 @@ public class BatteryFragment extends Fragment {
             lowGroup.check(checkedIdForLowLimit(PhoneBatteryFullAlert.readLowLimitPercent(appContext)));
         }
         suppressLimitSelection = false;
+        applyLimitModeUi(appContext);
+        updateCustomLimitControls(appContext);
+        boolean permissionGranted = PhoneBatteryFullAlert.isNotificationPermissionGranted(appContext);
+        PhoneBatteryFullAlert.ChannelHealth channelHealth =
+                PhoneBatteryFullAlert.readActiveChannelHealth(appContext);
+        int problemMessageRes = 0;
+        if (!permissionGranted
+                || channelHealth == PhoneBatteryFullAlert.ChannelHealth.BLOCKED
+                || channelHealth == PhoneBatteryFullAlert.ChannelHealth.MISSING) {
+            problemMessageRes = R.string.battery_alert_notifications_blocked;
+        } else if (channelHealth == PhoneBatteryFullAlert.ChannelHealth.SILENT) {
+            problemMessageRes = R.string.battery_alert_notifications_silent;
+        }
+        boolean hasNotificationProblem = problemMessageRes != 0;
+        if (notificationPermissionStatusText != null) {
+            notificationPermissionStatusText.setVisibility(
+                    hasNotificationProblem ? View.VISIBLE : View.GONE
+            );
+            if (hasNotificationProblem) {
+                notificationPermissionStatusText.setText(problemMessageRes);
+            }
+        }
+        if (notificationPermissionButton != null) {
+            notificationPermissionButton.setVisibility(
+                    hasNotificationProblem ? View.VISIBLE : View.GONE
+            );
+        }
     }
 
-    private void normalizeLimitPreferences(Context appContext) {
-        int high = PhoneBatteryFullAlert.readHighLimitPercent(appContext);
-        int normalizedHigh = nearestOption(high, HIGH_LIMIT_OPTIONS, 85);
-        int low = PhoneBatteryFullAlert.readLowLimitPercent(appContext);
-        int normalizedLow = nearestOption(low, LOW_LIMIT_OPTIONS, 20);
-        if (normalizedHigh != high || normalizedLow != low) {
-            SharedPreferences prefs = appContext.getSharedPreferences(
-                    PhoneBatterySender.PREFS_NAME,
-                    Context.MODE_PRIVATE
+    private void bindLimitMode(Context appContext) {
+        if (limitModeGroup == null) return;
+        limitModeGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            if (suppressLimitSelection) return;
+            boolean custom = checkedId == R.id.radio_battery_alert_mode_custom;
+            PhoneBatteryFullAlert.setLimitMode(
+                    appContext,
+                    custom ? PhoneBatteryFullAlert.LIMIT_MODE_CUSTOM : PhoneBatteryFullAlert.LIMIT_MODE_PRESET
             );
-            prefs.edit()
-                    .putInt(PhoneBatteryFullAlert.KEY_HIGH_LIMIT_PERCENT, normalizedHigh)
-                    .putInt(PhoneBatteryFullAlert.KEY_LOW_LIMIT_PERCENT, normalizedLow)
-                    .apply();
+            if (!custom) {
+                int high = nearestOption(
+                        PhoneBatteryFullAlert.readHighLimitPercent(appContext),
+                        HIGH_LIMIT_OPTIONS,
+                        85
+                );
+                int low = nearestOption(
+                        PhoneBatteryFullAlert.readLowLimitPercent(appContext),
+                        LOW_LIMIT_OPTIONS,
+                        20
+                );
+                PhoneBatteryFullAlert.setHighLimitPercent(appContext, high);
+                PhoneBatteryFullAlert.setLowLimitPercent(appContext, low);
+            }
+            PhoneBatteryProtectionSync.setLocalAndSync(appContext);
+            refreshFullAlertUi();
+        });
+    }
+
+    private void bindCustomLimitSeekBars(Context appContext) {
+        if (customHighSeek != null) {
+            customHighSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    if (customHighValueText != null) {
+                        customHighValueText.setText(getString(
+                                R.string.battery_alert_custom_high_format,
+                                30 + progress
+                        ));
+                    }
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    PhoneBatteryFullAlert.setLimitMode(appContext, PhoneBatteryFullAlert.LIMIT_MODE_CUSTOM);
+                    PhoneBatteryFullAlert.setHighLimitPercent(appContext, 30 + seekBar.getProgress());
+                    PhoneBatteryProtectionSync.setLocalAndSync(appContext);
+                    refreshFullAlertUi();
+                }
+            });
+        }
+        if (customLowSeek != null) {
+            customLowSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    if (customLowValueText != null) {
+                        customLowValueText.setText(getString(
+                                R.string.battery_alert_custom_low_format,
+                                1 + progress
+                        ));
+                    }
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    PhoneBatteryFullAlert.setLimitMode(appContext, PhoneBatteryFullAlert.LIMIT_MODE_CUSTOM);
+                    PhoneBatteryFullAlert.setLowLimitPercent(appContext, 1 + seekBar.getProgress());
+                    PhoneBatteryProtectionSync.setLocalAndSync(appContext);
+                    refreshFullAlertUi();
+                }
+            });
+        }
+    }
+
+    private void applyLimitModeUi(Context appContext) {
+        boolean custom = PhoneBatteryFullAlert.LIMIT_MODE_CUSTOM.equals(
+                PhoneBatteryFullAlert.readLimitMode(appContext)
+        );
+        suppressLimitSelection = true;
+        if (limitModeGroup != null) {
+            limitModeGroup.check(custom
+                    ? R.id.radio_battery_alert_mode_custom
+                    : R.id.radio_battery_alert_mode_preset);
+        }
+        suppressLimitSelection = false;
+        if (presetLimitContainer != null) {
+            presetLimitContainer.setVisibility(custom ? View.GONE : View.VISIBLE);
+        }
+        if (customLimitContainer != null) {
+            customLimitContainer.setVisibility(custom ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    private void updateCustomLimitControls(Context appContext) {
+        int high = PhoneBatteryFullAlert.readHighLimitPercent(appContext);
+        int low = PhoneBatteryFullAlert.readLowLimitPercent(appContext);
+        if (customHighSeek != null && customHighSeek.getProgress() != high - 30) {
+            customHighSeek.setProgress(high - 30);
+        }
+        if (customLowSeek != null && customLowSeek.getProgress() != low - 1) {
+            customLowSeek.setProgress(low - 1);
+        }
+        if (customHighValueText != null) {
+            customHighValueText.setText(getString(R.string.battery_alert_custom_high_format, high));
+        }
+        if (customLowValueText != null) {
+            customLowValueText.setText(getString(R.string.battery_alert_custom_low_format, low));
+        }
+    }
+
+    private void requestNotificationPermission(boolean userInitiated) {
+        if (!isAdded() || Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return;
+        Context appContext = requireContext().getApplicationContext();
+        if (!PhoneBatteryFullAlert.isPhoneProtectionEnabled(appContext)
+                || PhoneBatteryFullAlert.isNotificationPermissionGranted(appContext)) {
+            return;
+        }
+        SharedPreferences prefs = appContext.getSharedPreferences(
+                PhoneBatterySender.PREFS_NAME,
+                Context.MODE_PRIVATE
+        );
+        boolean prompted = prefs.getBoolean(KEY_NOTIFICATION_PERMISSION_PROMPTED, false);
+        if (userInitiated && prompted) {
+            Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                    .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().getPackageName());
+            startActivity(intent);
+            return;
+        }
+        if (!prompted || userInitiated) {
+            prefs.edit().putBoolean(KEY_NOTIFICATION_PERMISSION_PROMPTED, true).apply();
+            Log.i(TAG, "notification_permission_request userInitiated=" + userInitiated);
+            notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+        }
+    }
+
+    private void toggleSwitch(@Nullable SwitchCompat toggle) {
+        if (toggle != null && toggle.isEnabled()) {
+            toggle.toggle();
+        }
+    }
+
+    private void openNotificationSettings() {
+        if (!isAdded()) return;
+        Context appContext = requireContext().getApplicationContext();
+        Intent intent;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+                && PhoneBatteryFullAlert.isNotificationPermissionGranted(appContext)
+                && PhoneBatteryFullAlert.readActiveChannelHealth(appContext)
+                != PhoneBatteryFullAlert.ChannelHealth.MISSING) {
+            intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
+                    .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().getPackageName())
+                    .putExtra(
+                            Settings.EXTRA_CHANNEL_ID,
+                            PhoneBatteryFullAlert.getActiveChannelId(appContext)
+                    );
+        } else {
+            intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                    .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().getPackageName());
+        }
+        try {
+            startActivity(intent);
+        } catch (RuntimeException error) {
+            Log.w(TAG, "notification_settings_open_failed action=" + intent.getAction(), error);
+            startActivity(new Intent(
+                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.parse("package:" + requireContext().getPackageName())
+            ));
         }
     }
 

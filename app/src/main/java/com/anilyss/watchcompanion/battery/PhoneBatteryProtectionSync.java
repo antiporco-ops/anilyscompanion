@@ -21,11 +21,15 @@ public final class PhoneBatteryProtectionSync {
     private static final String KEY_PHONE_ENABLED = "phone_enabled";
     private static final String KEY_WATCH_ENABLED = "watch_enabled";
     private static final String KEY_ALERTS_ENABLED = "alerts_enabled";
+    private static final String KEY_PHONE_SOUND_ENABLED = "phone_sound_enabled";
+    private static final String KEY_PHONE_VIBRATION_ENABLED = "phone_vibration_enabled";
+    private static final String KEY_WATCH_SOUND_ENABLED = "watch_sound_enabled";
+    private static final String KEY_WATCH_VIBRATION_ENABLED = "watch_vibration_enabled";
     private static final String KEY_UPDATED_AT = "updated_at";
     private static final String KEY_UPDATED_BY = "updated_by";
     private static final String UPDATED_BY_PHONE = "phone";
     private static final String PREF_KEY_SYNC_UPDATED_AT = "battery_protection_sync_updated_at";
-    private static final int UI_POKE_PAYLOAD_SIZE = 18;
+    private static final int UI_POKE_PAYLOAD_SIZE = 22;
     private static final String TAG = "AniLysBattery";
 
     private PhoneBatteryProtectionSync() {
@@ -58,6 +62,10 @@ public final class PhoneBatteryProtectionSync {
         int lowLimit = PhoneBatteryFullAlert.readLowLimitPercent(context);
         boolean phoneEnabled = PhoneBatteryFullAlert.isPhoneProtectionEnabled(context);
         boolean watchEnabled = PhoneBatteryFullAlert.isWatchProtectionEnabled(context);
+        boolean phoneSound = PhoneBatteryFullAlert.isPhoneSoundEnabled(context);
+        boolean phoneVibration = PhoneBatteryFullAlert.isPhoneVibrationEnabled(context);
+        boolean watchSound = PhoneBatteryFullAlert.isWatchSoundEnabled(context);
+        boolean watchVibration = PhoneBatteryFullAlert.isWatchVibrationEnabled(context);
         boolean alertsEnabled = phoneEnabled || watchEnabled;
 
         PutDataMapRequest request = PutDataMapRequest.create(SETTINGS_PATH);
@@ -66,6 +74,10 @@ public final class PhoneBatteryProtectionSync {
         request.getDataMap().putBoolean(KEY_PHONE_ENABLED, phoneEnabled);
         request.getDataMap().putBoolean(KEY_WATCH_ENABLED, watchEnabled);
         request.getDataMap().putBoolean(KEY_ALERTS_ENABLED, alertsEnabled);
+        request.getDataMap().putBoolean(KEY_PHONE_SOUND_ENABLED, phoneSound);
+        request.getDataMap().putBoolean(KEY_PHONE_VIBRATION_ENABLED, phoneVibration);
+        request.getDataMap().putBoolean(KEY_WATCH_SOUND_ENABLED, watchSound);
+        request.getDataMap().putBoolean(KEY_WATCH_VIBRATION_ENABLED, watchVibration);
         request.getDataMap().putLong(KEY_UPDATED_AT, updatedAt);
         request.getDataMap().putString(KEY_UPDATED_BY, UPDATED_BY_PHONE);
 
@@ -81,6 +93,10 @@ public final class PhoneBatteryProtectionSync {
         int lowLimit = PhoneBatteryFullAlert.readLowLimitPercent(context);
         boolean phoneEnabled = PhoneBatteryFullAlert.isPhoneProtectionEnabled(context);
         boolean watchEnabled = PhoneBatteryFullAlert.isWatchProtectionEnabled(context);
+        boolean phoneSound = PhoneBatteryFullAlert.isPhoneSoundEnabled(context);
+        boolean phoneVibration = PhoneBatteryFullAlert.isPhoneVibrationEnabled(context);
+        boolean watchSound = PhoneBatteryFullAlert.isWatchSoundEnabled(context);
+        boolean watchVibration = PhoneBatteryFullAlert.isWatchVibrationEnabled(context);
         byte[] payload = ByteBuffer.allocate(UI_POKE_PAYLOAD_SIZE)
                 .order(ByteOrder.BIG_ENDIAN)
                 .putInt(highLimit)
@@ -88,6 +104,10 @@ public final class PhoneBatteryProtectionSync {
                 .put((byte) (phoneEnabled ? 1 : 0))
                 .put((byte) (watchEnabled ? 1 : 0))
                 .putLong(updatedAt)
+                .put((byte) (phoneSound ? 1 : 0))
+                .put((byte) (phoneVibration ? 1 : 0))
+                .put((byte) (watchSound ? 1 : 0))
+                .put((byte) (watchVibration ? 1 : 0))
                 .array();
 
         Wearable.getNodeClient(context).getConnectedNodes()
@@ -103,6 +123,10 @@ public final class PhoneBatteryProtectionSync {
                                             + " low=" + lowLimit
                                             + " phone=" + phoneEnabled
                                             + " watch=" + watchEnabled
+                                            + " phoneSound=" + phoneSound
+                                            + " phoneVibration=" + phoneVibration
+                                            + " watchSound=" + watchSound
+                                            + " watchVibration=" + watchVibration
                                             + " updatedAt=" + updatedAt))
                             .addOnFailureListener(e -> Log.w(TAG, "Failed to send protection ui poke", e));
                 })

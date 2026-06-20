@@ -23,6 +23,7 @@ public class PhoneBatteryFullAlertWorker extends Worker {
     public Result doWork() {
         Log.i(TAG, "worker_start enabled=" + PhoneBatteryFullAlert.isEnabled(getApplicationContext()));
         PhoneBatteryFullAlert.evaluateCurrentState(getApplicationContext(), "monitor");
+        PhoneBatteryFullAlert.scheduleRollingMonitor(getApplicationContext(), "worker_done");
         Log.i(TAG, "worker_done");
         return Result.success();
     }

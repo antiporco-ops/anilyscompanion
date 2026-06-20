@@ -10,7 +10,7 @@ final class PhoneBatterySnapshot {
     final int level;
     final boolean charging;
 
-    private PhoneBatterySnapshot(int level, boolean charging) {
+    PhoneBatterySnapshot(int level, boolean charging) {
         this.level = level;
         this.charging = charging;
     }

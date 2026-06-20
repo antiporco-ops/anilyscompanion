@@ -72,6 +72,15 @@
                 <action android:name="android.intent.action.BATTERY_OKAY" />
             </intent-filter>
         </receiver>
+
+        <receiver
+            android:name=".battery.PhoneBatteryProtectionDebugReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.anilyss.watchcompanion.action.DEBUG_PHONE_BATTERY_ALERT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-06-20
+- Fixed battery protection switches not activating the legacy-gated alert evaluator and added resilient periodic monitoring.
+- Added contextual notification permission recovery, high-importance default-sound channels, diagnostic logs, and safe channel fallbacks.
+- Added preset/custom limit modes with flexible high/low controls and separate phone/watch sound and vibration settings.
+- Added native Wear OS battery-limit alerts without changing the existing Tile or complication behavior.
+- Clarified phone/watch notice controls and exposed notification permission and active-channel health in the mobile battery screen.
+- Simplified battery notice controls and now shows notification guidance only when Android is blocking or silencing alerts.
+
 ## 2026-05-29
 - Added a minimal Wear OS module for AniLys Battery that shows the latest phone battery snapshot from the Wear Data Layer and can request a refresh from the phone.
 - Switched mobile `Open on watch` to use the official AniLys Wear deep link (`anilys://watchcompanion/battery`) with Play Store fallback kept.
