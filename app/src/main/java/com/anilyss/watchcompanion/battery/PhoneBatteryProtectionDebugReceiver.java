@@ -29,6 +29,14 @@ public class PhoneBatteryProtectionDebugReceiver extends BroadcastReceiver {
             PhoneBatteryFullAlert.clearPostedNotifications(appContext);
             return;
         }
+        if ("resetwindow".equalsIgnoreCase(command)) {
+            PhoneBatteryFullAlert.resetDebugAlertWindow(appContext, "adb_resetwindow");
+            return;
+        }
+        if ("evaluate".equalsIgnoreCase(command)) {
+            PhoneBatteryFullAlert.evaluateCurrentState(appContext, "adb_evaluate");
+            return;
+        }
         Boolean soundOverride = intent.hasExtra("sound")
                 ? intent.getBooleanExtra("sound", true)
                 : null;
@@ -39,6 +47,8 @@ public class PhoneBatteryProtectionDebugReceiver extends BroadcastReceiver {
         Log.i(TAG, "debug_receiver_complete command=" + command
                 + " soundOverride=" + soundOverride
                 + " vibrationOverride=" + vibrationOverride
+                + " highUsesCharging=true"
+                + " lowUsesCharging=false"
                 + " success=" + success);
     }
 }

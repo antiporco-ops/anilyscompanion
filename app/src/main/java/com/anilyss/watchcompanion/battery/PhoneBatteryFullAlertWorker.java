@@ -21,10 +21,22 @@ public class PhoneBatteryFullAlertWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        Log.i(TAG, "worker_start enabled=" + PhoneBatteryFullAlert.isEnabled(getApplicationContext()));
-        PhoneBatteryFullAlert.evaluateCurrentState(getApplicationContext(), "monitor");
-        PhoneBatteryFullAlert.scheduleRollingMonitor(getApplicationContext(), "worker_done");
-        Log.i(TAG, "worker_done");
+        String reason = getInputData().getString("reason");
+        if (reason == null || reason.isEmpty()) {
+            reason = "rolling_worker";
+        }
+        PhoneBatteryFullAlert.ProtectionState state =
+                PhoneBatteryFullAlert.normalizeStoredState(getApplicationContext(), "worker_start:" + reason);
+        Log.i(TAG, "worker_run reason=" + reason
+                + " monitorPhoneEnabled=" + state.monitorPhoneEnabled
+                + " monitorWatchEnabled=" + state.monitorWatchEnabled
+                + " alertPhoneOnPhoneEnabled=" + state.alertPhoneOnPhoneEnabled
+                + " alertPhoneOnWatchEnabled=" + state.alertPhoneOnWatchEnabled
+                + " alertWatchOnPhoneEnabled=" + state.alertWatchOnPhoneEnabled
+                + " alertWatchOnWatchEnabled=" + state.alertWatchOnWatchEnabled);
+        PhoneBatteryFullAlert.evaluateCurrentState(getApplicationContext(), reason);
+        PhoneBatteryFullAlert.scheduleRollingMonitor(getApplicationContext(), "worker_done:" + reason);
+        Log.i(TAG, "worker_done reason=" + reason);
         return Result.success();
     }
 }

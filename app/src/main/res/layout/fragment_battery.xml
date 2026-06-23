@@ -226,28 +226,37 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/phone_battery_switch_label"
-                        android:text=""
-                        app:switchPadding="0dp" />
+                            android:text=""
+                            app:switchPadding="0dp" />
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/phone_battery_auto_refresh_description"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
 
                 <LinearLayout
                     android:id="@+id/radio_group_phone_battery_auto_refresh"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="10dp"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:minHeight="48dp"
                         android:orientation="horizontal">
 
                         <RadioButton
                             android:id="@+id/radio_phone_battery_auto_refresh_5"
-                            android:layout_width="110dp"
+                            android:layout_width="0dp"
                             android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="4dp"
                             android:background="@drawable/battery_choice_background"
                             android:button="@null"
                             android:gravity="center"
@@ -255,27 +264,13 @@
                             android:textColor="?attr/colorOnSurface"
                             app:buttonTint="?attr/colorPrimary" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:text="@string/phone_battery_auto_refresh_speed_fast"
-                            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                            android:textColor="?attr/colorOnSurfaceVariant" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center_vertical"
-                        android:minHeight="48dp"
-                        android:orientation="horizontal">
-
                         <RadioButton
                             android:id="@+id/radio_phone_battery_auto_refresh_10"
-                            android:layout_width="110dp"
+                            android:layout_width="0dp"
                             android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginEnd="2dp"
                             android:background="@drawable/battery_choice_background"
                             android:button="@null"
                             android:gravity="center"
@@ -283,40 +278,60 @@
                             android:textColor="?attr/colorOnSurface"
                             app:buttonTint="?attr/colorPrimary" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:text="@string/phone_battery_auto_refresh_speed_balanced"
-                            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                            android:textColor="?attr/colorOnSurfaceVariant" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center_vertical"
-                        android:minHeight="48dp"
-                        android:orientation="horizontal">
-
                         <RadioButton
                             android:id="@+id/radio_phone_battery_auto_refresh_15"
-                            android:layout_width="110dp"
+                            android:layout_width="0dp"
                             android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="4dp"
                             android:background="@drawable/battery_choice_background"
                             android:button="@null"
                             android:gravity="center"
                             android:text="@string/phone_battery_auto_refresh_15_min"
                             android:textColor="?attr/colorOnSurface"
                             app:buttonTint="?attr/colorPrimary" />
+                    </LinearLayout>
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="6dp"
+                            android:text="@string/phone_battery_auto_refresh_speed_fast"
+                            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            android:visibility="gone" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/phone_battery_auto_refresh_speed_fast"
+                            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/phone_battery_auto_refresh_speed_balanced"
+                            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
                             android:text="@string/phone_battery_auto_refresh_speed_saver"
-                            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                             android:textColor="?attr/colorOnSurfaceVariant" />
                     </LinearLayout>
                 </LinearLayout>
@@ -343,425 +358,734 @@
                 android:paddingEnd="12dp"
                 android:paddingBottom="12dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="@string/battery_alerts_title"
-                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textStyle="bold" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:orientation="vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:minHeight="48dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/battery_alert_protect_phone"
-                            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                            android:textColor="?attr/colorOnSurface" />
-
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/switch_battery_protect_phone"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:contentDescription="@string/battery_alert_protect_phone"
-                            android:text=""
-                            app:switchPadding="0dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:minHeight="48dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/battery_alert_protect_watch"
-                            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                            android:textColor="?attr/colorOnSurface" />
-
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/switch_battery_protect_watch"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:contentDescription="@string/battery_alert_protect_watch"
-                            android:text=""
-                            app:switchPadding="0dp" />
-                    </LinearLayout>
+                        android:layout_weight="1"
+                        android:text="@string/battery_alerts_title"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
-                <TextView
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="?attr/colorOutlineVariant"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_battery_alert_monitor"
+                            android:drawablePadding="10dp"
+                            android:drawableTint="?attr/colorPrimary"
+                            android:text="@string/battery_alert_monitor_section_title"
+                            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                            android:textColor="?attr/colorPrimary"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center_vertical"
+                            android:minHeight="48dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/battery_alert_source_phone_label"
+                                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                android:textColor="?attr/colorOnSurface" />
+
+                            <androidx.appcompat.widget.SwitchCompat
+                                android:id="@+id/switch_battery_protect_phone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:contentDescription="@string/battery_alert_monitor_phone_label"
+                                android:text=""
+                                app:switchPadding="0dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:minHeight="48dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/battery_alert_source_watch_label"
+                                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                android:textColor="?attr/colorOnSurface" />
+
+                            <androidx.appcompat.widget.SwitchCompat
+                                android:id="@+id/switch_battery_protect_watch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:contentDescription="@string/battery_alert_monitor_watch_label"
+                                android:text=""
+                                app:switchPadding="0dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="@string/battery_alert_limit_mode_label"
-                    android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
-                    android:textColor="?attr/colorOnSurfaceVariant" />
+                    app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="?attr/colorOutlineVariant"
+                    app:strokeWidth="1dp">
 
-                <RadioGroup
-                    android:id="@+id/radio_group_battery_alert_limit_mode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/radio_battery_alert_mode_preset"
-                        android:layout_width="0dp"
-                        android:layout_height="48dp"
-                        android:layout_weight="1"
-                        android:layout_marginEnd="4dp"
-                        android:background="@drawable/battery_choice_background"
-                        android:button="@null"
-                        android:gravity="center"
-                        android:text="@string/battery_alert_mode_presets"
-                        android:textColor="?attr/colorOnSurface" />
-
-                    <RadioButton
-                        android:id="@+id/radio_battery_alert_mode_custom"
-                        android:layout_width="0dp"
-                        android:layout_height="48dp"
-                        android:layout_weight="1"
-                        android:layout_marginStart="4dp"
-                        android:background="@drawable/battery_choice_background"
-                        android:button="@null"
-                        android:gravity="center"
-                        android:text="@string/battery_alert_mode_custom"
-                        android:textColor="?attr/colorOnSurface" />
-                </RadioGroup>
-
-                <LinearLayout
-                    android:id="@+id/battery_alert_preset_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="vertical">
-
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/battery_alert_high_limit_label"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
+                        android:orientation="vertical"
+                        android:padding="14dp">
 
-                    <RadioGroup
-                        android:id="@+id/radio_group_battery_alert_high_limit"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_battery_alert_tune"
+                            android:drawablePadding="10dp"
+                            android:drawableTint="?attr/colorPrimary"
+                            android:text="@string/battery_alert_limit_mode_label"
+                            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                            android:textColor="?attr/colorPrimary"
+                            android:textStyle="bold" />
 
-                        <RadioButton
-                            android:id="@+id/radio_battery_alert_high_80"
-                            android:layout_width="0dp"
-                            android:layout_height="48dp"
-                            android:layout_weight="1"
-                            android:layout_marginEnd="4dp"
-                            android:background="@drawable/battery_choice_background"
-                            android:button="@null"
-                            android:gravity="center"
-                            android:text="@string/battery_alert_high_80"
-                            android:textColor="?attr/colorOnSurface" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical">
 
-                        <RadioButton
-                            android:id="@+id/radio_battery_alert_high_85"
-                            android:layout_width="0dp"
-                            android:layout_height="48dp"
-                            android:layout_weight="1"
-                            android:layout_marginStart="2dp"
-                            android:layout_marginEnd="2dp"
-                            android:background="@drawable/battery_choice_background"
-                            android:button="@null"
-                            android:gravity="center"
-                            android:text="@string/battery_alert_high_85"
-                            android:textColor="?attr/colorOnSurface" />
+                            <TextView
+                                android:id="@+id/battery_alert_custom_high_value"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                                android:textColor="?attr/colorOnSurface" />
 
-                        <RadioButton
-                            android:id="@+id/radio_battery_alert_high_90"
-                            android:layout_width="0dp"
-                            android:layout_height="48dp"
-                            android:layout_weight="1"
-                            android:layout_marginStart="4dp"
-                            android:background="@drawable/battery_choice_background"
-                            android:button="@null"
-                            android:gravity="center"
-                            android:text="@string/battery_alert_high_90"
-                            android:textColor="?attr/colorOnSurface" />
-                    </RadioGroup>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:layout_marginTop="4dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/battery_alert_low_limit_label"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
+                                <View
+                                    android:layout_width="0dp"
+                                    android:layout_height="1dp"
+                                    android:layout_weight="1" />
 
-                    <RadioGroup
-                        android:id="@+id/radio_group_battery_alert_low_limit"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:orientation="horizontal">
+                                <SeekBar
+                                    android:id="@+id/seek_battery_alert_custom_high"
+                                    android:layout_width="0dp"
+                                    android:layout_height="48dp"
+                                    android:layout_weight="4"
+                                    android:max="2" />
 
-                        <RadioButton
-                            android:id="@+id/radio_battery_alert_low_25"
-                            android:layout_width="0dp"
-                            android:layout_height="48dp"
-                            android:layout_weight="1"
-                            android:layout_marginEnd="4dp"
-                            android:background="@drawable/battery_choice_background"
-                            android:button="@null"
-                            android:gravity="center"
-                            android:text="@string/battery_alert_low_25"
-                            android:textColor="?attr/colorOnSurface" />
+                                <View
+                                    android:layout_width="0dp"
+                                    android:layout_height="1dp"
+                                    android:layout_weight="1" />
+                            </LinearLayout>
 
-                        <RadioButton
-                            android:id="@+id/radio_battery_alert_low_20"
-                            android:layout_width="0dp"
-                            android:layout_height="48dp"
-                            android:layout_weight="1"
-                            android:layout_marginStart="2dp"
-                            android:layout_marginEnd="2dp"
-                            android:background="@drawable/battery_choice_background"
-                            android:button="@null"
-                            android:gravity="center"
-                            android:text="@string/battery_alert_low_20"
-                            android:textColor="?attr/colorOnSurface" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:orientation="horizontal">
 
-                        <RadioButton
-                            android:id="@+id/radio_battery_alert_low_15"
-                            android:layout_width="0dp"
-                            android:layout_height="48dp"
-                            android:layout_weight="1"
-                            android:layout_marginStart="4dp"
-                            android:background="@drawable/battery_choice_background"
-                            android:button="@null"
-                            android:gravity="center"
-                            android:text="@string/battery_alert_low_15"
-                            android:textColor="?attr/colorOnSurface" />
-                    </RadioGroup>
-                </LinearLayout>
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:text="@string/battery_alert_high_80"
+                                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                                    android:textColor="?attr/colorOnSurfaceVariant" />
 
-                <LinearLayout
-                    android:id="@+id/battery_alert_custom_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:text="@string/battery_alert_high_85"
+                                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                                    android:textColor="?attr/colorOnSurfaceVariant" />
 
-                    <TextView
-                        android:id="@+id/battery_alert_custom_high_value"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                        android:textColor="?attr/colorOnSurface" />
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:text="@string/battery_alert_high_90"
+                                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                                    android:textColor="?attr/colorOnSurfaceVariant" />
+                            </LinearLayout>
 
-                    <SeekBar
-                        android:id="@+id/seek_battery_alert_custom_high"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:max="70" />
+                            <TextView
+                                android:id="@+id/battery_alert_custom_low_value"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                                android:textColor="?attr/colorOnSurface" />
 
-                    <TextView
-                        android:id="@+id/battery_alert_custom_low_value"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                        android:textColor="?attr/colorOnSurface" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:layout_marginTop="4dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
 
-                    <SeekBar
-                        android:id="@+id/seek_battery_alert_custom_low"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:max="69" />
+                                <View
+                                    android:layout_width="0dp"
+                                    android:layout_height="1dp"
+                                    android:layout_weight="1" />
 
-                </LinearLayout>
+                                <SeekBar
+                                    android:id="@+id/seek_battery_alert_custom_low"
+                                    android:layout_width="0dp"
+                                    android:layout_height="48dp"
+                                    android:layout_weight="4"
+                                    android:max="2" />
 
-                <TextView
+                                <View
+                                    android:layout_width="0dp"
+                                    android:layout_height="1dp"
+                                    android:layout_weight="1" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:text="@string/battery_alert_low_25"
+                                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:text="@string/battery_alert_low_20"
+                                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:text="@string/battery_alert_low_15"
+                                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                                    android:textColor="?attr/colorOnSurfaceVariant" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/battery_alert_preset_container"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:visibility="gone" />
+
+                            <LinearLayout
+                                android:id="@+id/battery_alert_custom_container"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:visibility="gone" />
+
+                            <RadioGroup
+                                android:id="@+id/radio_group_battery_alert_limit_mode"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:visibility="gone">
+
+                                <RadioButton
+                                    android:id="@+id/radio_battery_alert_mode_preset"
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp" />
+
+                                <RadioButton
+                                    android:id="@+id/radio_battery_alert_mode_custom"
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp" />
+                            </RadioGroup>
+
+                            <RadioGroup
+                                android:id="@+id/radio_group_battery_alert_high_limit"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:visibility="gone">
+
+                                <RadioButton
+                                    android:id="@+id/radio_battery_alert_high_80"
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp" />
+
+                                <RadioButton
+                                    android:id="@+id/radio_battery_alert_high_85"
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp" />
+
+                                <RadioButton
+                                    android:id="@+id/radio_battery_alert_high_90"
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp" />
+                            </RadioGroup>
+
+                            <RadioGroup
+                                android:id="@+id/radio_group_battery_alert_low_limit"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:visibility="gone">
+
+                                <RadioButton
+                                    android:id="@+id/radio_battery_alert_low_25"
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp" />
+
+                                <RadioButton
+                                    android:id="@+id/radio_battery_alert_low_20"
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp" />
+
+                                <RadioButton
+                                    android:id="@+id/radio_battery_alert_low_15"
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp" />
+                            </RadioGroup>
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="@string/battery_alert_notice_options_label"
-                    android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
-                    android:textColor="?attr/colorOnSurfaceVariant" />
+                    app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="?attr/colorOutlineVariant"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_battery_alert_notifications"
+                            android:drawablePadding="10dp"
+                            android:drawableTint="?attr/colorPrimary"
+                            android:text="@string/battery_alert_destination_section_label"
+                            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                            android:textColor="?attr/colorPrimary"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.2"
+                                android:text="@string/battery_alert_matrix_header_source"
+                                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                                android:textColor="?attr/colorOnSurfaceVariant"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.9"
+                                android:gravity="center"
+                                android:text="@string/battery_alert_matrix_header_phone"
+                                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                                android:textColor="?attr/colorOnSurfaceVariant"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.9"
+                                android:gravity="center"
+                                android:text="@string/battery_alert_matrix_header_watch"
+                                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                                android:textColor="?attr/colorOnSurfaceVariant"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="8dp"
+                            android:background="?attr/colorOutlineVariant" />
+
+                        <LinearLayout
+                            android:id="@+id/battery_alert_destinations_phone_row"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:minHeight="56dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.2"
+                                android:text="@string/battery_alert_destinations_phone_source"
+                                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                android:textColor="?attr/colorOnSurface" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.9"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <androidx.appcompat.widget.SwitchCompat
+                                    android:id="@+id/switch_battery_alert_phone_on_phone"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:contentDescription="@string/battery_alert_alert_phone_on_phone"
+                                    android:text=""
+                                    app:switchPadding="0dp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.9"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <androidx.appcompat.widget.SwitchCompat
+                                    android:id="@+id/switch_battery_alert_phone_on_watch"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:contentDescription="@string/battery_alert_alert_phone_on_watch"
+                                    android:text=""
+                                    app:switchPadding="0dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="?attr/colorOutlineVariant" />
+
+                        <LinearLayout
+                            android:id="@+id/battery_alert_destinations_watch_row"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:minHeight="56dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.2"
+                                android:text="@string/battery_alert_destinations_watch_source"
+                                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                android:textColor="?attr/colorOnSurface" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.9"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <androidx.appcompat.widget.SwitchCompat
+                                    android:id="@+id/switch_battery_alert_watch_on_phone"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:contentDescription="@string/battery_alert_alert_watch_on_phone"
+                                    android:text=""
+                                    app:switchPadding="0dp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.9"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <androidx.appcompat.widget.SwitchCompat
+                                    android:id="@+id/switch_battery_alert_watch_on_watch"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:contentDescription="@string/battery_alert_alert_watch_on_watch"
+                                    android:text=""
+                                    app:switchPadding="0dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="?attr/colorOutlineVariant"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_battery_alert_volume"
+                            android:drawablePadding="10dp"
+                            android:drawableTint="?attr/colorPrimary"
+                            android:text="@string/battery_alert_notice_options_label"
+                            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                            android:textColor="?attr/colorPrimary"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:id="@+id/battery_alert_effects_phone_destination"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/battery_alert_notice_phone_destination"
+                                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                                    android:textColor="?attr/colorOnSurface"
+                                    android:textStyle="bold" />
+
+                                <LinearLayout
+                                    android:id="@+id/row_battery_phone_alert_sound"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="6dp"
+                                    android:background="?attr/selectableItemBackground"
+                                    android:clickable="true"
+                                    android:contentDescription="@string/battery_alert_phone_sound_title"
+                                    android:focusable="true"
+                                    android:gravity="center_vertical"
+                                    android:minHeight="52dp"
+                                    android:orientation="horizontal"
+                                    android:paddingEnd="8dp">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="8dp"
+                                        android:layout_weight="1"
+                                        android:text="@string/battery_alert_sound_label"
+                                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                        android:textColor="?attr/colorOnSurface" />
+
+                                    <androidx.appcompat.widget.SwitchCompat
+                                        android:id="@+id/switch_battery_phone_alert_sound"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:clickable="false"
+                                        android:contentDescription="@string/battery_alert_phone_sound_title"
+                                        android:focusable="false" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/row_battery_phone_alert_vibration"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="?attr/selectableItemBackground"
+                                    android:clickable="true"
+                                    android:contentDescription="@string/battery_alert_phone_vibration_title"
+                                    android:focusable="true"
+                                    android:gravity="center_vertical"
+                                    android:minHeight="52dp"
+                                    android:orientation="horizontal"
+                                    android:paddingEnd="8dp">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="8dp"
+                                        android:layout_weight="1"
+                                        android:text="@string/battery_alert_vibration_label"
+                                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                        android:textColor="?attr/colorOnSurface" />
+
+                                    <androidx.appcompat.widget.SwitchCompat
+                                        android:id="@+id/switch_battery_phone_alert_vibration"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:clickable="false"
+                                        android:contentDescription="@string/battery_alert_phone_vibration_title"
+                                        android:focusable="false" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="12dp"
+                                android:layout_marginEnd="12dp"
+                                android:background="?attr/colorOutlineVariant" />
+
+                            <LinearLayout
+                                android:id="@+id/battery_alert_effects_watch_destination"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/battery_alert_notice_watch_destination"
+                                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                                    android:textColor="?attr/colorOnSurface"
+                                    android:textStyle="bold" />
+
+                                <LinearLayout
+                                    android:id="@+id/row_battery_watch_alert_sound"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="6dp"
+                                    android:background="?attr/selectableItemBackground"
+                                    android:clickable="true"
+                                    android:contentDescription="@string/battery_alert_watch_sound_title"
+                                    android:focusable="true"
+                                    android:gravity="center_vertical"
+                                    android:minHeight="52dp"
+                                    android:orientation="horizontal"
+                                    android:paddingEnd="8dp">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="8dp"
+                                        android:layout_weight="1"
+                                        android:text="@string/battery_alert_sound_label"
+                                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                        android:textColor="?attr/colorOnSurface" />
+
+                                    <androidx.appcompat.widget.SwitchCompat
+                                        android:id="@+id/switch_battery_watch_alert_sound"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:clickable="false"
+                                        android:contentDescription="@string/battery_alert_watch_sound_title"
+                                        android:focusable="false" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/row_battery_watch_alert_vibration"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="?attr/selectableItemBackground"
+                                    android:clickable="true"
+                                    android:contentDescription="@string/battery_alert_watch_vibration_title"
+                                    android:focusable="true"
+                                    android:gravity="center_vertical"
+                                    android:minHeight="52dp"
+                                    android:orientation="horizontal"
+                                    android:paddingEnd="8dp">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="8dp"
+                                        android:layout_weight="1"
+                                        android:text="@string/battery_alert_vibration_label"
+                                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                                        android:textColor="?attr/colorOnSurface" />
+
+                                    <androidx.appcompat.widget.SwitchCompat
+                                        android:id="@+id/switch_battery_watch_alert_vibration"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:clickable="false"
+                                        android:contentDescription="@string/battery_alert_watch_vibration_title"
+                                        android:focusable="false" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
                 <TextView
+                    android:id="@+id/battery_alert_protection_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:textColor="?attr/colorError"
+                    android:visibility="gone" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_battery_reactivate"
+                    style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:text="@string/battery_alert_protect_phone"
-                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:id="@+id/row_battery_phone_alert_sound"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:contentDescription="@string/battery_alert_phone_sound_title"
-                        android:focusable="true"
-                        android:gravity="center_vertical"
-                        android:minHeight="56dp"
-                        android:orientation="horizontal"
-                        android:paddingEnd="8dp">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            android:layout_weight="1"
-                            android:text="@string/battery_alert_sound_label"
-                            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-                            android:textColor="?attr/colorOnSurface" />
-
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/switch_battery_phone_alert_sound"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:clickable="false"
-                            android:contentDescription="@string/battery_alert_phone_sound_title"
-                            android:focusable="false" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/row_battery_phone_alert_vibration"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:contentDescription="@string/battery_alert_phone_vibration_title"
-                        android:focusable="true"
-                        android:gravity="center_vertical"
-                        android:minHeight="56dp"
-                        android:orientation="horizontal"
-                        android:paddingStart="8dp">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            android:layout_weight="1"
-                            android:text="@string/battery_alert_vibration_label"
-                            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-                            android:textColor="?attr/colorOnSurface" />
-
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/switch_battery_phone_alert_vibration"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:clickable="false"
-                            android:contentDescription="@string/battery_alert_phone_vibration_title"
-                            android:focusable="false" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/battery_alert_protect_watch"
-                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:id="@+id/row_battery_watch_alert_sound"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:contentDescription="@string/battery_alert_watch_sound_title"
-                        android:focusable="true"
-                        android:gravity="center_vertical"
-                        android:minHeight="56dp"
-                        android:orientation="horizontal"
-                        android:paddingEnd="8dp">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            android:layout_weight="1"
-                            android:text="@string/battery_alert_sound_label"
-                            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-                            android:textColor="?attr/colorOnSurface" />
-
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/switch_battery_watch_alert_sound"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:clickable="false"
-                            android:contentDescription="@string/battery_alert_watch_sound_title"
-                            android:focusable="false" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/row_battery_watch_alert_vibration"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:contentDescription="@string/battery_alert_watch_vibration_title"
-                        android:focusable="true"
-                        android:gravity="center_vertical"
-                        android:minHeight="56dp"
-                        android:orientation="horizontal"
-                        android:paddingStart="8dp">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            android:layout_weight="1"
-                            android:text="@string/battery_alert_vibration_label"
-                            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-                            android:textColor="?attr/colorOnSurface" />
-
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/switch_battery_watch_alert_vibration"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:clickable="false"
-                            android:contentDescription="@string/battery_alert_watch_vibration_title"
-                            android:focusable="false" />
-                    </LinearLayout>
-                </LinearLayout>
+                    android:text="@string/battery_alert_reactivate"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/battery_alert_notification_permission_status"

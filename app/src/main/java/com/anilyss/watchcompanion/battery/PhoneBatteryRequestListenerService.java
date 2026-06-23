@@ -49,6 +49,13 @@ public class PhoneBatteryRequestListenerService extends WearableListenerService 
                     );
                     continue;
                 }
+                if (PhoneBatteryProtectionSync.SETTINGS_PATH.equals(path)) {
+                    PhoneBatteryProtectionSync.applyIncoming(
+                            getApplicationContext(),
+                            DataMapItem.fromDataItem(event.getDataItem()).getDataMap()
+                    );
+                    continue;
+                }
                 if (!WatchBatteryStore.DATA_PATH.equals(path)) {
                     continue;
                 }
@@ -78,6 +85,14 @@ public class PhoneBatteryRequestListenerService extends WearableListenerService 
         }
         if (WatchAppVersionSync.RESPONSE_PATH.equals(event.getPath())) {
             handleWatchVersionResponse(event.getData());
+            return;
+        }
+        if (BatteryAlertEventBridge.MESSAGE_PATH.equals(event.getPath())) {
+            BatteryAlertEventBridge.handleIncoming(getApplicationContext(), event.getData());
+            return;
+        }
+        if (PhoneBatteryProtectionSync.UI_POKE_PATH.equals(event.getPath())) {
+            PhoneBatteryProtectionSync.applyIncomingUiPoke(getApplicationContext(), event.getData());
             return;
         }
         if (!REQUEST_PATH.equals(event.getPath())) {

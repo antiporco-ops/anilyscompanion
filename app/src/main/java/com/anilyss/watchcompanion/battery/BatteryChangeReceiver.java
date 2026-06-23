@@ -20,10 +20,12 @@ public class BatteryChangeReceiver extends BroadcastReceiver {
         }
         String action = intent != null ? intent.getAction() : null;
         String reason;
-        if (Intent.ACTION_POWER_CONNECTED.equals(action)) {
-            reason = "power_connected";
-        } else if (Intent.ACTION_POWER_DISCONNECTED.equals(action)) {
-            reason = "power_disconnected";
+        if (Intent.ACTION_BOOT_COMPLETED.equals(action)) {
+            reason = "boot_completed";
+            Log.i(ALERT_TAG, "receiver_signal reason=" + reason + " action=ensure_monitoring");
+            PhoneBatteryFullAlert.ensureMonitoring(appContext, reason);
+            PhoneBatterySender.syncPeriodicRefresh(appContext);
+            return;
         } else if (Intent.ACTION_BATTERY_LOW.equals(action)) {
             reason = "battery_low";
         } else if (Intent.ACTION_BATTERY_OKAY.equals(action)) {
@@ -33,6 +35,7 @@ public class BatteryChangeReceiver extends BroadcastReceiver {
         }
 
         Log.i(ALERT_TAG, "receiver_signal reason=" + reason + " action=queue_check");
+        PhoneBatteryFullAlert.ensureMonitoring(appContext, "receiver:" + reason);
         PhoneBatteryFullAlert.requestImmediateCheck(appContext, reason);
         PhoneBatterySender.syncPeriodicRefresh(appContext);
         if (!PhoneBatterySender.isFeatureEnabled(appContext)) {

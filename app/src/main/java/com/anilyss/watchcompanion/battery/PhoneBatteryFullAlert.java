@@ -34,8 +34,13 @@ public final class PhoneBatteryFullAlert {
     private static final String TAG = "AniLysFullAlert";
     public static final String KEY_ENABLED = "batteryAlertsEnabled";
     public static final String KEY_MONITOR_PHONE_BATTERY = "monitorPhoneBattery";
+    public static final String KEY_MONITOR_WATCH_BATTERY = "monitorWatchBattery";
     public static final String KEY_HIGH_LIMIT_PERCENT = "highBatteryLimitPercent";
     public static final String KEY_LOW_LIMIT_PERCENT = "lowBatteryLimitPercent";
+    public static final String KEY_ALERT_PHONE_ON_PHONE = "alertPhoneOnPhone";
+    public static final String KEY_ALERT_PHONE_ON_WATCH = "alertPhoneOnWatch";
+    public static final String KEY_ALERT_WATCH_ON_PHONE = "alertWatchOnPhone";
+    public static final String KEY_ALERT_WATCH_ON_WATCH = "alertWatchOnWatch";
     public static final String KEY_PHONE_ENABLED = "batteryProtectionPhoneEnabled";
     public static final String KEY_WATCH_ENABLED = "batteryProtectionWatchEnabled";
     public static final String KEY_SOUND_ENABLED = "alertSoundEnabled";
@@ -60,6 +65,8 @@ public final class PhoneBatteryFullAlert {
     private static final String LEGACY_CHANNEL_ID = "phone_battery_alerts";
     private static final String CHANNEL_PREFIX = "battery_alerts";
     private static final String CHANNEL_VERSION_SUFFIX = "_v3";
+    private static final String TAG_PHONE_SOURCE = "phone_source";
+    private static final String TAG_WATCH_SOURCE = "watch_source";
     private static final int NOTIFICATION_ID = 4100;
     private static final int HIGH_NOTIFICATION_ID = 4101;
     private static final int LOW_NOTIFICATION_ID = 4102;
@@ -80,18 +87,45 @@ public final class PhoneBatteryFullAlert {
         SILENT
     }
 
+    public static final class ProtectionState {
+        public final boolean monitorPhoneEnabled;
+        public final boolean monitorWatchEnabled;
+        public final boolean alertPhoneOnPhoneEnabled;
+        public final boolean alertPhoneOnWatchEnabled;
+        public final boolean alertWatchOnPhoneEnabled;
+        public final boolean alertWatchOnWatchEnabled;
+        public final boolean alertsEnabled;
+        public final boolean migrated;
+        public final String source;
+
+        ProtectionState(
+                boolean monitorPhoneEnabled,
+                boolean monitorWatchEnabled,
+                boolean alertPhoneOnPhoneEnabled,
+                boolean alertPhoneOnWatchEnabled,
+                boolean alertWatchOnPhoneEnabled,
+                boolean alertWatchOnWatchEnabled,
+                boolean alertsEnabled,
+                boolean migrated,
+                String source
+        ) {
+            this.monitorPhoneEnabled = monitorPhoneEnabled;
+            this.monitorWatchEnabled = monitorWatchEnabled;
+            this.alertPhoneOnPhoneEnabled = alertPhoneOnPhoneEnabled;
+            this.alertPhoneOnWatchEnabled = alertPhoneOnWatchEnabled;
+            this.alertWatchOnPhoneEnabled = alertWatchOnPhoneEnabled;
+            this.alertWatchOnWatchEnabled = alertWatchOnWatchEnabled;
+            this.alertsEnabled = alertsEnabled;
+            this.migrated = migrated;
+            this.source = source;
+        }
+    }
+
     public static boolean isEnabled(Context context) {
         if (context == null) {
             return false;
         }
-        Context appContext = appContext(context);
-        SharedPreferences prefs = prefs(appContext);
-        if (prefs.contains(KEY_PHONE_ENABLED) || prefs.contains(KEY_WATCH_ENABLED)) {
-            boolean legacyEnabled = readLegacyEnabled(prefs);
-            return prefs.getBoolean(KEY_PHONE_ENABLED, legacyEnabled)
-                    || prefs.getBoolean(KEY_WATCH_ENABLED, legacyEnabled);
-        }
-        return readLegacyEnabled(prefs);
+        return readProtectionState(appContext(context), "is_enabled", false).alertsEnabled;
     }
 
     public static void setEnabled(Context context, boolean enabled) {
@@ -102,9 +136,12 @@ public final class PhoneBatteryFullAlert {
         SharedPreferences prefs = prefs(appContext);
         prefs.edit()
                 .putBoolean(KEY_ENABLED, enabled)
-                .putBoolean(KEY_PHONE_ENABLED, enabled)
-                .putBoolean(KEY_WATCH_ENABLED, enabled)
-                .putBoolean(KEY_MONITOR_PHONE_BATTERY, prefs.getBoolean(KEY_MONITOR_PHONE_BATTERY, true))
+                .putBoolean(KEY_MONITOR_PHONE_BATTERY, enabled)
+                .putBoolean(KEY_MONITOR_WATCH_BATTERY, enabled)
+                .putBoolean(KEY_ALERT_PHONE_ON_PHONE, enabled)
+                .putBoolean(KEY_ALERT_PHONE_ON_WATCH, enabled)
+                .putBoolean(KEY_ALERT_WATCH_ON_PHONE, enabled)
+                .putBoolean(KEY_ALERT_WATCH_ON_WATCH, enabled)
                 .apply();
 
         if (!enabled) {
@@ -117,11 +154,12 @@ public final class PhoneBatteryFullAlert {
             return;
         }
 
+        resetAlertWindow(appContext, "set_enabled");
         requestImmediateCheck(appContext, "enabled");
     }
 
     public static boolean isPhoneMonitorEnabled(Context context) {
-        return context != null && prefs(appContext(context)).getBoolean(KEY_MONITOR_PHONE_BATTERY, true);
+        return context != null && readProtectionState(appContext(context), "read_monitor_phone", false).monitorPhoneEnabled;
     }
 
     public static void setPhoneMonitorEnabled(Context context, boolean enabled) {
@@ -129,14 +167,30 @@ public final class PhoneBatteryFullAlert {
             return;
         }
         Context appContext = appContext(context);
+        Log.i(TAG, "ui_control_changed reason=ui_monitor_changed control=phone enabled=" + enabled);
         prefs(appContext).edit()
                 .putBoolean(KEY_MONITOR_PHONE_BATTERY, enabled)
                 .apply();
-        if (isPhoneProtectionEnabled(appContext) && enabled) {
-            requestImmediateCheck(appContext, "monitor_enabled");
+        if (enabled) {
+            resetAlertWindow(appContext, "ui_monitor_changed:phone");
+            ensureMonitoring(appContext, "ui_monitor_changed:phone");
         } else if (!enabled) {
             cancelMonitor(appContext);
         }
+    }
+
+    public static boolean isWatchMonitorEnabled(Context context) {
+        return context != null && readProtectionState(appContext(context), "read_monitor_watch", false).monitorWatchEnabled;
+    }
+
+    public static void setWatchMonitorEnabled(Context context, boolean enabled) {
+        if (context == null) {
+            return;
+        }
+        Log.i(TAG, "ui_control_changed reason=ui_monitor_changed control=watch enabled=" + enabled);
+        prefs(appContext(context)).edit()
+                .putBoolean(KEY_MONITOR_WATCH_BATTERY, enabled)
+                .apply();
     }
 
     public static int readHighLimitPercent(Context context) {
@@ -152,11 +206,13 @@ public final class PhoneBatteryFullAlert {
         }
         Context appContext = appContext(context);
         int low = readLowLimitPercent(appContext);
+        int sanitized = sanitizeHighLimit(percent, low);
+        Log.i(TAG, "ui_control_changed reason=ui_limit_changed control=high value=" + sanitized);
         prefs(appContext).edit()
-                .putInt(KEY_HIGH_LIMIT_PERCENT, sanitizeHighLimit(percent, low))
-                .putBoolean(KEY_HIGH_ARMED, true)
+                .putInt(KEY_HIGH_LIMIT_PERCENT, sanitized)
                 .apply();
-        requestImmediateCheck(appContext, "high_limit_changed");
+        resetAlertWindow(appContext, "ui_limit_changed:high");
+        requestImmediateCheck(appContext, "ui_limit_changed:high");
     }
 
     public static int readLowLimitPercent(Context context) {
@@ -172,11 +228,13 @@ public final class PhoneBatteryFullAlert {
         }
         Context appContext = appContext(context);
         int high = readHighLimitPercent(appContext);
+        int sanitized = sanitizeLowLimit(percent, high);
+        Log.i(TAG, "ui_control_changed reason=ui_limit_changed control=low value=" + sanitized);
         prefs(appContext).edit()
-                .putInt(KEY_LOW_LIMIT_PERCENT, sanitizeLowLimit(percent, high))
-                .putBoolean(KEY_LOW_ARMED, true)
+                .putInt(KEY_LOW_LIMIT_PERCENT, sanitized)
                 .apply();
-        requestImmediateCheck(appContext, "low_limit_changed");
+        resetAlertWindow(appContext, "ui_limit_changed:low");
+        requestImmediateCheck(appContext, "ui_limit_changed:low");
     }
 
     public static boolean isSoundEnabled(Context context) {
@@ -187,57 +245,73 @@ public final class PhoneBatteryFullAlert {
         if (context == null) {
             return false;
         }
-        Context appContext = appContext(context);
-        SharedPreferences prefs = prefs(appContext);
-        if (prefs.contains(KEY_PHONE_ENABLED)) {
-            return prefs.getBoolean(KEY_PHONE_ENABLED, true);
-        }
-        return readLegacyEnabled(prefs);
+        return isAlertPhoneOnPhoneEnabled(context);
     }
 
     public static void setPhoneProtectionEnabled(Context context, boolean enabled) {
-        if (context == null) {
-            return;
-        }
-        Context appContext = appContext(context);
-        SharedPreferences prefs = prefs(appContext);
-        boolean watchEnabled = isWatchProtectionEnabled(appContext);
-        prefs.edit()
-                .putBoolean(KEY_PHONE_ENABLED, enabled)
-                .putBoolean(KEY_ENABLED, enabled || watchEnabled)
-                .apply();
-        Log.i(TAG, "phone_protection_changed enabled=" + enabled + " watchEnabled=" + watchEnabled);
-        if (enabled) {
-            ensureMonitoring(appContext, "phone_protection_enabled");
-        } else {
-            cancelMonitor(appContext);
-            cancelPhoneNotifications(appContext);
-        }
+        setAlertPhoneOnPhoneEnabled(context, enabled);
     }
 
     public static boolean isWatchProtectionEnabled(Context context) {
         if (context == null) {
             return false;
         }
-        Context appContext = appContext(context);
-        SharedPreferences prefs = prefs(appContext);
-        if (prefs.contains(KEY_WATCH_ENABLED)) {
-            return prefs.getBoolean(KEY_WATCH_ENABLED, true);
-        }
-        return readLegacyEnabled(prefs);
+        return isAlertWatchOnWatchEnabled(context);
     }
 
     public static void setWatchProtectionEnabled(Context context, boolean enabled) {
         if (context == null) {
             return;
         }
+        setAlertWatchOnWatchEnabled(context, enabled);
+    }
+
+    public static boolean isAlertPhoneOnPhoneEnabled(Context context) {
+        return context != null && readProtectionState(appContext(context), "read_phone_on_phone", false).alertPhoneOnPhoneEnabled;
+    }
+
+    public static void setAlertPhoneOnPhoneEnabled(Context context, boolean enabled) {
+        setAlertFlag(context, KEY_ALERT_PHONE_ON_PHONE, enabled, "phone_on_phone");
+    }
+
+    public static boolean isAlertPhoneOnWatchEnabled(Context context) {
+        return context != null && readProtectionState(appContext(context), "read_phone_on_watch", false).alertPhoneOnWatchEnabled;
+    }
+
+    public static void setAlertPhoneOnWatchEnabled(Context context, boolean enabled) {
+        setAlertFlag(context, KEY_ALERT_PHONE_ON_WATCH, enabled, "phone_on_watch");
+    }
+
+    public static boolean isAlertWatchOnPhoneEnabled(Context context) {
+        return context != null && readProtectionState(appContext(context), "read_watch_on_phone", false).alertWatchOnPhoneEnabled;
+    }
+
+    public static void setAlertWatchOnPhoneEnabled(Context context, boolean enabled) {
+        setAlertFlag(context, KEY_ALERT_WATCH_ON_PHONE, enabled, "watch_on_phone");
+    }
+
+    public static boolean isAlertWatchOnWatchEnabled(Context context) {
+        return context != null && readProtectionState(appContext(context), "read_watch_on_watch", false).alertWatchOnWatchEnabled;
+    }
+
+    public static void setAlertWatchOnWatchEnabled(Context context, boolean enabled) {
+        setAlertFlag(context, KEY_ALERT_WATCH_ON_WATCH, enabled, "watch_on_watch");
+    }
+
+    private static void setAlertFlag(Context context, String key, boolean enabled, String reason) {
+        if (context == null) {
+            return;
+        }
         Context appContext = appContext(context);
-        boolean phoneEnabled = isPhoneProtectionEnabled(appContext);
+        Log.i(TAG, "ui_control_changed reason=ui_destination_changed control=" + reason + " enabled=" + enabled);
         prefs(appContext).edit()
-                .putBoolean(KEY_WATCH_ENABLED, enabled)
-                .putBoolean(KEY_ENABLED, enabled || phoneEnabled)
+                .putBoolean(key, enabled)
+                .putBoolean(KEY_ENABLED, readProtectionState(appContext, "set_alert_flag:" + reason, false).alertsEnabled || enabled)
                 .apply();
-        Log.i(TAG, "watch_protection_changed enabled=" + enabled + " phoneEnabled=" + phoneEnabled);
+        if (enabled) {
+            resetAlertWindow(appContext, "ui_destination_changed:" + reason);
+            ensureMonitoring(appContext, "ui_destination_changed:" + reason);
+        }
     }
 
     public static void setSoundEnabled(Context context, boolean enabled) {
@@ -336,10 +410,11 @@ public final class PhoneBatteryFullAlert {
     public static void ensureMonitoring(Context context, String reason) {
         if (context == null) return;
         Context appContext = appContext(context);
+        ProtectionState state = normalizeStoredState(appContext, "ensure_monitoring:" + reason);
         ensureNotificationChannels(appContext);
-        if (!isPhoneProtectionEnabled(appContext) || !isPhoneMonitorEnabled(appContext)) {
+        if (!state.monitorPhoneEnabled) {
             cancelMonitor(appContext);
-            Log.i(TAG, "monitor_ensure_skip reason=" + reason + " skip=phone_disabled");
+            Log.i(TAG, "monitor_ensure_skip reason=" + reason + " skip=phone_monitor_disabled");
             return;
         }
         PeriodicWorkRequest request = new PeriodicWorkRequest.Builder(
@@ -457,19 +532,31 @@ public final class PhoneBatteryFullAlert {
             return;
         }
         Context appContext = appContext(context);
+        ProtectionState state = normalizeStoredState(appContext, "evaluate_current:" + reason);
         SharedPreferences prefs = prefs(appContext);
         rememberEval(prefs, reason);
         Log.i(
                 TAG,
                 "check_start reason=" + reason
-                        + " enabled=" + isEnabled(appContext)
+                        + " enabled=" + state.alertsEnabled
+                        + " monitorPhone=" + state.monitorPhoneEnabled
+                        + " monitorWatch=" + state.monitorWatchEnabled
+                        + " alertPhoneOnPhone=" + state.alertPhoneOnPhoneEnabled
+                        + " alertPhoneOnWatch=" + state.alertPhoneOnWatchEnabled
+                        + " alertWatchOnPhone=" + state.alertWatchOnPhoneEnabled
+                        + " alertWatchOnWatch=" + state.alertWatchOnWatchEnabled
                         + " permission=" + isNotificationPermissionGranted(appContext)
         );
         PhoneBatterySnapshot snapshot = PhoneBatterySnapshot.readCurrent(appContext);
         if (snapshot == null) {
+            Log.i(TAG, "battery_snapshot reason=" + reason + " state=missing");
             Log.i(TAG, "check_skip reason=" + reason + " skip=no_snapshot");
             return;
         }
+        Log.i(TAG, "battery_snapshot reason=" + reason
+                + " level=" + snapshot.level
+                + " charging=" + snapshot.charging
+                + " source=sticky");
         evaluateSnapshot(appContext, snapshot, reason);
     }
 
@@ -478,12 +565,25 @@ public final class PhoneBatteryFullAlert {
             return;
         }
         Context appContext = appContext(context);
-        if (!isPhoneProtectionEnabled(appContext) || !isPhoneMonitorEnabled(appContext)) {
-            Log.i(TAG, "queue_check_skip reason=" + reason + " skip=disabled");
+        ProtectionState state = normalizeStoredState(appContext, "queue_check:" + reason);
+        if (!state.monitorPhoneEnabled) {
+            Log.i(TAG, "requestImmediateCheck immediate_check_requested reason=" + reason
+                    + " accepted=false skip=phone_monitor_disabled");
             return;
         }
-        Log.i(TAG, "queue_check reason=" + reason + " mode=immediate");
-        scheduleImmediateCheck(appContext);
+        Log.i(TAG, "requestImmediateCheck immediate_check_requested reason=" + reason
+                + " accepted=true mode=immediate");
+        scheduleImmediateCheck(appContext, reason);
+    }
+
+    public static void rearmForUiTest(Context context, String reason) {
+        if (context == null) {
+            return;
+        }
+        Context appContext = appContext(context);
+        Log.i(TAG, "ui_control_changed reason=" + reason + " action=rearm_and_evaluate");
+        resetAlertWindow(appContext, reason);
+        ensureMonitoring(appContext, reason);
     }
 
     static synchronized void evaluateSnapshot(Context context, PhoneBatterySnapshot snapshot, String reason) {
@@ -491,9 +591,10 @@ public final class PhoneBatteryFullAlert {
             return;
         }
         Context appContext = appContext(context);
-        if (!isPhoneProtectionEnabled(appContext) || !isPhoneMonitorEnabled(appContext)) {
+        ProtectionState state = normalizeStoredState(appContext, "evaluate_snapshot:" + reason);
+        if (!state.monitorPhoneEnabled) {
             cancelMonitor(appContext);
-            Log.i(TAG, "eval_skip reason=" + reason + " skip=disabled");
+            Log.i(TAG, "eval_skip reason=" + reason + " skip=phone_monitor_disabled");
             return;
         }
 
@@ -507,14 +608,41 @@ public final class PhoneBatteryFullAlert {
         long now = System.currentTimeMillis();
         long lastHighAlertAt = prefs.getLong(KEY_LAST_HIGH_ALERT_AT, 0L);
         long lastLowAlertAt = prefs.getLong(KEY_LAST_LOW_ALERT_AT, 0L);
+        boolean bypassCooldown = isCooldownBypassed(reason);
+        boolean highCooldownElapsed = now - lastHighAlertAt >= MIN_REPEAT_MS;
+        boolean lowCooldownElapsed = now - lastLowAlertAt >= MIN_REPEAT_MS;
+        long cooldownHighMs = Math.max(0L, MIN_REPEAT_MS - (now - lastHighAlertAt));
+        long cooldownLowMs = Math.max(0L, MIN_REPEAT_MS - (now - lastLowAlertAt));
         boolean highEligible = snapshot.charging
                 && snapshot.level >= highLimit
                 && highArmed
-                && now - lastHighAlertAt >= MIN_REPEAT_MS;
+                && (bypassCooldown || highCooldownElapsed);
         boolean lowEligible = !snapshot.charging
                 && snapshot.level <= lowLimit
                 && lowArmed
-                && now - lastLowAlertAt >= MIN_REPEAT_MS;
+                && (bypassCooldown || lowCooldownElapsed);
+        String highBlocked = highEligible
+                ? "none"
+                : snapshot.charging
+                ? snapshot.level < highLimit
+                ? "below_limit"
+                : !highArmed
+                ? "not_armed"
+                : !highCooldownElapsed && !bypassCooldown
+                ? "cooldown"
+                : "not_eligible"
+                : "not_charging";
+        String lowBlocked = lowEligible
+                ? "none"
+                : !snapshot.charging
+                ? snapshot.level > lowLimit
+                ? "above_limit"
+                : !lowArmed
+                ? "not_armed"
+                : !lowCooldownElapsed && !bypassCooldown
+                ? "cooldown"
+                : "not_eligible"
+                : "charging";
 
         Log.i(
                 TAG,
@@ -527,6 +655,9 @@ public final class PhoneBatteryFullAlert {
                         + " lowLimit=" + lowLimit
                         + " highArmed=" + highArmed
                         + " lowArmed=" + lowArmed
+                        + " bypassCooldown=" + bypassCooldown
+                        + " lastHighAt=" + lastHighAlertAt
+                        + " lastLowAt=" + lastLowAlertAt
                         + " highEligible=" + highEligible
                         + " lowEligible=" + lowEligible
         );
@@ -537,13 +668,32 @@ public final class PhoneBatteryFullAlert {
                         + " crossedLow=" + (snapshot.level <= lowLimit)
                         + " notifyHigh=" + highEligible
                         + " notifyLow=" + lowEligible
-                        + " cooldownHighMs=" + Math.max(0L, MIN_REPEAT_MS - (now - lastHighAlertAt))
-                        + " cooldownLowMs=" + Math.max(0L, MIN_REPEAT_MS - (now - lastLowAlertAt))
+                        + " cooldownHighMs=" + cooldownHighMs
+                        + " cooldownLowMs=" + cooldownLowMs
+                        + " highBlocked=" + highBlocked
+                        + " lowBlocked=" + lowBlocked
         );
 
         if (highEligible) {
             Log.i(TAG, "threshold_crossed reason=" + reason + " type=HIGH level=" + snapshot.level + " limit=" + highLimit);
-            if (showNotification(appContext, AlertType.HIGH, snapshot.level, highLimit, reason)) {
+            boolean postedLocal = state.alertPhoneOnPhoneEnabled
+                    && showNotification(appContext, AlertType.HIGH, AlertSource.PHONE, snapshot.level, highLimit, reason);
+            boolean postedRemote = state.alertPhoneOnWatchEnabled
+                    && BatteryAlertEventBridge.sendToWatch(
+                    appContext,
+                    BatteryAlertEventBridge.AlertEvent.create(
+                            BatteryAlertEventBridge.SOURCE_PHONE,
+                            BatteryAlertEventBridge.TYPE_HIGH,
+                            snapshot.level,
+                            highLimit,
+                            true,
+                            now
+                    )
+            );
+            Log.i(TAG, "dispatch_result reason=" + reason
+                    + " type=HIGH local=" + postedLocal
+                    + " remote=" + postedRemote);
+            if (postedLocal || postedRemote) {
                 prefs.edit()
                         .putLong(KEY_LAST_HIGH_ALERT_AT, now)
                         .putBoolean(KEY_HIGH_ARMED, false)
@@ -555,7 +705,24 @@ public final class PhoneBatteryFullAlert {
 
         if (lowEligible) {
             Log.i(TAG, "threshold_crossed reason=" + reason + " type=LOW level=" + snapshot.level + " limit=" + lowLimit);
-            if (showNotification(appContext, AlertType.LOW, snapshot.level, lowLimit, reason)) {
+            boolean postedLocal = state.alertPhoneOnPhoneEnabled
+                    && showNotification(appContext, AlertType.LOW, AlertSource.PHONE, snapshot.level, lowLimit, reason);
+            boolean postedRemote = state.alertPhoneOnWatchEnabled
+                    && BatteryAlertEventBridge.sendToWatch(
+                    appContext,
+                    BatteryAlertEventBridge.AlertEvent.create(
+                            BatteryAlertEventBridge.SOURCE_PHONE,
+                            BatteryAlertEventBridge.TYPE_LOW,
+                            snapshot.level,
+                            lowLimit,
+                            false,
+                            now
+                    )
+            );
+            Log.i(TAG, "dispatch_result reason=" + reason
+                    + " type=LOW local=" + postedLocal
+                    + " remote=" + postedRemote);
+            if (postedLocal || postedRemote) {
                 prefs.edit()
                         .putLong(KEY_LAST_LOW_ALERT_AT, now)
                         .putBoolean(KEY_LOW_ARMED, false)
@@ -573,7 +740,7 @@ public final class PhoneBatteryFullAlert {
         }
         Context appContext = appContext(context);
         int highLimit = readHighLimitPercent(appContext);
-        return showNotification(appContext, AlertType.HIGH, highLimit, highLimit, "test");
+        return showNotification(appContext, AlertType.HIGH, AlertSource.PHONE, highLimit, highLimit, "test");
     }
 
     public static boolean simulateAlert(Context context, String target, Boolean soundOverride, Boolean vibrationOverride) {
@@ -643,9 +810,13 @@ public final class PhoneBatteryFullAlert {
         Log.i(TAG, "notify_cleared source=debug");
     }
 
-    private static void scheduleImmediateCheck(Context context) {
+    private static void scheduleImmediateCheck(Context context, String reason) {
         OneTimeWorkRequest request =
-                new OneTimeWorkRequest.Builder(PhoneBatteryFullAlertWorker.class).build();
+                new OneTimeWorkRequest.Builder(PhoneBatteryFullAlertWorker.class)
+                        .setInputData(new androidx.work.Data.Builder()
+                                .putString("reason", "worker:" + (reason != null ? reason : "immediate"))
+                                .build())
+                        .build();
         WorkManager.getInstance(context).enqueueUniqueWork(
                 IMMEDIATE_WORK_NAME,
                 ExistingWorkPolicy.REPLACE,
@@ -658,12 +829,16 @@ public final class PhoneBatteryFullAlert {
             return;
         }
         Context appContext = appContext(context);
-        if (!isPhoneProtectionEnabled(appContext) || !isPhoneMonitorEnabled(appContext)) {
-            Log.i(TAG, "rolling_skip reason=" + reason + " skip=disabled");
+        ProtectionState state = readProtectionState(appContext, "rolling:" + reason, false);
+        if (!state.monitorPhoneEnabled) {
+            Log.i(TAG, "rolling_skip reason=" + reason + " skip=phone_monitor_disabled");
             return;
         }
         OneTimeWorkRequest request =
                 new OneTimeWorkRequest.Builder(PhoneBatteryFullAlertWorker.class)
+                        .setInputData(new androidx.work.Data.Builder()
+                                .putString("reason", "rolling_worker:" + (reason != null ? reason : "unknown"))
+                                .build())
                         .setInitialDelay(ROLLING_MONITOR_MINUTES, TimeUnit.MINUTES)
                         .build();
         WorkManager.getInstance(appContext).enqueueUniqueWork(
@@ -681,15 +856,39 @@ public final class PhoneBatteryFullAlert {
         manager.cancelUniqueWork(ROLLING_WORK_NAME);
     }
 
-    private static boolean showNotification(Context context, AlertType type, int level, int limit, String reason) {
+    static void postRemoteAlert(Context context, BatteryAlertEventBridge.AlertEvent event) {
+        if (context == null || event == null) {
+            return;
+        }
+        ProtectionState state = readProtectionState(appContext(context), "remote_alert:" + event.source + ":" + event.type, false);
+        if (!state.alertWatchOnPhoneEnabled) {
+            Log.i(TAG, "remote_event_skip reason=watch_on_phone_disabled eventId=" + event.eventId);
+            return;
+        }
+        AlertType type = BatteryAlertEventBridge.TYPE_HIGH.equals(event.type) ? AlertType.HIGH : AlertType.LOW;
+        boolean posted = showNotification(
+                appContext(context),
+                type,
+                AlertSource.WATCH,
+                event.level,
+                event.limit,
+                "remote_event:" + event.eventId
+        );
+        Log.i(TAG, "remote_event_result source=" + event.source
+                + " type=" + event.type
+                + " eventId=" + event.eventId
+                + " posted=" + posted);
+    }
+
+    private static boolean showNotification(Context context, AlertType type, AlertSource source, int level, int limit, String reason) {
         ensureNotificationChannels(context);
         boolean soundEnabled = isPhoneSoundEnabled(context);
         boolean vibrationEnabled = isPhoneVibrationEnabled(context);
         String channelId = getActiveChannelId(context);
+        boolean bypassCooldown = isCooldownBypassed(reason);
         String title = context.getString(R.string.battery_alert_notification_title);
-        String text = type == AlertType.HIGH
-                ? context.getString(R.string.battery_alert_high_notification_text, limit)
-                : context.getString(R.string.battery_alert_low_notification_text, limit);
+        String text = resolveNotificationText(context, type, source, limit);
+        String notificationTag = notificationTagFor(source);
         boolean permissionGranted = isNotificationPermissionGranted(context);
         Log.i(
                 TAG,
@@ -697,6 +896,8 @@ public final class PhoneBatteryFullAlert {
                         + " permission=" + permissionGranted
                         + " channel=" + channelId
                         + " type=" + type
+                        + " source=" + source
+                        + " tag=" + notificationTag
                         + " level=" + level
                         + " sound=" + soundEnabled
                         + " vibration=" + vibrationEnabled
@@ -704,6 +905,7 @@ public final class PhoneBatteryFullAlert {
                         + " importance=" + readChannelImportance(context, channelId)
                         + " hasVibrator=" + hasVibrator(context)
                         + " canVibrate=" + canVibrate(context)
+                        + " bypassCooldown=" + bypassCooldown
                         + " title=" + title
                         + " text=" + text
         );
@@ -737,6 +939,7 @@ public final class PhoneBatteryFullAlert {
                 .setContentText(text)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
+                .setLocalOnly(true)
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
         if (soundEnabled) {
             builder.setSound(resolveAlertSoundUri(context));
@@ -752,8 +955,18 @@ public final class PhoneBatteryFullAlert {
 
         int notificationId = type == AlertType.HIGH ? HIGH_NOTIFICATION_ID : LOW_NOTIFICATION_ID;
         try {
-            NotificationManagerCompat.from(context).notify(notificationId, builder.build());
-            Log.i(TAG, "notify_posted reason=" + reason + " channel=" + channelId + " id=" + notificationId);
+            if (bypassCooldown) {
+                NotificationManagerCompat.from(context).cancel(notificationTag, notificationId);
+                Log.i(TAG, "notify_replace reason=" + reason + " id=" + notificationId
+                        + " tag=" + notificationTag
+                        + " bypassCooldown=true");
+            }
+            NotificationManagerCompat.from(context).notify(notificationTag, notificationId, builder.build());
+            Log.i(TAG, "notify_posted reason=" + reason
+                    + " channel=" + channelId
+                    + " id=" + notificationId
+                    + " tag=" + notificationTag
+                    + " source=" + source);
             return true;
         } catch (RuntimeException e) {
             Log.e(TAG, "notify_failed reason=" + reason + " channel=" + channelId, e);
@@ -765,6 +978,37 @@ public final class PhoneBatteryFullAlert {
         NotificationManagerCompat.from(context).cancel(NOTIFICATION_ID);
         NotificationManagerCompat.from(context).cancel(HIGH_NOTIFICATION_ID);
         NotificationManagerCompat.from(context).cancel(LOW_NOTIFICATION_ID);
+        NotificationManagerCompat.from(context).cancel(TAG_PHONE_SOURCE, HIGH_NOTIFICATION_ID);
+        NotificationManagerCompat.from(context).cancel(TAG_PHONE_SOURCE, LOW_NOTIFICATION_ID);
+        NotificationManagerCompat.from(context).cancel(TAG_WATCH_SOURCE, HIGH_NOTIFICATION_ID);
+        NotificationManagerCompat.from(context).cancel(TAG_WATCH_SOURCE, LOW_NOTIFICATION_ID);
+    }
+
+    private static void resetAlertWindow(Context context, String reason) {
+        SharedPreferences prefs = prefs(context);
+        prefs.edit()
+                .putBoolean(KEY_HIGH_ARMED, true)
+                .putBoolean(KEY_LOW_ARMED, true)
+                .putLong(KEY_LAST_HIGH_ALERT_AT, 0L)
+                .putLong(KEY_LAST_LOW_ALERT_AT, 0L)
+                .apply();
+        Log.i(TAG, "cooldown_reset reason=" + reason + " lastHighAt=0 lastLowAt=0 highArmed=true lowArmed=true");
+    }
+
+    static void resetDebugAlertWindow(Context context, String reason) {
+        if (context == null) {
+            return;
+        }
+        resetAlertWindow(appContext(context), reason);
+    }
+
+    private static boolean isCooldownBypassed(String reason) {
+        if (reason == null) {
+            return false;
+        }
+        return "test".equals(reason)
+                || reason.startsWith("simulate_")
+                || reason.startsWith("debug_");
     }
 
     public static void ensureNotificationChannels(Context context) {
@@ -905,6 +1149,14 @@ public final class PhoneBatteryFullAlert {
         return prefs.getBoolean(LEGACY_KEY_ENABLED, false);
     }
 
+    public static ProtectionState normalizeStoredState(Context context, String reason) {
+        return readProtectionState(context, reason, true);
+    }
+
+    public static ProtectionState readCurrentState(Context context, String reason) {
+        return readProtectionState(context, reason, false);
+    }
+
     private static SharedPreferences prefs(Context context) {
         return context.getSharedPreferences(PhoneBatterySender.PREFS_NAME, Context.MODE_PRIVATE);
     }
@@ -921,8 +1173,118 @@ public final class PhoneBatteryFullAlert {
         return app != null ? app : context;
     }
 
+    private static ProtectionState readProtectionState(Context context, String reason, boolean persistFixes) {
+        Context appContext = appContext(context);
+        SharedPreferences prefs = prefs(appContext);
+        boolean legacyEnabled = readLegacyEnabled(prefs);
+        boolean hasLegacyPhoneTarget = prefs.contains(KEY_PHONE_ENABLED);
+        boolean hasLegacyWatchTarget = prefs.contains(KEY_WATCH_ENABLED);
+        boolean hasMonitorPhone = prefs.contains(KEY_MONITOR_PHONE_BATTERY);
+        boolean hasMonitorWatch = prefs.contains(KEY_MONITOR_WATCH_BATTERY);
+        boolean hasAlertPhoneOnPhone = prefs.contains(KEY_ALERT_PHONE_ON_PHONE);
+        boolean hasAlertPhoneOnWatch = prefs.contains(KEY_ALERT_PHONE_ON_WATCH);
+        boolean hasAlertWatchOnPhone = prefs.contains(KEY_ALERT_WATCH_ON_PHONE);
+        boolean hasAlertWatchOnWatch = prefs.contains(KEY_ALERT_WATCH_ON_WATCH);
+        boolean legacyPhoneTarget = hasLegacyPhoneTarget ? prefs.getBoolean(KEY_PHONE_ENABLED, legacyEnabled) : legacyEnabled;
+        boolean legacyWatchTarget = hasLegacyWatchTarget ? prefs.getBoolean(KEY_WATCH_ENABLED, legacyEnabled) : legacyEnabled;
+        boolean monitorPhoneEnabled = hasMonitorPhone ? prefs.getBoolean(KEY_MONITOR_PHONE_BATTERY, legacyPhoneTarget) : legacyPhoneTarget;
+        boolean monitorWatchEnabled = hasMonitorWatch ? prefs.getBoolean(KEY_MONITOR_WATCH_BATTERY, legacyWatchTarget) : legacyWatchTarget;
+        boolean alertPhoneOnPhoneEnabled = hasAlertPhoneOnPhone ? prefs.getBoolean(KEY_ALERT_PHONE_ON_PHONE, legacyPhoneTarget) : legacyPhoneTarget;
+        boolean alertPhoneOnWatchEnabled = hasAlertPhoneOnWatch ? prefs.getBoolean(KEY_ALERT_PHONE_ON_WATCH, legacyWatchTarget) : legacyWatchTarget;
+        boolean alertWatchOnPhoneEnabled = hasAlertWatchOnPhone ? prefs.getBoolean(KEY_ALERT_WATCH_ON_PHONE, legacyPhoneTarget) : legacyPhoneTarget;
+        boolean alertWatchOnWatchEnabled = hasAlertWatchOnWatch ? prefs.getBoolean(KEY_ALERT_WATCH_ON_WATCH, legacyWatchTarget) : legacyWatchTarget;
+        boolean migrated = false;
+        StringBuilder source = new StringBuilder();
+        if (hasAlertPhoneOnPhone || hasAlertPhoneOnWatch || hasAlertWatchOnPhone || hasAlertWatchOnWatch
+                || hasMonitorPhone || hasMonitorWatch) {
+            source.append("explicit");
+        } else if (prefs.contains(KEY_ENABLED)) {
+            source.append("global");
+        } else {
+            source.append("legacy");
+        }
+        if (!hasMonitorPhone || !hasMonitorWatch || !hasAlertPhoneOnPhone || !hasAlertPhoneOnWatch
+                || !hasAlertWatchOnPhone || !hasAlertWatchOnWatch) {
+            migrated = true;
+        }
+        boolean alertsEnabled = alertPhoneOnPhoneEnabled || alertPhoneOnWatchEnabled
+                || alertWatchOnPhoneEnabled || alertWatchOnWatchEnabled;
+        if (persistFixes && migrated) {
+            prefs.edit()
+                    .putBoolean(KEY_MONITOR_PHONE_BATTERY, monitorPhoneEnabled)
+                    .putBoolean(KEY_MONITOR_WATCH_BATTERY, monitorWatchEnabled)
+                    .putBoolean(KEY_ALERT_PHONE_ON_PHONE, alertPhoneOnPhoneEnabled)
+                    .putBoolean(KEY_ALERT_PHONE_ON_WATCH, alertPhoneOnWatchEnabled)
+                    .putBoolean(KEY_ALERT_WATCH_ON_PHONE, alertWatchOnPhoneEnabled)
+                    .putBoolean(KEY_ALERT_WATCH_ON_WATCH, alertWatchOnWatchEnabled)
+                    .putBoolean(KEY_ENABLED, alertsEnabled)
+                    .apply();
+        }
+        ProtectionState state = new ProtectionState(
+                monitorPhoneEnabled,
+                monitorWatchEnabled,
+                alertPhoneOnPhoneEnabled,
+                alertPhoneOnWatchEnabled,
+                alertWatchOnPhoneEnabled,
+                alertWatchOnWatchEnabled,
+                alertsEnabled,
+                migrated,
+                source.toString()
+        );
+        if (persistFixes || migrated) {
+            logProtectionState("flags_loaded", state, "reason=" + reason
+                    + " legacyEnabled=" + legacyEnabled
+                    + " hasLegacyPhoneTarget=" + hasLegacyPhoneTarget
+                    + " hasLegacyWatchTarget=" + hasLegacyWatchTarget
+                    + " hasMonitorPhone=" + hasMonitorPhone
+                    + " hasMonitorWatch=" + hasMonitorWatch
+                    + " hasAlertPhoneOnPhone=" + hasAlertPhoneOnPhone
+                    + " hasAlertPhoneOnWatch=" + hasAlertPhoneOnWatch
+                    + " hasAlertWatchOnPhone=" + hasAlertWatchOnPhone
+                    + " hasAlertWatchOnWatch=" + hasAlertWatchOnWatch);
+        }
+        return state;
+    }
+
+    private static void logProtectionState(String event, ProtectionState state, String extra) {
+        Log.i(
+                TAG,
+                event
+                        + " source=" + state.source
+                        + " monitorPhoneEnabled=" + state.monitorPhoneEnabled
+                        + " monitorWatchEnabled=" + state.monitorWatchEnabled
+                        + " alertPhoneOnPhoneEnabled=" + state.alertPhoneOnPhoneEnabled
+                        + " alertPhoneOnWatchEnabled=" + state.alertPhoneOnWatchEnabled
+                        + " alertWatchOnPhoneEnabled=" + state.alertWatchOnPhoneEnabled
+                        + " alertWatchOnWatchEnabled=" + state.alertWatchOnWatchEnabled
+                        + " alertsEnabled=" + state.alertsEnabled
+                        + " migrated=" + state.migrated
+                        + (extra != null && !extra.isEmpty() ? " " + extra : "")
+        );
+    }
+
+    private static String notificationTagFor(AlertSource source) {
+        return source == AlertSource.PHONE ? TAG_PHONE_SOURCE : TAG_WATCH_SOURCE;
+    }
+
+    private static String resolveNotificationText(Context context, AlertType type, AlertSource source, int limit) {
+        if (source == AlertSource.WATCH) {
+            return type == AlertType.HIGH
+                    ? context.getString(R.string.battery_alert_watch_high_notification_text, limit)
+                    : context.getString(R.string.battery_alert_watch_low_notification_text, limit);
+        }
+        return type == AlertType.HIGH
+                ? context.getString(R.string.battery_alert_phone_high_notification_text, limit)
+                : context.getString(R.string.battery_alert_phone_low_notification_text, limit);
+    }
+
     private enum AlertType {
         HIGH,
         LOW
+    }
+
+    private enum AlertSource {
+        PHONE,
+        WATCH
     }
 }
