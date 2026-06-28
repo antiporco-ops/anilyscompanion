@@ -30,3 +30,5 @@
 tmp_*.png
 tmp_*.xml
 tmp_*.json
+# Local/private Google Play promo code exports
+/_promo_codes_google_play/
